@@ -47,7 +47,7 @@ defmodule Expublish.Semver do
     new_version
   end
 
-  def version_pattern(version) do
+  defp version_pattern(version) do
     "version: \"#{version}\""
   end
 

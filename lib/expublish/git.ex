@@ -29,13 +29,10 @@ defmodule Expublish.Git do
   Push to remote.
   """
   def push(%Version{} = version, options \\ []) do
-    if !Options.skip_push?(options) do
-      remote = Keyword.get(options, :remote, "origin")
-      branch = Keyword.get(options, :branch, "master")
-
-      if !Options.dry_run?(options) do
-        Mix.Shell.IO.cmd("git push #{remote} #{branch} --tags", [])
-      end
+    if !Options.dry_run?(options) && !Options.skip_push?(options) do
+      remote = Options.git_remote(options)
+      branch = Options.git_branch(options)
+      Mix.Shell.IO.cmd("git push #{remote} #{branch} --tags", [])
     end
 
     version

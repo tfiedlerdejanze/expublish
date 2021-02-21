@@ -4,44 +4,64 @@
 
 # Expublish
 
-Automated version and changelog management for elixir packages.
+Automate elixir package version and changelog management. Using `mix expublish` guarantees:
 
-[How to install](./INSTALLATION.md)
+- A clean git working directory
+- Passing tests
+- Increased version in mix.exs
+- New changelog entry
+- Commit, tag and git push
+- Hex publish
 
-```bash
-Usage: mix publish.[level] [--dry-run | -d] [--branch=release]
+<span id="#install"></span>
 
-Flags:
-  -d, --dry-run           - Perform dry run (no writes, no commits)
-  -u, --skip-push         - Disable git push
-  -p, --skip-publish      - Disable hex publish
-  -t, --skip-test         - Disable test run
-  -b, --branch=string     - Remote branch to push to, default: "master"
-  -r, --remote=string     - Remote name to push to, default: "origin"
-  -h, --help              - Print this help
+## How to install
 
-Semver level:
-  major   - Publish major version
-  minor   - Publish minor version
-  patch   - Publish patch version
+Add `:expublish` to your dev dependencies in `mix.exs`:
 
+```elixir
+{:expublish, "~> 1.1", only: [:dev]}
 ```
 
-## Release a new package
+Create a `CHANGELOG.md` in the root folder of your project. It must contain a placeholder:
 
-1. Create a `RELEASE.md` containing the new changelog entry.
-2. Run `mix publish.[level]`.
+```text
+<!-- %% CHANGELOG_ENTRIES %% -->
+```
+
+<span id="#how-to-use"></span>
+
+## How to use
+
+Create a `RELEASE.md` containing the new changelog entry.
 
 ```bash
 $ echo "- changelog entry one\n- changelog entry two" > RELEASE.md
-$ mix publish.minor
 ```
 
-The mix task attempts to guarantee the following:
+Run one of `mix expublish.(major|minor|patch)`.
 
-- Clean git working directory
-- Passing tests
-- Bumped version in mix.exs
-- Decent changelog entry
-- Git commit and tag
-- Publish to hex
+```bash
+$ mix expublish.minor
+```
+
+<span id="#reference"></span>
+
+## Reference
+
+```bash
+Usage: mix expublish.[level] [options]
+
+level:
+  major - Publish major version
+  minor - Publish minor version
+  patch - Publish patch version
+
+options:
+  -d, --dry-run       - Perform dry run (no writes, no commits)
+  --branch=string     - Remote branch to push to, default: "master"
+  --remote=string     - Remote name to push to, default: "origin"
+  --disable-publish   - Disable hex publish
+  --disable-push      - Disable git push
+  --disable-test      - Disable test run
+```

@@ -1,16 +1,38 @@
-defmodule Mix.Tasks.Publish do
-  @moduledoc false
-  use Mix.Task
+defmodule Mix.Tasks.Expublish do
+  @moduledoc """
+  Release and publish new version for current project.
+
+  You will be prompted for the version level, must be one of `major`, `minor` or `patch`.
+  """
 
   alias Expublish.Options
 
-  def run(_args) do
-    Options.print_help()
+  @shortdoc "Publish a new version of current project."
+  use Mix.Task
+
+  @doc false
+  def run(args) do
+    args
+    |> Options.parse()
+    |> prompt_for_version_and_publish()
+  end
+
+  defp prompt_for_version_and_publish(options) do
+    "Enter version level: major | minor | patch\n"
+    |> IO.gets()
+    |> String.trim()
+    |> String.downcase()
+    |> case do
+      "major" -> Expublish.major(options)
+      "minor" -> Expublish.minor(options)
+      "patch" -> Expublish.patch(options)
+      _ -> prompt_for_version_and_publish(options)
+    end
   end
 
   defmodule Major do
     @moduledoc "Release and publish major version for current project."
-    @shortdoc "Publish a major version of your library."
+    @shortdoc "Publish a major version of current project."
     use Mix.Task
 
     @doc false
@@ -23,7 +45,7 @@ defmodule Mix.Tasks.Publish do
 
   defmodule Minor do
     @moduledoc "Release and publish minor version for current project."
-    @shortdoc "Publish a minor version of your library."
+    @shortdoc "Publish a minor version of current project."
     use Mix.Task
 
     @doc false
@@ -36,7 +58,7 @@ defmodule Mix.Tasks.Publish do
 
   defmodule Patch do
     @moduledoc "Release and publish patch version for current project."
-    @shortdoc "Publish a patch version of your library."
+    @shortdoc "Publish a patch version of current project."
     use Mix.Task
 
     @doc false

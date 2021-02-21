@@ -5,11 +5,16 @@ defmodule Expublish.Publish do
 
   require Logger
 
+  alias Expublish.Options
+
   @doc """
   Run mix hex.publish --yes.
   """
-  def run do
-    error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
+  def run(options \\ []) do
+    error_code =
+      if Options.skip_publish?(options),
+        do: 0,
+        else: Mix.Shell.IO.cmd("mix hex.publish --yes", [])
 
     if error_code != 0 do
       Logger.error("Failed while publishing package to hex.")
@@ -19,4 +24,3 @@ defmodule Expublish.Publish do
     :ok
   end
 end
-

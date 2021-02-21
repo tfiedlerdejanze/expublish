@@ -13,7 +13,7 @@ defmodule Expublish.MixProject do
       deps: deps(),
       docs: [
         main: "readme",
-        extras: ["README.md", "INSTALLATION.md"]
+        extras: ["README.md"]
       ]
     ]
   end

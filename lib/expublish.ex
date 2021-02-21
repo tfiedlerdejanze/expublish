@@ -56,10 +56,11 @@ defmodule Expublish do
 
     if (!Options.dry_run?(options)) do
       Changelog.remove_release_file!()
-      Publish.run()
+      Publish.run(options)
+      Logger.info("Published new package version: #{new_version}.")
+    else
+      Logger.info("Finished dry run for new package version: #{new_version}.")
     end
-
-    Logger.info("Published new package version: #{new_version}")
   end
 
   @doc false
