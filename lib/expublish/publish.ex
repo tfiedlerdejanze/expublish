@@ -3,14 +3,16 @@ defmodule Expublish.Publish do
   Shell commands for hex publish.
   """
 
+  require Logger
+
   @doc """
-  Invokes mix hex.publish or raises on error.
+  Run mix hex.publish --yes.
   """
-  def run! do
+  def run do
     error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
 
     if error_code != 0 do
-      raise "Failed to publish package."
+      Expublish.message_and_stop("Failed while publishing package to hex.")
     end
 
     :ok

@@ -1,5 +1,12 @@
 defmodule Mix.Tasks.Publish do
   @moduledoc false
+  use Mix.Task
+
+  alias Expublish.Options
+
+  def run(_args) do
+    Options.print_help()
+  end
 
   defmodule Major do
     @moduledoc "Release and publish major version for current project."
@@ -7,7 +14,11 @@ defmodule Mix.Tasks.Publish do
     use Mix.Task
 
     @doc false
-    def run(_), do: Expublish.major()
+    def run(args) do
+      args
+      |> Options.parse()
+      |> Expublish.major()
+    end
   end
 
   defmodule Minor do
@@ -16,7 +27,11 @@ defmodule Mix.Tasks.Publish do
     use Mix.Task
 
     @doc false
-    def run(_), do: Expublish.minor()
+    def run(args) do
+      args
+      |> Options.parse()
+      |> Expublish.minor()
+    end
   end
 
   defmodule Patch do
@@ -25,6 +40,10 @@ defmodule Mix.Tasks.Publish do
     use Mix.Task
 
     @doc false
-    def run(_), do: Expublish.patch()
+    def run(args) do
+      args
+      |> Options.parse()
+      |> Expublish.patch()
+    end
   end
 end

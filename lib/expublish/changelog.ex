@@ -3,6 +3,10 @@ defmodule Expublish.Changelog do
   Functions to manipulate CHANGELOG.md and RELEASE.md.
   """
 
+  require Logger
+
+  alias Expublish.Options
+
   @release_filename "RELEASE.md"
 
   @changelog_filename "CHANGELOG.md"
@@ -21,7 +25,7 @@ defmodule Expublish.Changelog do
 
   Writes entry to CHANGELOG.md for given %Version{} and %Datetime{}.
   """
-  def write_entry!(%Version{} = version, %DateTime{} = date_time) do
+  def write_entry!(%Version{} = version, %DateTime{} = date_time, options \\ []) do
     date_time_string =
       date_time
       |> DateTime.truncate(:second)
@@ -30,7 +34,10 @@ defmodule Expublish.Changelog do
     title = "#{@changelog_header_prefix} #{version} - #{date_time_string}"
     text = File.read!(@release_filename) |> String.trim()
 
-    add_changelog_entry(title, text)
+    if !Options.dry_run?(options) do
+      add_changelog_entry(title, text)
+      Logger.info("Wrote CHANGELOG.md entry")
+    end
 
     version
   end

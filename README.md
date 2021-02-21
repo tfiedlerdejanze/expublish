@@ -5,12 +5,38 @@
 
 Automated version and changelog management for elixir packages.
 
+[How to install](./INSTALLATION.md)
+
+```bash
+Usage: mix publish.[level] [--dry-run | -d] [--branch=release]
+
+Flags:
+  -d, --dry-run           - Perform dry run (no writes, no commits)
+  -u, --skip-push         - Disable git push
+  -p, --skip-publish      - Disable hex publish
+  -t, --skip-test         - Disable test run
+  -b, --branch=string     - Remote branch to push to, default: "master"
+  -r, --remote=string     - Remote name to push to, default: "origin"
+  -h, --help              - Print this help
+
+Semver level:
+  major   - Publish major version
+  minor   - Publish minor version
+  patch   - Publish patch version
 
 ```
-mix publish.(major|minor|patch)
+
+## Release a new package
+
+1. Create a `RELEASE.md` containing the new changelog entry.
+2. Run `mix publish.[level]`.
+
+```bash
+$ echo "- changelog entry one\n- changelog entry two" > RELEASE.md
+$ mix publish.minor
 ```
 
-The publish task gives following guarantees for every new release:
+The mix task attempts to guarantee the following:
 
 - Clean git working directory
 - Passing tests
@@ -18,35 +44,3 @@ The publish task gives following guarantees for every new release:
 - Decent changelog entry
 - Git commit and tag
 - Publish to hex
-
-To publish a new package version:
-
-1. Create a `RELEASE.md` containing the new changelog entry.
-2. Run the publish mix task.
-3. Push the created git commit and tag.
-
-```
-$ echo "- changelog entry one\n- changelog entry two" > RELEASE.md
-$ mix publish.minor
-$ git push origin master --tags
-```
-
-## Initial setup
-
-Add `:expublish` in mix.exs dev dependencies:
-
-```
-{:expublish, "~> 1.0.0", only: [:dev]}
-```
-
-Create a `CHANGELOG.md` in the root folder of your project. It must contain a placeholder:
-
-```
-<!-- %% CHANGELOG_ENTRIES %% -->
-```
-
-We dont want to track the release file. Add this line to your `.gitignore`:
-
-```
-RELEASE.md
-```
