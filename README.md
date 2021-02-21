@@ -20,7 +20,7 @@ Automate elixir package version and changelog management. Using `mix expublish` 
 Add `:expublish` to your dev dependencies in `mix.exs`:
 
 ```elixir
-{:expublish, "~> 1.1", only: [:dev]}
+{:expublish, "~> 2.0", only: [:dev]}
 ```
 
 Create a `CHANGELOG.md` in the root folder of your project. It must contain a placeholder:
