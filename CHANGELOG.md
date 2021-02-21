@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.0.0 - 21. Feb 2021 18:12
+
+Rename mix task to `mix expublish`
+
+
 ## 1.1.1 - 21. Feb 2021 08:32
 
 Configure github actions
