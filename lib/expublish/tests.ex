@@ -3,6 +3,8 @@ defmodule Expublish.Tests do
   Shell commands for triggering mix test.
   """
 
+  require Logger
+
   @doc """
   Run tests, stop task if they fail, skip if there are none.
   """
@@ -10,7 +12,8 @@ defmodule Expublish.Tests do
     error_code = Mix.Shell.IO.cmd("mix test", [])
 
     if error_code != 0 do
-      Expublish.message_and_stop("This version can't be released because tests are failing.")
+      Logger.error("This version can't be released because tests are failing.")
+      exit(:shutdown)
     end
 
     :ok

@@ -1,4 +1,6 @@
 defmodule Expublish.Options do
+  @moduledoc false
+
   def parse(args) do
     {options, _, _} =
       OptionParser.parse(args,

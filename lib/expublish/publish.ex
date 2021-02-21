@@ -12,7 +12,8 @@ defmodule Expublish.Publish do
     error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
 
     if error_code != 0 do
-      Expublish.message_and_stop("Failed while publishing package to hex.")
+      Logger.error("Failed while publishing package to hex.")
+      exit(:shutdown)
     end
 
     :ok

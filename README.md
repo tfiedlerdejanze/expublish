@@ -1,5 +1,6 @@
 [![Hex.pm](https://img.shields.io/hexpm/v/expublish)](https://hex.pm/packages/expublish)
-[![Hexdocs.pm](https://img.shields.io/badge/docs-hexdocs.pm-brightgreen)](https://hexdocs.pm/expublish)
+[![Hexdocs.pm](https://img.shields.io/badge/docs-hexdocs.pm-purple)](https://hexdocs.pm/expublish)
+[![Github.com](https://github.com/ucwaldo/expublish/actions/workflows/elixir.yml/badge.svg)](https://github.com/ucwaldo/expublish/actions)
 
 # Expublish
 
