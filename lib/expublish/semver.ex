@@ -3,16 +3,20 @@ defmodule Expublish.Semver do
   Functions for manipulating [%Version{}](https://hexdocs.pm/elixir/Version.html) and updating project mix.exs.
   """
 
+  alias Expublish.Options
+
   @doc """
-  Update version in project mix.exs by given semver.
+  Update version in project mix.exs by given level.
 
   Reads the current version from mix.exs, increases it and writes it back to mix.exs.
-  Argument must be one of "major", "minor" or "patch".
+  Level must be one of "major", "minor" or "patch".
+
   """
-  def update_version!("major"), do: get_version() |> bump_major() |> set_version()
-  def update_version!("minor"), do: get_version() |> bump_minor() |> set_version()
-  def update_version!("patch"), do: get_version() |> bump_patch() |> set_version()
-  def update_version!(semver), do: raise("Invalid version semver: #{semver}")
+  def update_version!(level, options \\ [])
+  def update_version!("major", options), do: get_version() |> bump_major() |> set_version(options)
+  def update_version!("minor", options), do: get_version() |> bump_minor() |> set_version(options)
+  def update_version!("patch", options), do: get_version() |> bump_patch() |> set_version(options)
+  def update_version!(level, _options), do: raise("Invalid version level: #{level}")
 
   @doc """
   Return parsed %Version{} from project mix.exs.
@@ -24,7 +28,7 @@ defmodule Expublish.Semver do
   @doc """
   Write given %Version{} to project mix.exs.
   """
-  def set_version(new_version) do
+  def set_version(new_version, options \\ []) do
     contents = File.read!("mix.exs")
 
     replaced =
@@ -36,7 +40,9 @@ defmodule Expublish.Semver do
 
     if (contents == replaced), do: Expublish.message_and_stop("Could not update version in mix.exs")
 
-    File.write!("mix.exs", replaced)
+    if (!Options.dry_run?(options)) do
+      File.write!("mix.exs", replaced)
+    end
 
     new_version
   end
