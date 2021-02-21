@@ -3,7 +3,7 @@
 Add `:expublish` in mix.exs dev dependencies:
 
 ```elixir
-{:expublish, "~> 1.0.0", only: [:dev]}
+{:expublish, "~> 1.1", only: [:dev]}
 ```
 
 Create a `CHANGELOG.md` in the root folder of your project. It must contain a placeholder:
