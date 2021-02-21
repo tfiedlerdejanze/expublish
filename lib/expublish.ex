@@ -41,7 +41,7 @@ defmodule Expublish do
   def patch(options \\ []), do: run("patch", options)
 
   defp run(level, options) do
-    # if (!Git.porcelain?()), do: message_and_stop("Working directory not clean: Stash or move untracked changes.")
+    if (!Git.porcelain?()), do: message_and_stop("Working directory not clean: Stash or move untracked changes.")
     if (!File.exists?("RELEASE.md")), do: message_and_stop("Missing file: RELEASE.md")
     if (!File.exists?("CHANGELOG.md")), do: message_and_stop("Missing file: CHANGELOG.md")
     if (!Changelog.is_valid?()), do: message_and_stop("Invalid CHANGELOG.md. Check the install guide.")
