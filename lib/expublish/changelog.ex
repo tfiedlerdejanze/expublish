@@ -36,7 +36,7 @@ defmodule Expublish.Changelog do
 
     if !Options.dry_run?(options) do
       add_changelog_entry(title, text)
-      Logger.info("Wrote CHANGELOG.md entry")
+      Logger.info("Added new entry in CHANGELOG.md")
     end
 
     version

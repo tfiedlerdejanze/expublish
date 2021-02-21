@@ -3,8 +3,6 @@ defmodule Expublish.Git do
   Shell commands for git.
   """
 
-  require Logger
-
   alias Expublish.Options
 
   @doc """
@@ -22,8 +20,6 @@ defmodule Expublish.Git do
       Mix.Shell.IO.cmd("git add .", [])
       Mix.Shell.IO.cmd(~s'git commit -m "Version release #{version}"')
       Mix.Shell.IO.cmd(~s'git tag -a v#{version} -m "Version #{version}"')
-
-      Logger.info("Created git tag v#{version}")
     end
 
     version
@@ -39,7 +35,6 @@ defmodule Expublish.Git do
 
       if !Options.dry_run?(options) do
         Mix.Shell.IO.cmd("git push #{remote} #{branch} --tags", [])
-        Logger.info("New version pushed. remote: #{remote}, branch: #{branch}")
       end
     end
 

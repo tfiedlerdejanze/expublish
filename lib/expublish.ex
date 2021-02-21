@@ -59,7 +59,7 @@ defmodule Expublish do
       Publish.run()
     end
 
-    Logger.info("Success! Published new version: #{new_version}")
+    Logger.info("Published new package version: #{new_version}")
   end
 
   @doc false
