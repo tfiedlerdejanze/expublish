@@ -2,6 +2,12 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.1.2 - 22. Feb 2021 22:38
+
+- cleanup project validation
+- improve task logging
+
+
 ## 2.1.1 - 22. Feb 2021 21:23
 
 add missing --allow-untracked line in print help
