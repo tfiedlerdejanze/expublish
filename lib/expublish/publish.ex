@@ -10,7 +10,7 @@ defmodule Expublish.Publish do
   @doc """
   Run mix hex.publish --yes.
   """
-  def run(options \\ []) do
+  def run(%Version{} = version, options \\ []) do
     if !Options.dry_run?(options) && !Options.skip_publish?(options) do
       error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
 
@@ -20,6 +20,16 @@ defmodule Expublish.Publish do
       end
     end
 
-    :ok
+    if Options.dry_run?(options) || Options.skip_publish?(options) do
+      Logger.info("Skipping mix hex.publish.")
+    end
+
+    if Options.dry_run?(options) do
+      Logger.info("Finished dry run for new package version: #{version}.")
+    else
+      Logger.info("Successfully created new package version: #{version}.")
+    end
+
+    version
   end
 end

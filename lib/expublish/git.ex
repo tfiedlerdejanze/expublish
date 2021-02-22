@@ -3,18 +3,22 @@ defmodule Expublish.Git do
   Shell commands for git.
   """
 
+  require Logger
+
   alias Expublish.Options
 
   @doc """
-  Check state of git working directory. Returning true or false.
+  Validate state of git working directory. Returning :ok or error message.
   """
-  def porcelain?(options \\ []) do
+  def validate(options \\ []) do
     command =
       if Options.allow_untracked?(options),
         do: ["status", "--untracked-files=no", "--porcelain"],
         else: ["status", "--porcelain"]
 
-    {"", 0} == System.cmd("git", command)
+    if {"", 0} == System.cmd("git", command),
+      do: :ok,
+      else: "Git working directory not clean."
   end
 
   @doc """
@@ -34,10 +38,20 @@ defmodule Expublish.Git do
   Push to remote.
   """
   def push(%Version{} = version, options \\ []) do
+    remote = Options.git_remote(options)
+    branch = Options.git_branch(options)
+
     if !Options.dry_run?(options) && !Options.skip_push?(options) do
-      remote = Options.git_remote(options)
-      branch = Options.git_branch(options)
-      Mix.Shell.IO.cmd("git push #{remote} #{branch} --tags", [])
+      error_code = Mix.Shell.IO.cmd("git push #{remote} #{branch} --tags", [])
+
+      if error_code != 0 do
+        Logger.error("Failed while pushing version commit to git.")
+        exit(:shutdown)
+      end
+    end
+
+    if Options.dry_run?(options) || Options.skip_push?(options) do
+      Logger.info("Skipping \"git push #{remote} #{branch} --tags\".")
     end
 
     version

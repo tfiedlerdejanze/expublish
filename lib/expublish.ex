@@ -41,34 +41,20 @@ defmodule Expublish do
   def patch(options \\ []), do: run("patch", options)
 
   defp run(level, options) do
-    if !Git.porcelain?(options),
-      do: message_and_stop("Working directory not clean: Stash or move untracked changes.")
+    with :ok <- Git.validate(options),
+         :ok <- Changelog.validate(options) do
+      if !Options.skip_tests?(options), do: Tests.run()
 
-    if !File.exists?("RELEASE.md"), do: message_and_stop("Missing file: RELEASE.md")
-    if !File.exists?("CHANGELOG.md"), do: message_and_stop("Missing file: CHANGELOG.md")
-
-    if !Changelog.is_valid?(),
-      do: message_and_stop("Invalid CHANGELOG.md. Check the install guide.")
-
-    if !Options.skip_tests?(options), do: Tests.run()
-
-    new_version =
       level
       |> Semver.update_version!(options)
       |> Changelog.write_entry!(DateTime.utc_now(), options)
       |> Git.add_commit_and_tag(options)
       |> Git.push(options)
+      |> Changelog.remove_release_file!(options)
+      |> Publish.run(options)
 
-    Changelog.remove_release_file!(options)
-    Publish.run(options)
-
-    if Options.dry_run?(options),
-      do: Logger.info("Finished dry run for new package version: #{new_version}."),
-      else: Logger.info("Successfully created new package version: #{new_version}.")
-
-    if !Options.dry_run?(options) do
-      if (Options.skip_push?(options)), do: Logger.info("Dont forget to: git push origin master --tags")
-      if (Options.skip_publish?(options)), do: Logger.info("Dont forget to: mix hex.publish")
+    else
+      error -> message_and_stop(error)
     end
   end
 

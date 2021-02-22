@@ -16,10 +16,12 @@ defmodule Expublish.Changelog do
   @doc """
   Removes RELEASE.md.
   """
-  def remove_release_file!(options \\ []) do
-    if Options.dry_run?(options),
-      do: :noop,
-      else: File.rm!(@release_filename)
+  def remove_release_file!(%Version{} = version, options \\ []) do
+    if !Options.dry_run?(options) do
+      File.rm!(@release_filename)
+    end
+
+    version
   end
 
   @doc """
@@ -45,13 +47,25 @@ defmodule Expublish.Changelog do
   end
 
   @doc """
-  Checks if #{@changelog_filename} contains valid placeholder.
+  Validate changelog setup. Returns :ok or error message.
   """
-  def is_valid? do
-    String.contains?(
-      File.read!(@changelog_filename),
-      @changelog_entries_marker
-    )
+  def validate(options) do
+    cond do
+      !File.exists?("RELEASE.md") ->
+        "Missing file: RELEASE.md"
+
+      !File.exists?("CHANGELOG.md") ->
+        "Missing file: CHANGELOG.md"
+
+      !String.contains?(
+        File.read!(@changelog_filename),
+        @changelog_entries_marker
+      ) ->
+        "CHANGELOG.md is missing required placeholder."
+
+      true ->
+        :ok
+    end
   end
 
   defp add_changelog_entry(title, text) do
