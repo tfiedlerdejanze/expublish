@@ -40,8 +40,9 @@ defmodule Expublish.Changelog do
 
     if !Options.dry_run?(options) do
       add_changelog_entry(title, text)
-      Logger.info("Added new entry in CHANGELOG.md")
     end
+
+    Logger.info("Adding new entry in CHANGELOG.md")
 
     version
   end
@@ -49,7 +50,7 @@ defmodule Expublish.Changelog do
   @doc """
   Validate changelog setup. Returns :ok or error message.
   """
-  def validate(options) do
+  def validate(_options) do
     cond do
       !File.exists?("RELEASE.md") ->
         "Missing file: RELEASE.md"

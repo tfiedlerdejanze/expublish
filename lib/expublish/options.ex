@@ -6,7 +6,7 @@ defmodule Expublish.Options do
       OptionParser.parse(args,
         aliases: [
           h: :help,
-          d: :dry_run,
+          d: :dry_run
         ],
         strict: [
           branch: :string,
@@ -20,7 +20,7 @@ defmodule Expublish.Options do
         ]
       )
 
-    if (print_help?(options)) do
+    if print_help?(options) do
       print_help()
       exit(:shutdown)
     end

@@ -52,15 +52,11 @@ defmodule Expublish do
       |> Git.push(options)
       |> Changelog.remove_release_file!(options)
       |> Publish.run(options)
-
     else
-      error -> message_and_stop(error)
+      error ->
+        error_message = if is_binary(error), do: error, else: inspect(error)
+        Logger.error(error_message)
+        exit(:shutdown)
     end
-  end
-
-  @doc false
-  def message_and_stop(message) do
-    Logger.error(message)
-    exit(:shutdown)
   end
 end

@@ -45,8 +45,7 @@ defmodule Expublish.Git do
       error_code = Mix.Shell.IO.cmd("git push #{remote} #{branch} --tags", [])
 
       if error_code != 0 do
-        Logger.error("Failed while pushing version commit to git.")
-        exit(:shutdown)
+        Logger.error("Failed to push new version commit to git.")
       end
     end
 

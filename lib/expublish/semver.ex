@@ -3,6 +3,8 @@ defmodule Expublish.Semver do
   Functions for manipulating [%Version{}](https://hexdocs.pm/elixir/Version.html) and updating project mix.exs.
   """
 
+  require Logger
+
   alias Expublish.Options
 
   @doc """
@@ -38,9 +40,12 @@ defmodule Expublish.Semver do
         version_pattern(new_version)
       )
 
-    if (contents == replaced), do: Expublish.message_and_stop("Could not update version in mix.exs")
+    if contents == replaced do
+      Logger.error("Could not update version in mix.exs.")
+      exit(:shutdown)
+    end
 
-    if (!Options.dry_run?(options)) do
+    if !Options.dry_run?(options) do
       File.write!("mix.exs", replaced)
     end
 
