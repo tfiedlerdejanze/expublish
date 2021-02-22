@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.1.1 - 22. Feb 2021 21:23
+
+add missing --allow-untracked line in print help
+
+
 ## 2.1.0 - 22. Feb 2021 20:15
 
 - Add --allow-untracked
