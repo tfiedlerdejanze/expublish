@@ -8,8 +8,13 @@ defmodule Expublish.Git do
   @doc """
   Check state of git working directory. Returning true or false.
   """
-  def porcelain? do
-    {"", 0} == System.cmd("git", ["status", "--untracked-files=no", "--porcelain"])
+  def porcelain?(options \\ []) do
+    command =
+      if Options.allow_untracked?(options),
+        do: ["status", "--untracked-files=no", "--porcelain"],
+        else: ["status", "--porcelain"]
+
+    {"", 0} == System.cmd("git", command)
   end
 
   @doc """

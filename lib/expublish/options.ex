@@ -13,6 +13,7 @@ defmodule Expublish.Options do
           dry_run: :boolean,
           help: :boolean,
           remote: :string,
+          allow_untracked: :boolean,
           disable_publish: :boolean,
           disable_push: :boolean,
           disable_test: :boolean
@@ -27,11 +28,12 @@ defmodule Expublish.Options do
     options
   end
 
+  def allow_untracked?(options), do: Keyword.get(options, :allow_untracked, false)
   def print_help?(options), do: Keyword.get(options, :help, false)
   def dry_run?(options), do: Keyword.get(options, :dry_run, false)
-  def skip_tests?(options), do: Keyword.get(options, :disable_test, false)
   def skip_push?(options), do: Keyword.get(options, :disable_push, false)
   def skip_publish?(options), do: Keyword.get(options, :disable_publish, false)
+  def skip_tests?(options), do: Keyword.get(options, :disable_test, false)
 
   def git_branch(options), do: Keyword.get(options, :branch, "master")
   def git_remote(options), do: Keyword.get(options, :remote, "origin")
