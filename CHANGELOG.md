@@ -2,6 +2,12 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.1.0 - 22. Feb 2021 20:15
+
+- Add --allow-untracked
+- Documentation amends
+
+
 ## 2.0.0 - 21. Feb 2021 18:12
 
 Rename mix task to `mix expublish`

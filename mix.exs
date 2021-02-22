@@ -4,7 +4,7 @@ defmodule Expublish.MixProject do
   def project do
     [
       app: :expublish,
-      version: "2.0.0",
+      version: "2.1.0",
       package: package(),
       description: description(),
       source_url: "https://github.com/ucwaldo/expublish",
