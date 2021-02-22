@@ -16,8 +16,10 @@ defmodule Expublish.Changelog do
   @doc """
   Removes RELEASE.md.
   """
-  def remove_release_file! do
-    File.rm!(@release_filename)
+  def remove_release_file!(options \\ []) do
+    if Options.dry_run?(options),
+      do: :noop,
+      else: File.rm!(@release_filename)
   end
 
   @doc """

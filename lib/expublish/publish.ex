@@ -11,14 +11,13 @@ defmodule Expublish.Publish do
   Run mix hex.publish --yes.
   """
   def run(options \\ []) do
-    error_code =
-      if Options.skip_publish?(options),
-        do: 0,
-        else: Mix.Shell.IO.cmd("mix hex.publish --yes", [])
+    if !Options.dry_run?(options) && !Options.skip_publish?(options) do
+      error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
 
-    if error_code != 0 do
-      Logger.error("Failed while publishing package to hex.")
-      exit(:shutdown)
+      if error_code != 0 do
+        Logger.error("Failed while publishing package to hex.")
+        exit(:shutdown)
+      end
     end
 
     :ok
