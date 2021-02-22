@@ -51,6 +51,7 @@ defmodule Expublish.Options do
       -d, --dry-run       - Perform dry run (no writes, no commits)
       --branch=string     - Remote branch to push to, default: "master"
       --remote=string     - Remote name to push to, default: "origin"
+      --allow-untracked   - Ignore untracked files while checking git working directory
       --disable-publish   - Disable hex publish
       --disable-push      - Disable git push
       --disable-test      - Disable test run

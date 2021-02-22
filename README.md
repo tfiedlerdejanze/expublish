@@ -6,9 +6,9 @@
 
 Automate [SemVer](https://semver.org) and best practices for elixir package releases.
 
-<span id="#install"></span>
+<span id="#installation"></span>
 
-## How to install
+## Installation
 
 Add `:expublish` to your dev dependencies in `mix.exs`:
 
@@ -22,15 +22,17 @@ Create a `CHANGELOG.md` in the root folder of your project. It must contain a pl
 <!-- %% CHANGELOG_ENTRIES %% -->
 ```
 
-Do not keep track of the release file, as it's deleted with every successful release. Put the following line in your `.gitignore`:
+Do not keep track of the release file. Put the following line in your `.gitignore`:
 
 ```text
 RELEASE.md
 ```
 
-<span id="#how-to-use"></span>
+The file is deleted after every successful release.
 
-## How to use
+<span id="#usage"></span>
+
+## Usage
 
 1\. Create a new `RELEASE.md` containing the new changelog entry:
 
@@ -44,10 +46,7 @@ $ echo "- changelog entry one\n- changelog entry two" > RELEASE.md
 $ mix expublish.minor
 ```
 
-3\. That's it!
-
-
-## About the package
+## About
 
 Using `mix expublish` guarantees:
 
@@ -57,7 +56,8 @@ Using `mix expublish` guarantees:
 - A new changelog entry
 - A new version git commit and tag
 
-Expublish was built with a fully automated continuous release process in mind. This is why it makes some expectations and automatically pushes and publishes the new package version to git and hex respectively.
+Expublish was built with a CI integrated continuous release process in mind.
+The mix task makes certain assumptions and automatically pushes and publishes the new package version to git and hex respectively.
 
 This and other behavior can be changed using various [options](#options). Here are the commonly used ones:
 
@@ -74,7 +74,7 @@ $ mix expublish.minor --disable-test
 # Ignore untracked files in git check before creating a new release:
 $ mix expublish.minor --allow-untracked
 
-# Push the git commit to a different branch and/or remote
+# Push the git commit to a different branch and/or remote:
 $ mix expublish.minor --branch=release --remote=upstream
 ```
 
