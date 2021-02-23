@@ -24,7 +24,7 @@ defmodule GitTest do
     File.rm!("expublish_git_validate_test")
   end
 
-  test "commit_and_tags/1 logs a info message", %{options: options, version: version} do
+  test "commit_and_tag/1 logs a info message", %{options: options, version: version} do
     fun = fn ->
       Git.commit_and_tag(version, options)
     end
@@ -32,5 +32,15 @@ defmodule GitTest do
     assert capture_log(fun) =~ "Skipping version commit"
     assert capture_log(fun) =~ "Skipping version tag"
     assert capture_log(fun) =~ "#{version}"
+  end
+
+  test "commit_and_tag/1 respects tag- and commit-prefix options", %{version: version} do
+    options = Options.parse(["--dry-run", "--tag-prefix=rc", "--commit-prefix='Custom release commit'"])
+    fun = fn ->
+      Git.commit_and_tag(version, options)
+    end
+
+    assert capture_log(fun) =~ "Custom release commit #{version}"
+    assert capture_log(fun) =~ "rc#{version}"
   end
 end

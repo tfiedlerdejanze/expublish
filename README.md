@@ -61,7 +61,7 @@ The mix task makes certain assumptions and automatically pushes and publishes th
 
 This and other behavior can be changed using various [options](#options). Here are the commonly used ones:
 
-```
+```bash
 # Go through all the task steps without any writing changes (no commit, no tag, no push, no publish):
 $ mix expublish.minor --dry-run
 
@@ -80,7 +80,7 @@ $ mix expublish.minor --branch=release --remote=upstream
 
 ## Reference
 
-The mix task is defined as: 
+The mix task is defined as:
 
 ```
 mix expublish.[level] [options]
@@ -88,23 +88,25 @@ mix expublish.[level] [options]
 
 ### Level
 
-| Level   | Description                                                  |
-| ------- | -------------------------------------------------------------|
-| `major` | When making incompatible API changes.                      |
+| Level   | Description                                                 |
+| ------- | ----------------------------------------------------------- |
+| `major` | When making incompatible API changes.                       |
 | `minor` | When adding functionality in a backwards compatible manner. |
 | `patch` | When making backwards compatible bug fixes.                 |
 
 ### Options
 
-| Option              | Default    | Description                                       |
-| ------------------- | ---------- | --------------------------------------------------|
-| `-h, --help`        | `false`    | Print help.                                       |
-| `-d, --dry-run`     | `false`    | Perform dry run (no writes, no commits).          |
-| `--allow-untracked` | `false`    | Skip untracked files when checking git porcelain. |
-| `--disable-test`    | `false`    | Disable test run.                                 |
-| `--disable-publish` | `false`    | Disable hex publish.                              |
-| `--disable-push`    | `false`    | Disable git push.                                 |
-| `--branch=string`   | `"master"` | Remote branch for git push.                       |
-| `--remote=string`   | `"origin"` | Remote name for git push.                         |
+| Option                   | Default             | Description                                       |
+| ------------------------ | ------------------- | ------------------------------------------------- |
+| `-h, --help`             | `false`             | Print help.                                       |
+| `-d, --dry-run`          | `false`             | Perform dry run (no writes, no commits).          |
+| `--allow-untracked`      | `false`             | Skip untracked files when checking git porcelain. |
+| `--disable-test`         | `false`             | Disable test run.                                 |
+| `--disable-publish`      | `false`             | Disable hex publish.                              |
+| `--disable-push`         | `false`             | Disable git push.                                 |
+| `--branch=string`        | `"master"`          | Remote branch for git push.                       |
+| `--remote=string`        | `"origin"`          | Remote name for git push.                         |
+| `--commit-prefix=string` | `"Version release"` | Prefix for commit message.                        |
+| `--tag-prefix=string`    | `"v"`               | Prefix for release tag.                           |
 
 Apart from the mix task, Expublish exposes a [public interface](./Expublish.html) which can be used to create new releases from other elixir applications or scripts.
