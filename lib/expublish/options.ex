@@ -9,14 +9,16 @@ defmodule Expublish.Options do
           d: :dry_run
         ],
         strict: [
-          branch: :string,
-          dry_run: :boolean,
-          help: :boolean,
-          remote: :string,
           allow_untracked: :boolean,
           disable_publish: :boolean,
           disable_push: :boolean,
-          disable_test: :boolean
+          disable_test: :boolean,
+          dry_run: :boolean,
+          help: :boolean,
+          branch: :string,
+          remote: :string,
+          tag_prefix: :string,
+          commit_prefix: :string,
         ]
       )
 
@@ -37,6 +39,9 @@ defmodule Expublish.Options do
 
   def git_branch(options), do: Keyword.get(options, :branch, "master")
   def git_remote(options), do: Keyword.get(options, :remote, "origin")
+  def git_tag_prefix(options), do: Keyword.get(options, :tag_prefix, "v")
+  def git_commit_prefix(options), do: Keyword.get(options, :commit_prefix, "Version release ")
+
 
   def print_help() do
     IO.puts(~S"""
