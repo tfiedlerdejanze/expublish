@@ -28,7 +28,7 @@ defmodule Expublish.Git do
     commit_prefix = Options.git_commit_prefix(options)
     tag_prefix = Options.git_tag_prefix(options)
 
-    git_commit_message = "#{commit_prefix}#{version}"
+    git_commit_message = "#{commit_prefix} #{version}"
     git_tag = "#{tag_prefix}#{version}"
 
     if Options.dry_run?(options) do

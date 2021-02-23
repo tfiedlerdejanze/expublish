@@ -37,10 +37,10 @@ defmodule Expublish.Options do
   def skip_publish?(options), do: Keyword.get(options, :disable_publish, false)
   def skip_tests?(options), do: Keyword.get(options, :disable_test, false)
 
-  def git_branch(options), do: Keyword.get(options, :branch, "master")
-  def git_remote(options), do: Keyword.get(options, :remote, "origin")
-  def git_tag_prefix(options), do: Keyword.get(options, :tag_prefix, "v")
-  def git_commit_prefix(options), do: Keyword.get(options, :commit_prefix, "Version release ")
+  def git_branch(options), do: Keyword.get(options, :branch, "master") |> sanitize_string()
+  def git_remote(options), do: Keyword.get(options, :remote, "origin") |> sanitize_string()
+  def git_tag_prefix(options), do: Keyword.get(options, :tag_prefix, "v") |> sanitize_string()
+  def git_commit_prefix(options), do: Keyword.get(options, :commit_prefix, "Version release") |> sanitize_string()
 
 
   def print_help() do
@@ -53,13 +53,22 @@ defmodule Expublish.Options do
       patch - Publish patch version
 
     options:
-      -d, --dry-run       - Perform dry run (no writes, no commits)
-      --branch=string     - Remote branch to push to, default: "master"
-      --remote=string     - Remote name to push to, default: "origin"
-      --allow-untracked   - Ignore untracked files while checking git working directory
-      --disable-publish   - Disable hex publish
-      --disable-push      - Disable git push
-      --disable-test      - Disable test run
+      -d, --dry-run           - Perform dry run (no writes, no commits)
+      --branch=string         - Remote branch to push to, default: "master"
+      --remote=string         - Remote name to push to, default: "origin"
+      --commit-prefix=string  - Custom commit prefix, default: "Version release"
+      --tag-prefix=string     - Custom tag prefix, default: "v"
+      --allow-untracked       - Ignore untracked files while checking git working directory
+      --disable-publish       - Disable hex publish
+      --disable-push          - Disable git push
+      --disable-test          - Disable test run
     """)
+  end
+
+  defp sanitize_string(string) do
+    string
+    |> String.replace("\"", "")
+    |> String.replace("'", "")
+    |> String.trim()
   end
 end

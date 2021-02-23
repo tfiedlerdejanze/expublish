@@ -40,7 +40,7 @@ defmodule GitTest do
       Git.commit_and_tag(version, options)
     end
 
-    assert capture_log(fun) =~ "Custom release commit"
+    assert capture_log(fun) =~ "Custom release commit #{version}"
     assert capture_log(fun) =~ "rc#{version}"
   end
 end
