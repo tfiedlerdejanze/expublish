@@ -24,8 +24,11 @@ defmodule Expublish.Git do
   @doc """
   Create a git commit and tag for given %Version{}.
   """
-  def add_commit_and_tag(%Version{} = version, options \\ []) do
-    if !Options.dry_run?(options) do
+  def commit_and_tag(%Version{} = version, options \\ []) do
+    if Options.dry_run?(options) do
+      Logger.info("Skipping version commit: \"Version release #{version}\".")
+      Logger.info("Skipping version tag: \"v#{version}\".")
+    else
       Mix.Shell.IO.cmd("git add .", [])
       Mix.Shell.IO.cmd(~s'git commit -m "Version release #{version}"')
       Mix.Shell.IO.cmd(~s'git tag -a v#{version} -m "Version #{version}"')

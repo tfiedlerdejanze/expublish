@@ -9,15 +9,14 @@ defmodule Expublish do
     "major"
     |> Semver.update_version!()
     |> Changelog.write_entry!(DateTime.utc_now())
-    |> Git.add_commit_and_tag()
-
-    Publish.run!()
+    |> Git.commit_and_tag()
+    |> Git.push()
+    |> Publish.run!()
   end
   ```
   """
 
   alias Expublish.Changelog
-  alias Expublish.Options
   alias Expublish.Git
   alias Expublish.Publish
   alias Expublish.Semver
@@ -43,12 +42,12 @@ defmodule Expublish do
   defp run(level, options) do
     with :ok <- Git.validate(options),
          :ok <- Changelog.validate(options) do
-      if !Options.skip_tests?(options), do: Tests.run()
+      Tests.run(options)
 
       level
       |> Semver.update_version!(options)
       |> Changelog.write_entry!(DateTime.utc_now(), options)
-      |> Git.add_commit_and_tag(options)
+      |> Git.commit_and_tag(options)
       |> Git.push(options)
       |> Changelog.remove_release_file!(options)
       |> Publish.run(options)
