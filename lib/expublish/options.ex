@@ -1,6 +1,8 @@
 defmodule Expublish.Options do
   @moduledoc false
 
+  require Logger
+
   @remote "origin"
   @branch "master"
   @commit "Version release"
@@ -24,50 +26,35 @@ defmodule Expublish.Options do
     d: :dry_run
   ]
 
-  def defaults, do: %{
-    allow_untracked: false,
-    disable_publish: false,
-    disable_push: false,
-    disable_test: false,
-    dry_run: false,
-    help: false,
-    branch: @branch,
-    remote: @remote,
-    tag_prefix: @tag,
-    commit_prefix: @commit
-  }
+  def defaults,
+    do: %{
+      allow_untracked: false,
+      disable_publish: false,
+      disable_push: false,
+      disable_test: false,
+      dry_run: false,
+      help: false,
+      branch: @branch,
+      remote: @remote,
+      tag_prefix: @tag,
+      commit_prefix: @commit
+    }
 
   def parse(args) do
-    {options, _, _} =
+    process_options(
       OptionParser.parse(args,
         aliases: @aliases,
         strict: @typed_options
       )
-
-    options = Map.merge(defaults(), Enum.into(options, %{}))
-
-    if print_help?(options) do
-      print_help()
-      exit(:shutdown)
-    end
-
-    options
+    )
   end
 
-  def allow_untracked?(options), do: Map.get(options, :allow_untracked)
-  def dry_run?(options), do: Map.get(options, :dry_run)
   def print_help?(options), do: Map.get(options, :help)
-  def skip_publish?(options), do: Map.get(options, :disable_publish)
-  def skip_push?(options), do: Map.get(options, :disable_push)
-  def skip_tests?(options), do: Map.get(options, :disable_test)
-
-  def git_branch(options), do: Map.get(options, :branch) |> sanitize()
-  def git_remote(options), do: Map.get(options, :remote) |> sanitize()
   def git_tag_prefix(options), do: Map.get(options, :tag_prefix) |> sanitize()
   def git_commit_prefix(options), do: Map.get(options, :commit_prefix) |> sanitize()
 
   def print_help() do
-    IO.puts(~S"""
+    IO.puts("""
     Usage: mix expublish.[level] [options]
 
     level:
@@ -86,6 +73,22 @@ defmodule Expublish.Options do
       --disable-push          - Disable git push
       --disable-test          - Disable test run
     """)
+  end
+
+  defp process_options({options, _, []}) do
+    options = Map.merge(defaults(), Enum.into(options, %{}))
+
+    if print_help?(options) do
+      print_help()
+      exit(:shutdown)
+    end
+
+    options
+  end
+
+  defp process_options({_, _, errors}) do
+    Logger.warn("Invalid mix task options: #{inspect(errors)}. Try mix expublish -h.")
+    exit(:shutdown)
   end
 
   defp sanitize(string) do

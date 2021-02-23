@@ -21,11 +21,13 @@ defmodule Expublish.Hex do
   def publish(version, %{dry_run: true}) do
     Logger.info("Skipping mix hex.publish.")
     Logger.info("Finished dry run for new package version: #{version}.")
+
     version
   end
 
   def publish(version, _options) do
     Logger.info("Skipping mix hex.publish.")
+
     version
   end
 end

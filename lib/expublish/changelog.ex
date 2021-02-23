@@ -34,18 +34,6 @@ defmodule Expublish.Changelog do
   end
 
   @doc """
-  Removes RELEASE.md.
-  """
-  def remove_release_file!(%Version{} = version, %{dry_run: true}) do
-    version
-  end
-
-  def remove_release_file!(%Version{} = version, _options) do
-    File.rm!(@release_filename)
-    version
-  end
-
-  @doc """
   Generate changelog entry from RELEASE.md contents.
 
   Writes entry to CHANGELOG.md for given %Version{} and %Datetime{}.
@@ -64,12 +52,12 @@ defmodule Expublish.Changelog do
     version
   end
 
-  defp add_changelog_entry(title, _text, %{dry_run: true}) do
-    Logger.info("Skipping new entry in CHANGELOG.md: #{title}")
+  defp add_changelog_entry(title, text, %{dry_run: true}) do
+    Logger.info("Skipping new entry in CHANGELOG.md:\n\n#{title}\n\n#{text}")
   end
 
   defp add_changelog_entry(title, text, _options) do
-    Logger.info("Adding new entry in CHANGELOG.md: #{title}")
+    Logger.info("Adding new entry in CHANGELOG.md:\n\n#{title}\n\n#{text}")
 
     contents = File.read!(@changelog_filename)
     [first, last] = String.split(contents, @changelog_entries_marker)
@@ -90,5 +78,17 @@ defmodule Expublish.Changelog do
       ])
 
     File.write!(@changelog_filename, replaced)
+  end
+
+  @doc """
+  Removes RELEASE.md.
+  """
+  def remove_release_file!(%Version{} = version, %{dry_run: true}) do
+    version
+  end
+
+  def remove_release_file!(%Version{} = version, _options) do
+    File.rm!(@release_filename)
+    version
   end
 end
