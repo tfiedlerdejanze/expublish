@@ -4,17 +4,16 @@ defmodule OptionsTest do
 
   alias Expublish.Options
 
-  test "parse/1 parses many options at once" do
-    options = Options.parse(["--dry-run", "--allow-untracked"])
-    expected = Options.defaults() |> Map.merge(%{dry_run: true, allow_untracked: true})
+  test "parse/1 parses multiple valid options" do
+    arguments = ["--dry-run", "--allow-untracked", "--branch=release"]
+    expected = Options.defaults() |> Map.merge(%{dry_run: true, allow_untracked: true, branch: "release"})
 
-    assert expected == options
+    assert expected == Options.parse(arguments)
   end
 
-  test "parse/1 ignores invalid options" do
-    options = Options.parse(["--dry-run=yes"])
-    expected = Options.defaults()
+  test "parse/1 stops the task execution when options are invalid" do
+    arguments = ["--dry-run=yes"]
 
-    assert expected == options
+    assert catch_exit(Options.parse(arguments)) == :shutdown
   end
 end

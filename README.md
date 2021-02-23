@@ -76,6 +76,9 @@ $ mix expublish.minor --allow-untracked
 
 # Push the git commit to a different branch and/or remote:
 $ mix expublish.minor --branch=release --remote=upstream
+
+# Provide custom commit- or tag-prefixes:
+$ mix expublish.minor --tag-prefix=rc --commit-prefix="Version bump"
 ```
 
 ## Reference

@@ -5,19 +5,23 @@ defmodule Expublish.Semver do
 
   require Logger
 
-  alias Expublish.Options
-
   @doc """
   Update version in project mix.exs by given level.
 
   Reads the current version from mix.exs, increases it and writes it back to mix.exs.
   Level must be one of "major", "minor" or "patch".
-
   """
   def update_version!(level, options \\ %{})
-  def update_version!("major", options), do: get_version!() |> bump_major() |> set_version!(options)
-  def update_version!("minor", options), do: get_version!() |> bump_minor() |> set_version!(options)
-  def update_version!("patch", options), do: get_version!() |> bump_patch() |> set_version!(options)
+
+  def update_version!("major", options),
+    do: get_version!() |> bump_major() |> set_version!(options)
+
+  def update_version!("minor", options),
+    do: get_version!() |> bump_minor() |> set_version!(options)
+
+  def update_version!("patch", options),
+    do: get_version!() |> bump_patch() |> set_version!(options)
+
   def update_version!(level, _options), do: raise("Invalid version level: #{level}")
 
   @doc """
@@ -47,9 +51,7 @@ defmodule Expublish.Semver do
       exit(:shutdown)
     end
 
-    if !Options.dry_run?(options) do
-      File.write!("mix.exs", replaced)
-    end
+    maybe_write_mixexs(options, replaced)
 
     new_version
   end
@@ -69,4 +71,7 @@ defmodule Expublish.Semver do
   def version_pattern(version) do
     "version: \"#{version}\""
   end
+
+  defp maybe_write_mixexs(%{dry_run: true}, _contents), do: :noop
+  defp maybe_write_mixexs(_options, contents), do: File.write!("mix.exs", contents)
 end
