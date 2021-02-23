@@ -38,11 +38,12 @@ defmodule Expublish.Changelog do
     title = "#{@changelog_header_prefix} #{version} - #{date_time_string}"
     text = File.read!(@release_filename) |> String.trim()
 
-    if !Options.dry_run?(options) do
+    if Options.dry_run?(options) do
+      Logger.info("Skipping new entry in CHANGELOG.md.")
+    else
       add_changelog_entry(title, text)
+      Logger.info("Added new entry in CHANGELOG.md.")
     end
-
-    Logger.info("Adding new entry in CHANGELOG.md")
 
     version
   end

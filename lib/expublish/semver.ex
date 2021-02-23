@@ -15,28 +15,30 @@ defmodule Expublish.Semver do
 
   """
   def update_version!(level, options \\ [])
-  def update_version!("major", options), do: get_version() |> bump_major() |> set_version(options)
-  def update_version!("minor", options), do: get_version() |> bump_minor() |> set_version(options)
-  def update_version!("patch", options), do: get_version() |> bump_patch() |> set_version(options)
+  def update_version!("major", options), do: get_version!() |> bump_major() |> set_version!(options)
+  def update_version!("minor", options), do: get_version!() |> bump_minor() |> set_version!(options)
+  def update_version!("patch", options), do: get_version!() |> bump_patch() |> set_version!(options)
   def update_version!(level, _options), do: raise("Invalid version level: #{level}")
 
   @doc """
   Return parsed %Version{} from project mix.exs.
   """
-  def get_version do
-    Version.parse!(Mix.Project.config()[:version])
+  def get_version! do
+    Mix.Project.config()[:version]
+    |> Version.parse!()
   end
 
   @doc """
   Write given %Version{} to project mix.exs.
   """
-  def set_version(new_version, options \\ []) do
+  def set_version!(new_version, options \\ []) do
     contents = File.read!("mix.exs")
+    version = get_version!()
 
     replaced =
       String.replace(
         contents,
-        version_pattern(get_version()),
+        version_pattern(version),
         version_pattern(new_version)
       )
 
@@ -52,19 +54,19 @@ defmodule Expublish.Semver do
     new_version
   end
 
-  defp version_pattern(version) do
-    "version: \"#{version}\""
-  end
-
-  defp bump_major(%Version{} = version) do
+  def bump_major(%Version{} = version) do
     %{version | major: version.major + 1, minor: 0, patch: 0}
   end
 
-  defp bump_minor(%Version{} = version) do
+  def bump_minor(%Version{} = version) do
     %{version | minor: version.minor + 1, patch: 0}
   end
 
-  defp bump_patch(%Version{} = version) do
+  def bump_patch(%Version{} = version) do
     %{version | patch: version.patch + 1}
+  end
+
+  def version_pattern(version) do
+    "version: \"#{version}\""
   end
 end
