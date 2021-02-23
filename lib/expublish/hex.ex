@@ -24,7 +24,7 @@ defmodule Expublish.Hex do
     version
   end
 
-  def publish(version, %{disable_publish: true}) do
+  def publish(version, _options) do
     Logger.info("Skipping mix hex.publish.")
     version
   end

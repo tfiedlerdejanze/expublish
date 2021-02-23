@@ -71,7 +71,7 @@ defmodule Expublish.Git do
     version
   end
 
-  def push(version, %{disable_push: true, branch: branch, remote: remote}) do
+  def push(version, %{branch: branch, remote: remote}) do
     Logger.info("Skipping \"git push #{remote} #{branch} --tags\".")
     version
   end
