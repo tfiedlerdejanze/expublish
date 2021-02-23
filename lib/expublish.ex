@@ -18,7 +18,7 @@ defmodule Expublish do
 
   alias Expublish.Changelog
   alias Expublish.Git
-  alias Expublish.Publish
+  alias Expublish.Hex
   alias Expublish.Semver
   alias Expublish.Tests
 
@@ -27,17 +27,17 @@ defmodule Expublish do
   @doc """
   Publish major version of current project.
   """
-  def major(options \\ []), do: run("major", options)
+  def major(options \\ %{}), do: run("major", options)
 
   @doc """
   Publish minor version of current project.
   """
-  def minor(options \\ []), do: run("minor", options)
+  def minor(options \\ %{}), do: run("minor", options)
 
   @doc """
   Publish patch version of current project.
   """
-  def patch(options \\ []), do: run("patch", options)
+  def patch(options \\ %{}), do: run("patch", options)
 
   defp run(level, options) do
     with :ok <- Git.validate(options),
@@ -50,7 +50,7 @@ defmodule Expublish do
       |> Git.commit_and_tag(options)
       |> Git.push(options)
       |> Changelog.remove_release_file!(options)
-      |> Publish.run(options)
+      |> Hex.publish(options)
     else
       error ->
         error_message = if is_binary(error), do: error, else: inspect(error)

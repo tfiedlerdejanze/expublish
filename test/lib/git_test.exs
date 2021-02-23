@@ -9,7 +9,7 @@ defmodule GitTest do
   @version %Version{major: 1, minor: 0, patch: 1}
 
   setup do
-    [options: Options.parse(["--dry-run"]), version: @version]
+    [options: Options.parse(["--dry-run", "--disable-push"]), version: @version]
   end
 
   test "validate/1 runs without errors", %{options: options} do
