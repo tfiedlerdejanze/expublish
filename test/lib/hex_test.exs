@@ -3,8 +3,8 @@ defmodule PublishTest do
   doctest Expublish
 
   import ExUnit.CaptureLog
+  alias Expublish.Hex
   alias Expublish.Options
-  alias Expublish.Publish
 
   @version %Version{major: 1, minor: 0, patch: 1}
 
@@ -14,7 +14,7 @@ defmodule PublishTest do
 
   test "run/2 runs without errors", %{options: options, version: version} do
     fun = fn ->
-      Publish.run(version, options)
+      Hex.publish(version, options)
     end
 
     assert capture_log(fun) =~ "new package version: #{version}"

@@ -18,7 +18,7 @@ defmodule Expublish do
 
   alias Expublish.Changelog
   alias Expublish.Git
-  alias Expublish.Publish
+  alias Expublish.Hex
   alias Expublish.Semver
   alias Expublish.Tests
 
@@ -50,7 +50,7 @@ defmodule Expublish do
       |> Git.commit_and_tag(options)
       |> Git.push(options)
       |> Changelog.remove_release_file!(options)
-      |> Publish.run(options)
+      |> Hex.publish(options)
     else
       error ->
         error_message = if is_binary(error), do: error, else: inspect(error)

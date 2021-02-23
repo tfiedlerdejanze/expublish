@@ -1,4 +1,4 @@
-defmodule Expublish.Publish do
+defmodule Expublish.Hex do
   @moduledoc """
   Shell commands for hex publish.
   """
@@ -10,7 +10,7 @@ defmodule Expublish.Publish do
   @doc """
   Run mix hex.publish --yes.
   """
-  def run(%Version{} = version, options \\ []) do
+  def publish(%Version{} = version, options \\ []) do
     if !Options.dry_run?(options) && !Options.skip_publish?(options) do
       error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
 

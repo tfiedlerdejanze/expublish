@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.2.1 - 23. Feb 2021 20:55
+
+fix Mix.env check before Tests.run
+
+
 ## 2.2.0 - 23. Feb 2021 20:29
 
 - add --commit-prefix option
