@@ -11,7 +11,7 @@ defmodule Expublish.Tests do
   Run tests, stop task if they fail, skip if there are none.
   """
   def run(options \\ []) do
-    if !Mix.env == :test && !Options.skip_tests?(options) do
+    if Mix.env != :test && !Options.skip_tests?(options) do
       error_code = Mix.Shell.IO.cmd("mix test", [])
 
       if error_code != 0 do
