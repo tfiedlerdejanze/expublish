@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.2.2 - 23. Feb 2021 22:48
+
+Refactor mix task options
+
+
 ## 2.2.1 - 23. Feb 2021 20:55
 
 fix Mix.env check before Tests.run
