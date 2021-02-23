@@ -2,6 +2,13 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.2.0 - 23. Feb 2021 20:29
+
+- add --commit-prefix option
+- add --tag-prefix option
+- setup tests for all modules
+
+
 ## 2.1.2 - 22. Feb 2021 22:38
 
 - cleanup project validation
