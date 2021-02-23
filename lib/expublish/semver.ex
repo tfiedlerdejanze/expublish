@@ -14,7 +14,7 @@ defmodule Expublish.Semver do
   Level must be one of "major", "minor" or "patch".
 
   """
-  def update_version!(level, options \\ [])
+  def update_version!(level, options \\ %{})
   def update_version!("major", options), do: get_version!() |> bump_major() |> set_version!(options)
   def update_version!("minor", options), do: get_version!() |> bump_minor() |> set_version!(options)
   def update_version!("patch", options), do: get_version!() |> bump_patch() |> set_version!(options)

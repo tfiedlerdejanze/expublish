@@ -5,48 +5,11 @@ defmodule Expublish.Changelog do
 
   require Logger
 
-  alias Expublish.Options
-
   @release_filename "RELEASE.md"
 
   @changelog_filename "CHANGELOG.md"
   @changelog_header_prefix String.duplicate("#", 2)
   @changelog_entries_marker "<!-- %% CHANGELOG_ENTRIES %% -->"
-
-  @doc """
-  Removes RELEASE.md.
-  """
-  def remove_release_file!(%Version{} = version, options \\ []) do
-    if !Options.dry_run?(options) do
-      File.rm!(@release_filename)
-    end
-
-    version
-  end
-
-  @doc """
-  Generate changelog entry from RELEASE.md contents.
-
-  Writes entry to CHANGELOG.md for given %Version{} and %Datetime{}.
-  """
-  def write_entry!(%Version{} = version, %DateTime{} = date_time, options \\ []) do
-    date_time_string =
-      date_time
-      |> DateTime.truncate(:second)
-      |> Calendar.strftime("%d. %b %Y %H:%M")
-
-    title = "#{@changelog_header_prefix} #{version} - #{date_time_string}"
-    text = File.read!(@release_filename) |> String.trim()
-
-    if Options.dry_run?(options) do
-      Logger.info("Skipping new entry in CHANGELOG.md.")
-    else
-      add_changelog_entry(title, text)
-      Logger.info("Added new entry in CHANGELOG.md.")
-    end
-
-    version
-  end
 
   @doc """
   Validate changelog setup. Returns :ok or error message.
@@ -70,7 +33,44 @@ defmodule Expublish.Changelog do
     end
   end
 
-  defp add_changelog_entry(title, text) do
+  @doc """
+  Removes RELEASE.md.
+  """
+  def remove_release_file!(%Version{} = version, %{dry_run: true}) do
+    version
+  end
+
+  def remove_release_file!(%Version{} = version, _options) do
+    File.rm!(@release_filename)
+    version
+  end
+
+  @doc """
+  Generate changelog entry from RELEASE.md contents.
+
+  Writes entry to CHANGELOG.md for given %Version{} and %Datetime{}.
+  """
+  def write_entry!(%Version{} = version, %DateTime{} = date_time, options \\ %{}) do
+    date_time_string =
+      date_time
+      |> DateTime.truncate(:second)
+      |> Calendar.strftime("%d. %b %Y %H:%M")
+
+    title = "#{version} - #{date_time_string}"
+    text = File.read!(@release_filename) |> String.trim()
+
+    add_changelog_entry(title, text, options)
+
+    version
+  end
+
+  defp add_changelog_entry(title, _text, %{dry_run: true}) do
+    Logger.info("Skipping new entry in CHANGELOG.md: #{title}")
+  end
+
+  defp add_changelog_entry(title, text, _options) do
+    Logger.info("Adding new entry in CHANGELOG.md: #{title}")
+
     contents = File.read!(@changelog_filename)
     [first, last] = String.split(contents, @changelog_entries_marker)
 
@@ -82,7 +82,7 @@ defmodule Expublish.Changelog do
 
         """,
         """
-        #{title}
+        #{@changelog_header_prefix} #{title}
 
         #{text}
         """,

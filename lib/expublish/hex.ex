@@ -5,30 +5,27 @@ defmodule Expublish.Hex do
 
   require Logger
 
-  alias Expublish.Options
-
   @doc """
   Run mix hex.publish --yes.
   """
-  def publish(%Version{} = version, options \\ []) do
-    if !Options.dry_run?(options) && !Options.skip_publish?(options) do
-      error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
+  def publish(version, %{dry_run: false, disable_publish: false}) do
+    error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
 
-      if error_code != 0 do
-        Logger.error("Failed to publish new package on hex.")
-      end
-    end
+    if error_code == 0,
+      do: Logger.info("Successfully created new package version: #{version}."),
+      else: Logger.error("Failed to publish new package on hex.")
 
-    if Options.dry_run?(options) || Options.skip_publish?(options) do
-      Logger.info("Skipping mix hex.publish.")
-    end
+    version
+  end
 
-    if Options.dry_run?(options) do
-      Logger.info("Finished dry run for new package version: #{version}.")
-    else
-      Logger.info("Successfully created new package version: #{version}.")
-    end
+  def publish(version, %{dry_run: true}) do
+    Logger.info("Skipping mix hex.publish.")
+    Logger.info("Finished dry run for new package version: #{version}.")
+    version
+  end
 
+  def publish(version, %{disable_publish: true}) do
+    Logger.info("Skipping mix hex.publish.")
     version
   end
 end

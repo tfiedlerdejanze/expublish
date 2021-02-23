@@ -44,7 +44,7 @@ defmodule ExpublishTest do
       end)
     end
 
-    assert capture_log(fun) =~ "Skipping new entry in CHANGELOG.md."
+    assert capture_log(fun) =~ "Skipping new entry in CHANGELOG.md"
     assert capture_log(fun) =~ "Skipping version commit"
     assert capture_log(fun) =~ "Skipping version tag"
     assert capture_log(fun) =~ "Skipping \"git push origin master --tags\""
