@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.2.3 - 23. Feb 2021 23:45
+
+Make task fail on invalid options
+
+
 ## 2.2.2 - 23. Feb 2021 22:48
 
 Refactor mix task options
