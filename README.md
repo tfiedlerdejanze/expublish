@@ -13,7 +13,7 @@ Automate [SemVer](https://semver.org) and best practices for elixir package rele
 Add `:expublish` to your dev dependencies in `mix.exs`:
 
 ```elixir
-{:expublish, "~> 2.2", only: [:dev]}
+{:expublish, "~> 2.3", only: [:dev]}
 ```
 
 Create a `CHANGELOG.md` in the root folder of your project. It must contain a placeholder:
@@ -48,6 +48,11 @@ $ mix expublish.minor
 
 ## About
 
+Releasing a new package version can be a swift task, but doing it right usually requires
+some manual steps that are easy to forget or mess up. Expublish provides a mix task that
+guarantees a clean and functioning project state before it performs the steps required to
+release a new package version.
+
 Using `mix expublish` guarantees:
 
 - A clean git working directory
@@ -56,10 +61,12 @@ Using `mix expublish` guarantees:
 - A new changelog entry
 - A new version git commit and tag
 
-Expublish was built with a CI integrated continuous release process in mind.
-The mix task makes certain assumptions and automatically pushes and publishes the new package version to git and hex respectively.
+Expublish was built with a continuous release process in mind. It's straight forward to be used
+from any CI server and only requires elixir and git to be installed. Here is an example [github workflow](https://github.com/ucwaldo/expublish/blob/master/.github/workflows/release.yml#L31-L42).
 
-This and other behavior can be changed using various [options](#options). Here are the commonly used ones:
+The mix task assumes an authenticated hex user and will try to publish and push the new package version to hex and git respectively.
+
+This and other behavior can be changed using various [options](#reference). Here are some commonly used ones:
 
 ```bash
 # Go through all the task steps without any writing changes (no commit, no tag, no push, no publish):
@@ -68,18 +75,30 @@ $ mix expublish.minor --dry-run
 # Do not push the new version commit and tag to git and do not publish the new package on hex:
 $ mix expublish.minor --disable-push --disable-publish
 
-# Skip the test run:
+# Disable the test run:
 $ mix expublish.minor --disable-test
 
-# Ignore untracked files in git check before creating a new release:
+# Ignore untracked files while validating git working directory:
 $ mix expublish.minor --allow-untracked
 
 # Push the git commit to a different branch and/or remote:
 $ mix expublish.minor --branch=release --remote=upstream
 
-# Provide custom commit- or tag-prefixes:
-$ mix expublish.minor --tag-prefix=rc --commit-prefix="Version bump"
+# Use custom commit- and no tag-prefix:
+$ mix expublish.minor --tag-prefix="" --commit-prefix="Version bump"
 ```
+
+Apart from the mix task, Expublish exposes some [functions](https://hexdocs.pm/expublish/Expublish.html)
+which can be used to create new releases from other elixir applications or scripts.
+
+### Note on hex authentication
+
+Regardless of publishing to [hex.pm](https://hex.pm/) or a self-hosted hex repository, the shell environment where
+`mix expublish` is being executed must be authenticated for the publishing step to succeed.
+
+While publishing to hex.pm usually requires to have a valid `HEX_API_TOKEN` to be defined in the current environment, self-hosted repositories can use a range of various authentication methods.
+
+Check the documentation on [publishing](https://hex.pm/docs/publish) and [self-hosting](https://hex.pm/docs/self_hosting) to find out more.
 
 ## Reference
 
@@ -111,5 +130,3 @@ mix expublish.[level] [options]
 | `--remote=string`        | `"origin"`          | Remote name for git push.                         |
 | `--commit-prefix=string` | `"Version release"` | Prefix for commit message.                        |
 | `--tag-prefix=string`    | `"v"`               | Prefix for release tag.                           |
-
-Apart from the mix task, Expublish exposes a [public interface](./Expublish.html) which can be used to create new releases from other elixir applications or scripts.

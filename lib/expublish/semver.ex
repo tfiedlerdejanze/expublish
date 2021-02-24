@@ -25,7 +25,7 @@ defmodule Expublish.Semver do
   def update_version!(level, _options), do: raise("Invalid version level: #{level}")
 
   @doc """
-  Return parsed %Version{} from project mix.exs.
+  Return parsed %Version{} from current mix project.
   """
   def get_version! do
     Mix.Project.config()[:version]
@@ -35,7 +35,7 @@ defmodule Expublish.Semver do
   @doc """
   Write given %Version{} to project mix.exs.
   """
-  def set_version!(new_version, options \\ []) do
+  def set_version!(new_version, options \\ %{}) do
     contents = File.read!("mix.exs")
     version = get_version!()
 
@@ -56,19 +56,22 @@ defmodule Expublish.Semver do
     new_version
   end
 
+  @doc "bump major %Version{}."
   def bump_major(%Version{} = version) do
     %{version | major: version.major + 1, minor: 0, patch: 0}
   end
 
+  @doc "bump minor %Version{}."
   def bump_minor(%Version{} = version) do
     %{version | minor: version.minor + 1, patch: 0}
   end
 
+  @doc "bump patch %Version{}."
   def bump_patch(%Version{} = version) do
     %{version | patch: version.patch + 1}
   end
 
-  def version_pattern(version) do
+  defp version_pattern(version) do
     "version: \"#{version}\""
   end
 
