@@ -45,18 +45,19 @@ defmodule Expublish.Git do
   end
 
   defp do_commit_and_tag(_options, git_commit_message, git_tag, version) do
+    Logger.info(~s'Creating new version commit: "#{git_commit_message}".')
     Mix.Shell.IO.cmd("git add .")
-    Mix.Shell.IO.cmd(~s'git commit -m "#{git_commit_message}"')
-    Logger.info(~s'Created version commit: "#{git_commit_message}".')
+    Mix.Shell.IO.cmd(~s'git commit -qm "#{git_commit_message}"')
 
+    Logger.info(~s'Creating new version tag: "#{git_tag}".')
     Mix.Shell.IO.cmd(~s'git tag -a #{git_tag} -m "Version #{version}"')
-    Logger.info(~s'Created version tag: "#{git_tag}".')
   end
 
   @doc """
   Push to remote.
   """
   def push(version, %{dry_run: false, disable_push: false, branch: branch, remote: remote}) do
+    Logger.info("Pushing new package version with: \"git push #{remote} #{branch} --tags\".\n")
     error_code = Mix.Shell.IO.cmd("git push #{remote} #{branch} --tags", [])
 
     if error_code != 0 do

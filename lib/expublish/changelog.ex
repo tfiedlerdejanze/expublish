@@ -44,7 +44,7 @@ defmodule Expublish.Changelog do
       |> DateTime.truncate(:second)
       |> Calendar.strftime("%d. %b %Y %H:%M")
 
-    title = "#{version} - #{date_time_string}"
+    title = "#{@changelog_header_prefix} #{version} - #{date_time_string}"
     text = File.read!(@release_filename) |> String.trim()
 
     add_changelog_entry(title, text, options)
@@ -52,12 +52,12 @@ defmodule Expublish.Changelog do
     version
   end
 
-  defp add_changelog_entry(title, text, %{dry_run: true}) do
-    Logger.info("Skipping new entry in CHANGELOG.md:\n\n#{title}\n\n#{text}")
+  defp add_changelog_entry(title, text, %{dry_run: true} = options) do
+    log_new_changelog_entry(title, text, options)
   end
 
-  defp add_changelog_entry(title, text, _options) do
-    Logger.info("Adding new entry in CHANGELOG.md:\n\n#{title}\n\n#{text}")
+  defp add_changelog_entry(title, text, options) do
+    log_new_changelog_entry(title, text, options)
 
     contents = File.read!(@changelog_filename)
     [first, last] = String.split(contents, @changelog_entries_marker)
@@ -70,7 +70,7 @@ defmodule Expublish.Changelog do
 
         """,
         """
-        #{@changelog_header_prefix} #{title}
+        #{title}
 
         #{text}
         """,
@@ -78,6 +78,16 @@ defmodule Expublish.Changelog do
       ])
 
     File.write!(@changelog_filename, replaced)
+  end
+
+  defp log_new_changelog_entry(title, text, %{dry_run: true}) do
+    entry = "\n\n#{title}\n\n#{text}"
+    Logger.info("Skipping new entry in CHANGELOG.md:#{entry}")
+  end
+
+  defp log_new_changelog_entry(title, text, _options) do
+    entry = "\n\n#{title}\n\n#{text}"
+    Logger.info("Writing new entry in CHANGELOG.md:#{entry}")
   end
 
   @doc """

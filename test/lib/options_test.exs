@@ -2,6 +2,7 @@ defmodule OptionsTest do
   use ExUnit.Case
   doctest Expublish
 
+  import ExUnit.CaptureLog
   alias Expublish.Options
 
   test "parse/1 parses multiple valid options" do
@@ -11,9 +12,12 @@ defmodule OptionsTest do
     assert expected == Options.parse(arguments)
   end
 
-  test "parse/1 stops the task execution when options are invalid" do
+  test "parse/1 logs a warning when options are invalid" do
     arguments = ["--dry-run=yes"]
+    fun = fn ->
+      assert catch_exit(Options.parse(arguments)) == :shutdown
+    end
 
-    assert catch_exit(Options.parse(arguments)) == :shutdown
+    assert capture_log(fun) =~ "Invalid mix task options"
   end
 end

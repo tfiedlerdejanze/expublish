@@ -11,7 +11,7 @@ defmodule Expublish do
     |> Changelog.write_entry!(DateTime.utc_now())
     |> Git.commit_and_tag()
     |> Git.push()
-    |> Publish.run!()
+    |> Hex.publish()
   end
   ```
   """
@@ -51,11 +51,19 @@ defmodule Expublish do
       |> Git.push(options)
       |> Changelog.remove_release_file!(options)
       |> Hex.publish(options)
+      |> finish(options)
     else
       error ->
         error_message = if is_binary(error), do: error, else: inspect(error)
         Logger.error(error_message)
         exit(:shutdown)
     end
+  end
+
+  defp finish(version, %{dry_run: true}) do
+    Logger.info("Finished dry run for new package version: #{version}.")
+  end
+  defp finish(version, _options) do
+    Logger.info("Finished release for new package version: #{version}.")
   end
 end

@@ -13,7 +13,7 @@ Automate [SemVer](https://semver.org) and best practices for elixir package rele
 Add `:expublish` to your dev dependencies in `mix.exs`:
 
 ```elixir
-{:expublish, "~> 2.1", only: [:dev]}
+{:expublish, "~> 2.2", only: [:dev]}
 ```
 
 Create a `CHANGELOG.md` in the root folder of your project. It must contain a placeholder:
