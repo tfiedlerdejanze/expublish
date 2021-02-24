@@ -14,7 +14,7 @@ defmodule Expublish.Tests do
 
   def run(_options) do
     if Mix.env() != :test do
-      error_code = Mix.Shell.IO.cmd("mix test", [])
+      {_, error_code} = System.cmd("mix", ["test"])
 
       if error_code != 0 do
         Logger.error("Test run failed. Abort.")

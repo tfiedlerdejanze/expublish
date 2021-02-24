@@ -34,23 +34,24 @@ defmodule Expublish.Git do
     git_commit_message = "#{commit_prefix} #{version}"
     git_tag = "#{tag_prefix}#{version}"
 
-    do_commit_and_tag(options, git_commit_message, git_tag, version)
+    do_commit_and_tag(options, git_commit_message, git_tag)
 
     version
   end
 
-  defp do_commit_and_tag(%{dry_run: true}, git_commit_message, git_tag, _version) do
+  defp do_commit_and_tag(%{dry_run: true}, git_commit_message, git_tag) do
     Logger.info(~s'Skipping version commit: "#{git_commit_message}".')
     Logger.info(~s'Skipping version tag: "#{git_tag}".')
   end
 
-  defp do_commit_and_tag(_options, git_commit_message, git_tag, version) do
+  defp do_commit_and_tag(_options, git_commit_message, git_tag) do
+    System.cmd("git", ["add", "."])
+
     Logger.info(~s'Creating new version commit: "#{git_commit_message}".')
-    Mix.Shell.IO.cmd("git add .")
-    Mix.Shell.IO.cmd(~s'git commit -qm "#{git_commit_message}"')
+    System.cmd("git", ["commit", "-qm", git_commit_message])
 
     Logger.info(~s'Creating new version tag: "#{git_tag}".')
-    Mix.Shell.IO.cmd(~s'git tag -a #{git_tag} -m "Version #{version}"')
+    System.cmd("git", ["tag", "-a", git_tag, "-m", git_commit_message])
   end
 
   @doc """
@@ -58,7 +59,7 @@ defmodule Expublish.Git do
   """
   def push(version, %{dry_run: false, disable_push: false, branch: branch, remote: remote}) do
     Logger.info("Pushing new package version with: \"git push #{remote} #{branch} --tags\".\n")
-    error_code = Mix.Shell.IO.cmd("git push #{remote} #{branch} --tags", [])
+    {_, error_code} = System.cmd("git", ["push", remote, branch, "--tags"])
 
     if error_code != 0 do
       Logger.error("Failed to push new version commit to git.")

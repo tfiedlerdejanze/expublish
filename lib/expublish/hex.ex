@@ -10,7 +10,7 @@ defmodule Expublish.Hex do
   """
   def publish(version, %{dry_run: false, disable_publish: false}) do
     Logger.info("Publishing new package version with: \"mix hex.publish --yes\".\n")
-    error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
+    {_, error_code} = System.cmd("mix", ["hex.publish", "--yes"])
 
     if error_code == 0,
       do: Logger.info("Successfully published new package version on hex."),
