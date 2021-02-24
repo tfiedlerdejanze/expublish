@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.3.1 - 24. Feb 2021 20:48
+
+Improve invalid option log
+
+
 ## 2.3.0 - 24. Feb 2021 19:07
 
 - Run static code analysis in github action
