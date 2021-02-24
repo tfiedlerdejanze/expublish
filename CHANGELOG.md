@@ -2,6 +2,13 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.3.0 - 24. Feb 2021 19:07
+
+- Run static code analysis in github action
+- Print test output in mix shell
+- Add credo
+
+
 ## 2.2.4 - 24. Feb 2021 18:41
 
 - Unify system calls
