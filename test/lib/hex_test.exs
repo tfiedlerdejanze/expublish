@@ -17,6 +17,6 @@ defmodule PublishTest do
       Hex.publish(version, options)
     end
 
-    assert capture_log(fun) =~ "new package version: #{version}"
+    assert capture_log(fun) =~ "Skipping \"mix hex.publish --yes\""
   end
 end

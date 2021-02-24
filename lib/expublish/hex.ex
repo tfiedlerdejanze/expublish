@@ -9,24 +9,18 @@ defmodule Expublish.Hex do
   Run mix hex.publish --yes.
   """
   def publish(version, %{dry_run: false, disable_publish: false}) do
+    Logger.info("Publishing new package version with: \"mix hex.publish --yes\".\n")
     error_code = Mix.Shell.IO.cmd("mix hex.publish --yes", [])
 
     if error_code == 0,
-      do: Logger.info("Successfully created new package version: #{version}."),
-      else: Logger.error("Failed to publish new package on hex.")
-
-    version
-  end
-
-  def publish(version, %{dry_run: true}) do
-    Logger.info("Skipping mix hex.publish.")
-    Logger.info("Finished dry run for new package version: #{version}.")
+      do: Logger.info("Successfully published new package version on hex."),
+      else: Logger.error("Failed to publish new package version on hex.")
 
     version
   end
 
   def publish(version, _options) do
-    Logger.info("Skipping mix hex.publish.")
+    Logger.info("Skipping \"mix hex.publish --yes\".")
 
     version
   end

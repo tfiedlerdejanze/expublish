@@ -72,6 +72,13 @@ defmodule Expublish.Semver do
     "version: \"#{version}\""
   end
 
-  defp maybe_write_mixexs(%{dry_run: true}, _contents), do: :noop
-  defp maybe_write_mixexs(_options, contents), do: File.write!("mix.exs", contents)
+  defp maybe_write_mixexs(%{dry_run: true}, _contents) do
+    Logger.info("Skipping new version in mix.exs.")
+  end
+
+  defp maybe_write_mixexs(_options, contents) do
+    Logger.info("Writing new version to mix.exs.")
+
+    File.write!("mix.exs", contents)
+  end
 end
