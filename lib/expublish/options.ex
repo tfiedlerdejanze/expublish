@@ -87,7 +87,10 @@ defmodule Expublish.Options do
   end
 
   defp process_options({_, _, errors}) do
-    Logger.warn("Invalid mix task options: #{inspect(errors)}. Try mix expublish -h.")
+    option = if length(errors) == 1, do: "option", else: "options"
+    invalid_options = errors |> Enum.map(fn {option, _} -> option end) |> Enum.join(", ")
+
+    Logger.error("Invalid #{option}: #{invalid_options}. Abort.")
     exit(:shutdown)
   end
 

@@ -18,6 +18,7 @@ defmodule OptionsTest do
       assert catch_exit(Options.parse(arguments)) == :shutdown
     end
 
-    assert capture_log(fun) =~ "Invalid mix task options"
+    assert capture_log(fun) =~ "Invalid option"
+    assert capture_log(fun) =~ "--dry-run"
   end
 end
