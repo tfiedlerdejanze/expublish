@@ -4,27 +4,33 @@ on:
   workflow_dispatch:
     inputs:
       level:
-        description: 'Level'     
+        description: "Level"
+        required: true
+      entry:
+        description: "Release note"
         required: true
 
 jobs:
   build:
-
     name: Build and test
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Elixir
-      uses: actions/setup-elixir@v1
-      with:
-        elixir-version: '1.11.2'
-        otp-version: '22.3'
-    - name: Restore dependencies cache
-      uses: actions/cache@v2
-      with:
-        path: deps
-        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-        restore-keys: ${{ runner.os }}-mix-
-    - name: Release & Publish
-      run: mix expublish.${{ github.event.inputs.level }}
+      - uses: actions/checkout@v2
+      - name: Set up Elixir
+        uses: actions/setup-elixir@v1
+        with:
+          elixir-version: "1.11.2"
+          otp-version: "22.3"
+      - name: Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
+      - name: Write release notes
+        run: echo ${{ github.event.inputs.entry }} > RELEASE.md
+      - name: Install dependencies
+        run: mix deps.get
+      - name: Release & Publish
+        run: mix expublish.${{ github.event.inputs.level }}
