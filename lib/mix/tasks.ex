@@ -1,33 +1,16 @@
 defmodule Mix.Tasks.Expublish do
   @moduledoc """
-  Release and publish new version for current project.
-
-  You will be prompted for the version level, must be one of `major`, `minor` or `patch`.
+  Mix tasks for releasing and publishing new project versions.
   """
 
   alias Expublish.Options
 
-  @shortdoc "Publish a new version of current project."
+  @shortdoc "Print help for expublish."
   use Mix.Task
 
   @doc false
-  def run(args) do
-    args
-    |> Options.parse()
-    |> prompt_for_version_and_publish()
-  end
-
-  defp prompt_for_version_and_publish(options) do
-    "Enter version level: major | minor | patch\n"
-    |> IO.gets()
-    |> String.trim()
-    |> String.downcase()
-    |> case do
-      "major" -> Expublish.major(options)
-      "minor" -> Expublish.minor(options)
-      "patch" -> Expublish.patch(options)
-      _ -> prompt_for_version_and_publish(options)
-    end
+  def run(_args) do
+    Options.print_help()
   end
 
   defmodule Major do
