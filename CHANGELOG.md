@@ -2,6 +2,12 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.2.4 - 24. Feb 2021 18:41
+
+- Unify system calls
+- Consistent logging
+
+
 ## 2.2.3 - 23. Feb 2021 23:45
 
 Make task fail on invalid options
