@@ -3,8 +3,8 @@ defmodule ChangelogTest do
   doctest Expublish
 
   import ExUnit.CaptureLog
-  alias Expublish.Options
   alias Expublish.Changelog
+  alias Expublish.Options
 
   @version %Version{major: 1, minor: 0, patch: 1}
 

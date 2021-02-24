@@ -23,7 +23,10 @@ defmodule Expublish.MixProject do
   defp package() do
     [
       licenses: ["Apache-2.0"],
-      links: %{"GitHub" => "https://github.com/ucwaldo/expublish"}
+      links: %{
+        "GitHub" => "https://github.com/ucwaldo/expublish",
+        "Changelog" => "https://github.com/ucwaldo/expublish/blob/master/CHANGELOG.md"
+      }
     ]
   end
 
@@ -35,7 +38,8 @@ defmodule Expublish.MixProject do
 
   defp deps do
     [
-      {:ex_doc, "~> 0.14", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.14", only: :dev, runtime: false},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false}
     ]
   end
 end

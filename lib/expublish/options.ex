@@ -53,7 +53,7 @@ defmodule Expublish.Options do
   def git_tag_prefix(options), do: Map.get(options, :tag_prefix) |> sanitize()
   def git_commit_prefix(options), do: Map.get(options, :commit_prefix) |> sanitize()
 
-  def print_help() do
+  def print_help do
     IO.puts("""
     Usage: mix expublish.[level] [options]
 
