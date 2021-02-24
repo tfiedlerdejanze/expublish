@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.3.2 - 24. Feb 2021 22:33
+
+Add more documentation
+
+
 ## 2.3.1 - 24. Feb 2021 20:48
 
 Improve invalid option log
