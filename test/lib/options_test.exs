@@ -3,7 +3,16 @@ defmodule OptionsTest do
   doctest Expublish
 
   import ExUnit.CaptureLog
+  import ExUnit.CaptureIO
   alias Expublish.Options
+
+  test "defaults/0 returns default options" do
+    assert Options.defaults() == %Options{branch: "master"}
+    assert Options.defaults() == %Options{remote: "origin"}
+
+    refute Options.defaults() == %Options{allow_untracked: true}
+    refute Options.defaults() == %Options{dry_run: true}
+  end
 
   test "parse/1 parses multiple valid options" do
     arguments = ["--dry-run", "--allow-untracked", "--branch=release"]
@@ -20,5 +29,11 @@ defmodule OptionsTest do
 
     assert capture_log(fun) =~ "Invalid option"
     assert capture_log(fun) =~ "--dry-run"
+  end
+
+  test "print_help/0 prints help via io" do
+    fun = fn -> Options.print_help() end
+
+    assert capture_io(fun) =~ "Usage: mix expublish"
   end
 end

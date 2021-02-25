@@ -8,9 +8,14 @@ defmodule Expublish.Git do
   alias Expublish.Options
 
   @doc """
-  Validate state of git working directory. Returning :ok or error message.
+  Validate state of git working directory.
+
+  Returns :ok or error message.
   """
-  def validate(%{allow_untracked: true}) do
+  @spec validate(Options.t()) :: :ok | String.t()
+  def validate(options \\ %Options{})
+
+  def validate(%Options{allow_untracked: true}) do
     git_status(["status", "--untracked-files=no", "--porcelain"])
   end
 
@@ -27,7 +32,8 @@ defmodule Expublish.Git do
   @doc """
   Create a git commit and tag for given %Version{}.
   """
-  def commit_and_tag(%Version{} = version, options \\ %{}) do
+  @spec commit_and_tag(Version.t(), Options.t()) :: Version.t()
+  def commit_and_tag(%Version{} = version, options \\ %Options{}) do
     commit_prefix = Options.git_commit_prefix(options)
     tag_prefix = Options.git_tag_prefix(options)
 
@@ -55,9 +61,17 @@ defmodule Expublish.Git do
   end
 
   @doc """
-  Push to remote.
+  Git push to remote.
   """
-  def push(version, %{dry_run: false, disable_push: false, branch: branch, remote: remote}) do
+  @spec push(Version.t(), %Options{}) :: Version.t()
+  def push(version, options \\ %Options{})
+
+  def push(%Version{} = version, %Options{
+        dry_run: false,
+        disable_push: false,
+        branch: branch,
+        remote: remote
+      }) do
     Logger.info("Pushing new package version with: \"git push #{remote} #{branch} --tags\".\n")
     {_, error_code} = System.cmd("git", ["push", remote, branch, "--tags"])
 
@@ -68,7 +82,7 @@ defmodule Expublish.Git do
     version
   end
 
-  def push(version, %{branch: branch, remote: remote}) do
+  def push(%Version{} = version, %Options{branch: branch, remote: remote}) do
     Logger.info("Skipping \"git push #{remote} #{branch} --tags\".")
     version
   end

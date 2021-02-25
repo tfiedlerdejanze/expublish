@@ -3,30 +3,14 @@ defmodule Expublish.Semver do
   Functions for manipulating [%Version{}](https://hexdocs.pm/elixir/Version.html) and updating project mix.exs.
   """
 
+  alias Expublish.Options
+
   require Logger
-
-  @doc """
-  Update version in project mix.exs by given level.
-
-  Reads the current version from mix.exs, increases it and writes it back to mix.exs.
-  Level must be one of "major", "minor" or "patch".
-  """
-  def update_version!(level, options \\ %{})
-
-  def update_version!("major", options),
-    do: get_version!() |> bump_major() |> set_version!(options)
-
-  def update_version!("minor", options),
-    do: get_version!() |> bump_minor() |> set_version!(options)
-
-  def update_version!("patch", options),
-    do: get_version!() |> bump_patch() |> set_version!(options)
-
-  def update_version!(level, _options), do: raise("Invalid version level: #{level}")
 
   @doc """
   Return parsed %Version{} from current mix project.
   """
+  @spec get_version! :: Version.t()
   def get_version! do
     Mix.Project.config()[:version]
     |> Version.parse!()
@@ -35,7 +19,8 @@ defmodule Expublish.Semver do
   @doc """
   Write given %Version{} to project mix.exs.
   """
-  def set_version!(new_version, options \\ %{}) do
+  @spec set_version!(Version.t(), Options.t()) :: Version.t()
+  def set_version!(new_version, options \\ %Options{}) do
     contents = File.read!("mix.exs")
     version = get_version!()
 
@@ -56,17 +41,40 @@ defmodule Expublish.Semver do
     new_version
   end
 
-  @doc "bump major %Version{}."
+  @doc """
+  Update version in project mix.exs by given level.
+
+  Reads the current version from mix.exs, increases it by given level
+  and writes it back to mix.exs.  Level must be one of: `"major", "minor", "patch"`
+  """
+  @spec update_version!(:major | :minor | :patch, Options.t()) :: Version.t()
+  def update_version!(level, options \\ %Options{})
+
+  def update_version!(:major, options),
+    do: get_version!() |> bump_major() |> set_version!(options)
+
+  def update_version!(:minor, options),
+    do: get_version!() |> bump_minor() |> set_version!(options)
+
+  def update_version!(:patch, options),
+    do: get_version!() |> bump_patch() |> set_version!(options)
+
+  def update_version!(level, _options), do: raise("Invalid version level: #{level}")
+
+  @doc "Bump major version."
+  @spec bump_major(Version.t()) :: Version.t()
   def bump_major(%Version{} = version) do
     %{version | major: version.major + 1, minor: 0, patch: 0}
   end
 
-  @doc "bump minor %Version{}."
+  @doc "Bump minor version."
+  @spec bump_minor(Version.t()) :: Version.t()
   def bump_minor(%Version{} = version) do
     %{version | minor: version.minor + 1, patch: 0}
   end
 
-  @doc "bump patch %Version{}."
+  @doc "Bump patch version."
+  @spec bump_patch(Version.t()) :: Version.t()
   def bump_patch(%Version{} = version) do
     %{version | patch: version.patch + 1}
   end

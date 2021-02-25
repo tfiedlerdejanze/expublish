@@ -13,9 +13,7 @@ defmodule PublishTest do
   end
 
   test "run/2 runs without errors", %{options: options, version: version} do
-    fun = fn ->
-      Hex.publish(version, options)
-    end
+    fun = fn -> Hex.publish(version, options) end
 
     assert capture_log(fun) =~ "Skipping \"mix hex.publish --yes\""
   end
