@@ -7,15 +7,15 @@ defmodule Expublish.Options do
 
   @defaults %{
     allow_untracked: false,
-    branch: "master",
-    commit_prefix: "Version release",
     disable_publish: false,
     disable_push: false,
     disable_test: false,
     dry_run: false,
     help: false,
+    branch: "master",
     remote: "origin",
-    tag_prefix: "v"
+    tag_prefix: "v",
+    commit_prefix: "Version release"
   }
 
   @aliases [
