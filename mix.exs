@@ -16,7 +16,8 @@ defmodule Expublish.MixProject do
         extras: ["README.md"]
       ],
       dialyzer: [
-        plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"},
+        plt_core_path: "_build/#{Mix.env()}"
       ]
     ]
   end
