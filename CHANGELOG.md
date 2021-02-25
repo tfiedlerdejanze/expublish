@@ -2,6 +2,12 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.3.3 - 25. Feb 2021 00:17
+
+- Reformat print help
+- Improved documentation
+
+
 ## 2.3.2 - 24. Feb 2021 22:33
 
 Add more documentation
