@@ -44,8 +44,7 @@ defmodule Expublish.MixProject do
     [
       {:ex_doc, "~> 0.14", only: :dev, runtime: false},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
-      {:scribe, "~> 0.10"}
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false}
     ]
   end
 end
