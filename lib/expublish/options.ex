@@ -24,7 +24,7 @@ defmodule Expublish.Options do
   ]
 
   @typedoc "Options"
-  @typedoc since: "3.4.0"
+  # @typedoc since: "3.4.0"
   @type t :: %__MODULE__{}
 
   defstruct Enum.into(@defaults, [])
