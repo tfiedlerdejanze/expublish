@@ -5,29 +5,6 @@ defmodule Expublish.Options do
 
   require Logger
 
-  @remote "origin"
-  @branch "master"
-  @commit "Version release"
-  @tag "v"
-
-  @typed_options [
-    allow_untracked: :boolean,
-    disable_publish: :boolean,
-    disable_push: :boolean,
-    disable_test: :boolean,
-    dry_run: :boolean,
-    help: :boolean,
-    branch: :string,
-    remote: :string,
-    tag_prefix: :string,
-    commit_prefix: :string
-  ]
-
-  @aliases [
-    h: :help,
-    d: :dry_run
-  ]
-
   @defaults %{
     allow_untracked: false,
     disable_publish: false,
@@ -35,28 +12,50 @@ defmodule Expublish.Options do
     disable_test: false,
     dry_run: false,
     help: false,
-    branch: @branch,
-    remote: @remote,
-    tag_prefix: @tag,
-    commit_prefix: @commit
+    branch: "master",
+    remote: "origin",
+    tag_prefix: "v",
+    commit_prefix: "Version release"
   }
+
+  @aliases [
+    h: :help,
+    d: :dry_run
+  ]
+
+  @typedoc "Options"
+  @typedoc since: "3.4.0"
+  @type t :: %__MODULE__{}
+
+  defstruct Enum.into(@defaults, [])
 
   @doc """
   Default options used for every run.
 
-  #{inspect(@defaults)}
+  Returns following map:
+  ```
+  %Expublish.Options{
+  #{
+    @defaults
+    |> Enum.map(fn {k, v} -> "  #{k}: #{inspect(v)}" end)
+    |> Enum.join(",\n")
+  }
+  }
+  ```
   """
+  @spec defaults :: struct()
   def defaults,
-    do: @defaults
+    do: struct(__MODULE__, @defaults)
 
   @doc """
-  Parse list of mix task arguments
+  Parse mix task arguments and merge with default options.
   """
+  @spec parse(list(String.t())) :: struct()
   def parse(args) do
     process_options(
       OptionParser.parse(args,
         aliases: @aliases,
-        strict: @typed_options
+        strict: typed_options_from_default()
       )
     )
   end
@@ -64,18 +63,21 @@ defmodule Expublish.Options do
   @doc """
   Print help to stdout.
   """
+  @spec print_help() :: :ok
   def print_help do
     IO.puts(help_string())
+
+    :ok
   end
 
   @doc false
-  def print_help?(options), do: Map.get(options, :help)
+  def print_help?(options), do: options.help
 
   @doc false
-  def git_tag_prefix(options), do: Map.get(options, :tag_prefix) |> sanitize()
+  def git_tag_prefix(options), do: options.tag_prefix |> sanitize()
 
   @doc false
-  def git_commit_prefix(options), do: Map.get(options, :commit_prefix) |> sanitize()
+  def git_commit_prefix(options), do: options.commit_prefix |> sanitize()
 
   defp process_options({options, _, []}) do
     options = Map.merge(defaults(), Enum.into(options, %{}))
@@ -103,6 +105,15 @@ defmodule Expublish.Options do
     |> String.trim()
   end
 
+  def typed_options_from_default do
+    @defaults
+    |> Enum.map(fn {k, v} -> {k, to_option_type(v)} end)
+    |> Enum.into([])
+  end
+
+  defp to_option_type(default) when is_boolean(default), do: :boolean
+  defp to_option_type(default) when is_binary(default), do: :string
+
   defp help_string do
     """
     Usage: mix expublish.[level] [options]
@@ -118,10 +129,18 @@ defmodule Expublish.Options do
       --disable-publish       - Disable hex publish
       --disable-push          - Disable git push
       --disable-test          - Disable test run
-      --branch=string         - Remote branch to push to, default: "master"
-      --remote=string         - Remote name to push to, default: "origin"
-      --commit-prefix=string  - Custom commit prefix, default: "Version release"
-      --tag-prefix=string     - Custom tag prefix, default: "v"
+      --branch=string         - Remote branch to push to, default: #{
+      inspect(Map.get(@defaults, :branch))
+    }
+      --remote=string         - Remote name to push to, default: #{
+      inspect(Map.get(@defaults, :remote))
+    }
+      --commit-prefix=string  - Custom commit prefix, default:  #{
+      inspect(Map.get(@defaults, :commit_prefix))
+    }
+      --tag-prefix=string     - Custom tag prefix, default: #{
+      inspect(Map.get(@defaults, :tag_prefix))
+    }
     """
   end
 end

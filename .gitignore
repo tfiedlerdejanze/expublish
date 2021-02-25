@@ -8,4 +8,7 @@ erl_crash.dump
 expublish-*.tar
 /tmp
 
+/priv/plts/*.plt
+/priv/plts/*.plt.hash
+
 RELEASE.md

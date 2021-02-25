@@ -19,6 +19,7 @@ defmodule Expublish do
   alias Expublish.Changelog
   alias Expublish.Git
   alias Expublish.Hex
+  alias Expublish.Options
   alias Expublish.Semver
   alias Expublish.Tests
 
@@ -27,18 +28,22 @@ defmodule Expublish do
   @doc """
   Publish major version of current project.
   """
-  def major(options \\ %{}), do: run("major", options)
+  @spec major(Options.t()) :: :ok
+  def major(options \\ %Options{}), do: run(:major, options)
 
   @doc """
   Publish minor version of current project.
   """
-  def minor(options \\ %{}), do: run("minor", options)
+  @spec minor(Options.t()) :: :ok
+  def minor(options \\ %Options{}), do: run(:minor, options)
 
   @doc """
   Publish patch version of current project.
   """
-  def patch(options \\ %{}), do: run("patch", options)
+  @spec patch(Options.t()) :: :ok
+  def patch(options \\ %Options{}), do: run(:patch, options)
 
+  @spec run(:major | :minor | :patch, Options.t()) :: :ok
   defp run(level, options) do
     with :ok <- Git.validate(options),
          :ok <- Changelog.validate(options) do
@@ -52,17 +57,19 @@ defmodule Expublish do
       |> Changelog.remove_release_file!(options)
       |> Hex.publish(options)
       |> finish(options)
+
+      :ok
     else
       error ->
-        error_message = if is_binary(error), do: error, else: inspect(error)
-        Logger.error(error_message)
+        Logger.error(error)
         exit(:shutdown)
     end
   end
 
-  defp finish(version, %{dry_run: true}) do
+  defp finish(version, %Options{dry_run: true}) do
     Logger.info("Finished dry run for new package version: #{version}.")
   end
+
   defp finish(version, _options) do
     Logger.info("Finished release for new package version: #{version}.")
   end

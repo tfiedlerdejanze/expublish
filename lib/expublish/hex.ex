@@ -3,12 +3,15 @@ defmodule Expublish.Hex do
   Shell commands for hex publish.
   """
 
+  alias Expublish.Options
+
   require Logger
 
   @doc """
   Run mix hex.publish --yes.
   """
-  def publish(version, %{dry_run: false, disable_publish: false}) do
+  @spec publish(Version.t(), Options.t()) :: Version.t()
+  def publish(version, %Options{dry_run: false, disable_publish: false}) do
     Logger.info("Publishing new package version with: \"mix hex.publish --yes\".\n")
     {_, error_code} = System.cmd("mix", ["hex.publish", "--yes"])
 

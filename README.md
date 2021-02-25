@@ -89,9 +89,6 @@ $ mix expublish.minor --branch=release --remote=upstream
 $ mix expublish.minor --tag-prefix="" --commit-prefix="Version bump"
 ```
 
-Apart from the mix task, Expublish exposes some [functions](https://hexdocs.pm/expublish/Expublish.html)
-which can be used to create new releases from other elixir applications or scripts.
-
 ### Note on hex authentication
 
 Regardless of publishing to [hex.pm](https://hex.pm/) or a self-hosted hex repository, the shell environment where

@@ -3,6 +3,8 @@ defmodule Expublish.Changelog do
   Functions to manipulate CHANGELOG.md and RELEASE.md.
   """
 
+  alias Expublish.Options
+
   require Logger
 
   @release_filename "RELEASE.md"
@@ -14,6 +16,7 @@ defmodule Expublish.Changelog do
   @doc """
   Validate changelog setup. Returns :ok or error message.
   """
+  @spec validate(Options.t()) :: :ok | String.t()
   def validate(_options) do
     cond do
       !File.exists?("RELEASE.md") ->
@@ -34,11 +37,10 @@ defmodule Expublish.Changelog do
   end
 
   @doc """
-  Generate changelog entry from RELEASE.md contents.
-
-  Writes entry to CHANGELOG.md for given %Version{} and %Datetime{}.
+  Generate new changelog entry from RELEASE.md contents.
   """
-  def write_entry!(%Version{} = version, %DateTime{} = date_time, options \\ %{}) do
+  @spec write_entry!(Version.t(), DateTime.t(), Options.t()) :: Version.t()
+  def write_entry!(%Version{} = version, %DateTime{} = date_time, options) do
     date_time_string =
       date_time
       |> DateTime.truncate(:second)
@@ -49,6 +51,19 @@ defmodule Expublish.Changelog do
 
     add_changelog_entry(title, text, options)
 
+    version
+  end
+
+  @doc """
+  Removes RELEASE.md.
+  """
+  @spec remove_release_file!(Version.t(), Options.t()) :: Version.t()
+  def remove_release_file!(%Version{} = version, %Options{dry_run: true}) do
+    version
+  end
+
+  def remove_release_file!(%Version{} = version, _options) do
+    File.rm!(@release_filename)
     version
   end
 
@@ -88,17 +103,5 @@ defmodule Expublish.Changelog do
   defp log_new_changelog_entry(title, text, _options) do
     entry = "\n\n#{title}\n\n#{text}"
     Logger.info("Writing new entry in CHANGELOG.md:#{entry}")
-  end
-
-  @doc """
-  Removes RELEASE.md.
-  """
-  def remove_release_file!(%Version{} = version, %{dry_run: true}) do
-    version
-  end
-
-  def remove_release_file!(%Version{} = version, _options) do
-    File.rm!(@release_filename)
-    version
   end
 end

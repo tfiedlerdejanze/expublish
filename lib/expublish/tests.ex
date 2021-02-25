@@ -3,13 +3,19 @@ defmodule Expublish.Tests do
   Shell commands for triggering mix test.
   """
 
+  alias Expublish.Options
+
   require Logger
 
   @doc """
   Run tests, stop task if they fail, skip if there are none.
   """
+  @spec run(Options.t()) :: :ok | :exit
+  def run(options)
+
   def run(%{disable_test: true}) do
     Logger.warn("Skipping test run.")
+    :ok
   end
 
   def run(_options) do
@@ -21,5 +27,7 @@ defmodule Expublish.Tests do
         exit(:shutdown)
       end
     end
+
+    :ok
   end
 end
