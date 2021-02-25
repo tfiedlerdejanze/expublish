@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.3.4 - 25. Feb 2021 23:52
+
+Add typespecs and dialyzer check
+
+
 ## 2.3.3 - 25. Feb 2021 00:17
 
 - Reformat print help
