@@ -11,25 +11,36 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        elixir: [1.11.2]
+        otp: [23.2]
+
     steps:
       - uses: actions/checkout@v2
       - name: Set up Elixir
         uses: actions/setup-elixir@v1
         with:
-          elixir-version: "1.11.2"
-          otp-version: "22.3"
-      - name: Restore dependencies cache
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+      - name: Restore dependency cache
         uses: actions/cache@v2
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-mix-
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-
       - name: Restore build cache
         uses: actions/cache@v2
         with:
           path: _build
-          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-build-
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-build-
+      - name: Restore plt cache
+        uses: actions/cache@v2
+        with:
+          path: priv/plt
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-plt-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-plt-
       - name: Install dependencies
         run: mix deps.get
       - name: Compile expublish
