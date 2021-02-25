@@ -24,7 +24,7 @@ defmodule GitTest do
     File.rm!("expublish_git_validate_test")
   end
 
-  test "commit_and_tag/1 logs a info message", %{options: options, version: version} do
+  test "commit_and_tag/1 logs an info message", %{options: options, version: version} do
     fun = fn ->
       Git.commit_and_tag(version, options)
     end

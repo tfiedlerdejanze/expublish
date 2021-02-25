@@ -11,6 +11,8 @@ defmodule Expublish.Hex do
   Run mix hex.publish --yes.
   """
   @spec publish(Version.t(), Options.t()) :: Version.t()
+  def publish(version, options \\ %Options{})
+
   def publish(version, %Options{dry_run: false, disable_publish: false}) do
     Logger.info("Publishing new package version with: \"mix hex.publish --yes\".\n")
     {_, error_code} = System.cmd("mix", ["hex.publish", "--yes"])

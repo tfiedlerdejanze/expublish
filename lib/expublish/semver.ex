@@ -48,7 +48,7 @@ defmodule Expublish.Semver do
   and writes it back to mix.exs.  Level must be one of: `"major", "minor", "patch"`
   """
   @spec update_version!(:major | :minor | :patch, Options.t()) :: Version.t()
-  def update_version!(level, options)
+  def update_version!(level, options \\ %Options{})
 
   def update_version!(:major, options),
     do: get_version!() |> bump_major() |> set_version!(options)
