@@ -64,10 +64,10 @@ defmodule Expublish do
   @doc """
   Removes pre-release and publish version of current project.
   """
-  @spec release(Options.t()) :: :ok
-  def release(options \\ %Options{}), do: run(:release, options)
+  @spec stable(Options.t()) :: :ok
+  def stable(options \\ %Options{}), do: run(:stable, options)
 
-  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :release
+  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
   @spec run(level, Options.t()) :: :ok
   defp run(level, options) do
     with :ok <- Git.validate(options),

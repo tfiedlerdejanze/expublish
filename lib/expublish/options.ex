@@ -121,12 +121,13 @@ defmodule Expublish.Options do
     Usage: mix expublish.[level] [options]
 
     level:
-      major - Publish next major version
-      minor - Publish next minor version
-      patch - Publish next patch version
-      alpha - Publish alpha pre-release of next patch version
-      beta  - Publish beta pre-release of next patch version
-      rc    - Publish patch pre-release of next patch version
+      major   - Publish next major version
+      minor   - Publish next minor version
+      patch   - Publish next patch version
+      alpha   - Publish alpha pre-release of next patch version
+      beta    - Publish beta pre-release of next patch version
+      rc      - Publish patch pre-release of next patch version
+      stable  - Removes pre-release for stable release of current version.
 
     Note: you can overwrite the level of pre-release versions by using --as-major or --as-minor options.
 

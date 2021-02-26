@@ -51,7 +51,7 @@ defmodule Expublish.Semver do
   Reads the current version from mix.exs, increases it by given level
   and writes it back to mix.exs.
   """
-  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :release
+  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
   @spec bump_version!(level, Options.t()) :: Version.t()
   def bump_version!(level, options \\ %Options{})
 
@@ -73,8 +73,8 @@ defmodule Expublish.Semver do
   def bump_version!(:rc, options),
     do: get_version!() |> rc(options) |> set_version!(options)
 
-  def bump_version!(:release, options),
-    do: get_version!() |> release() |> set_version!(options)
+  def bump_version!(:stable, options),
+    do: get_version!() |> stable() |> set_version!(options)
 
   def bump_version!(level, _options), do: raise("Invalid version level: #{level}")
 
@@ -154,12 +154,12 @@ defmodule Expublish.Semver do
     %{bump_patch(version) | pre: [@rc]}
   end
 
-  def release(%Version{pre: []} = version) do
-    Logger.error("Can not release version #{version} without pre-release.")
+  def stable(%Version{pre: []} = version) do
+    Logger.error("Can not release already stable version #{version}. Missing pre-release.")
     exit(:shutdown)
   end
 
-  def release(%Version{} = version) do
+  def stable(%Version{} = version) do
     %{version | pre: []}
   end
 

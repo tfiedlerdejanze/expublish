@@ -216,7 +216,7 @@ defmodule SemverTest do
 
   ## release
 
-  test "release!/1 removes the pre-release from given version" do
+  test "stable/1 removes the pre-release from given version" do
     version = %Version{
       major: 1,
       minor: 0,
@@ -230,10 +230,10 @@ defmodule SemverTest do
       patch: 0
     }
 
-    assert Semver.release(version) == expected
+    assert Semver.stable(version) == expected
   end
 
-  test "release!/1 exits and logs an error when used with a not pre-released version" do
+  test "stable/1 exits and logs an error when used with a not pre-released version" do
     version = %Version{
       major: 1,
       minor: 0,
@@ -241,9 +241,9 @@ defmodule SemverTest do
     }
 
     fun = fn ->
-      assert catch_exit(Semver.release(version)) == :shutdown
+      assert catch_exit(Semver.stable(version)) == :shutdown
     end
 
-    assert capture_log(fun) =~ "Can not release version"
+    assert capture_log(fun) =~ "Can not release already stable version"
   end
 end

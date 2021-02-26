@@ -15,8 +15,12 @@ defmodule Expublish.MixProject do
         main: "readme",
         extras: [
           "README.md",
-          "CHANGELOG.md",
-          "INSTALLATION.md": [filename: "installation", title: "Installation"]
+          "ABOUT.md": [filename: "about", title: "About"],
+          "INSTALLATION.md": [filename: "installation", title: "Installation"],
+          "GETTING_STARTED.md": [filename: "getting_started", title: "Getting started"],
+          "EXAMPLES.md": [filename: "examples", title: "Examples"],
+          "REFERENCE.md": [filename: "reference", title: "Reference"],
+          "CHANGELOG.md": [filename: "changelog", title: "Changelog"],
         ]
       ],
       dialyzer: [

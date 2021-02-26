@@ -1,4 +1,4 @@
-## Installation
+# Installation
 
 Add `:expublish` to your dev dependencies in `mix.exs`:
 
