@@ -56,13 +56,13 @@ defmodule Expublish do
   def beta(options \\ %Options{}), do: run(:beta, options)
 
   @doc """
-  Removes pre-release suffix from version of current project.
+  Publish release-candidate version of current project.
   """
   @spec rc(Options.t()) :: :ok
   def rc(options \\ %Options{}), do: run(:rc, options)
 
   @doc """
-  Clear pre-release and publish version of current project.
+  Removes pre-release and publish version of current project.
   """
   @spec release(Options.t()) :: :ok
   def release(options \\ %Options{}), do: run(:release, options)

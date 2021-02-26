@@ -46,10 +46,10 @@ defmodule Expublish.Semver do
   end
 
   @doc """
-  Update version in project mix.exs by given level.
+  Increase version in project mix.exs by given level.
 
   Reads the current version from mix.exs, increases it by given level
-  and writes it back to mix.exs.  Level must be one of: `"major", "minor", "patch"`
+  and writes it back to mix.exs.
   """
   @spec bump_version!(:major | :minor | :patch | :alpha | :beta | :rc | :release, Options.t()) ::
           Version.t()
