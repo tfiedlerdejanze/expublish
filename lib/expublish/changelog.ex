@@ -67,7 +67,7 @@ defmodule Expublish.Changelog do
     version
   end
 
-  defp add_changelog_entry(title, text, %{dry_run: true} = options) do
+  defp add_changelog_entry(title, text, %Options{dry_run: true} = options) do
     log_new_changelog_entry(title, text, options)
   end
 
