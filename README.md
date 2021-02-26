@@ -93,7 +93,7 @@ mix expublish.[level] [options]
 | `alpha`   | Pre-release for early test stage of next patch version.                 |
 | `beta`    | Pre-release for later test stage of next patch version.                 |
 | `rc`      | Pre-release for final test stage of next patch version.                 |
-| `release` | Removes pre-release suffix for first stable release of current version. |
+| `release` | Removes pre-release for first stable release of current version. |
 
 Note on pre-releases: the version level can by changed by using the
 `--as-major` or `--as-minor` options.

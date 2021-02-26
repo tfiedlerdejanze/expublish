@@ -39,22 +39,21 @@ defmodule SemverTest do
 
   ### alpha
 
-  test "alpha/1 increases major version and appends alpha pre-release suffix", %{
+  test "alpha/1 increases patch version and adds alpha pre-release", %{
     version: version,
     options: options
   } do
     expected = %Version{
-      major: version.major + 1,
-      minor: 0,
-      patch: 0,
+      major: version.major,
+      minor: version.minor,
+      patch: version.patch + 1,
       pre: ["alpha"]
     }
-    options = Map.merge(options, %{as_major: true})
 
     assert Semver.alpha(version, options) == expected
   end
 
-  test "alpha/1 increases minor version and appends alpha pre-release suffix", %{
+  test "alpha/1 increases minor version and appends alpha pre-release", %{
     version: version,
     options: options
   } do
@@ -70,7 +69,47 @@ defmodule SemverTest do
     assert Semver.alpha(version, options) == expected
   end
 
-  test "alpha/1 increases patch version and adds alpha pre-release suffix", %{
+  test "alpha/1 increases major version and appends alpha pre-release", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major + 1,
+      minor: 0,
+      patch: 0,
+      pre: ["alpha"]
+    }
+    options = Map.merge(options, %{as_major: true})
+
+    assert Semver.alpha(version, options) == expected
+  end
+
+  test "alpha/1 stops and logs an error when used with incompatible current pre-release", %{
+    version: version,
+    options: options
+  } do
+    v1 = %{version | pre: ["beta"]}
+
+    fun1 = fn ->
+      assert catch_exit(Semver.alpha(v1, options)) == :shutdown
+    end
+
+    v2 = %{version | pre: ["rc"]}
+
+    fun2 = fn ->
+      assert catch_exit(Semver.alpha(v2, options)) == :shutdown
+    end
+
+    assert capture_log(fun1) =~ "Can not create alpha"
+    assert capture_log(fun1) =~ "#{version}"
+
+    assert capture_log(fun2) =~ "Can not create alpha"
+    assert capture_log(fun2) =~ "#{version}"
+  end
+
+  ### beta
+
+  test "beta/1 increases patch version and adds beta pre-release", %{
     version: version,
     options: options
   } do
@@ -78,15 +117,29 @@ defmodule SemverTest do
       major: version.major,
       minor: version.minor,
       patch: version.patch + 1,
-      pre: ["alpha"]
+      pre: ["beta"]
     }
 
-    assert Semver.alpha(version, options) == expected
+    assert Semver.beta(version, options) == expected
   end
 
-  ### beta
+  test "beta/1 increases minor version and appends beta pre-release", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major,
+      minor: version.minor + 1,
+      patch: 0,
+      pre: ["beta"]
+    }
 
-  test "beta/1 increases major version and appends beta pre-release suffix", %{
+    options = Map.merge(options, %{as_minor: true})
+
+    assert Semver.beta(version, options) == expected
+  end
+
+  test "beta/1 increases major version and appends beta pre-release", %{
     version: version,
     options: options
   } do
@@ -101,23 +154,23 @@ defmodule SemverTest do
     assert Semver.beta(version, options) == expected
   end
 
-  test "beta/1 increases minor version and appends beta pre-release suffix", %{
+  test "beta/1 stops and logs an error when used with incompatible current pre-release", %{
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major,
-      minor: version.minor + 1,
-      patch: 0,
-      pre: ["rc"]
-    }
+    version = %{version | pre: ["rc"]}
 
-    options = Map.merge(options, %{as_minor: true})
+    fun = fn ->
+      assert catch_exit(Semver.beta(version, options)) == :shutdown
+    end
 
-    assert Semver.rc(version, options) == expected
+    assert capture_log(fun) =~ "Can not create beta"
+    assert capture_log(fun) =~ "#{version}"
   end
 
-  test "rc/1 increases patch version and adds rc pre-release suffix", %{
+  ### rc
+
+  test "rc/1 increases patch version and adds rc pre-release", %{
     version: version,
     options: options
   } do
@@ -127,6 +180,36 @@ defmodule SemverTest do
       patch: version.patch + 1,
       pre: ["rc"]
     }
+
+    assert Semver.rc(version, options) == expected
+  end
+
+  test "rc/1 increases minor version and appends rc pre-release", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major,
+      minor: version.minor + 1,
+      patch: 0,
+      pre: ["rc"]
+    }
+    options = Map.merge(options, %{as_minor: true})
+
+    assert Semver.rc(version, options) == expected
+  end
+
+  test "rc/1 increases major version and adds rc pre-release", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major + 1,
+      minor: 0,
+      patch: 0,
+      pre: ["rc"]
+    }
+    options = Map.merge(options, %{as_major: true})
 
     assert Semver.rc(version, options) == expected
   end

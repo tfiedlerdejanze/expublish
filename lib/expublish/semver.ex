@@ -51,8 +51,8 @@ defmodule Expublish.Semver do
   Reads the current version from mix.exs, increases it by given level
   and writes it back to mix.exs.
   """
-  @spec bump_version!(:major | :minor | :patch | :alpha | :beta | :rc | :release, Options.t()) ::
-          Version.t()
+  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :release
+  @spec bump_version!(level, Options.t()) :: Version.t()
   def bump_version!(level, options \\ %Options{})
 
   def bump_version!(:major, options),
@@ -96,9 +96,14 @@ defmodule Expublish.Semver do
     %{version | patch: version.patch + 1}
   end
 
-  @doc "Add alpha pre-release suffix and bump patch version."
+  @doc "Add alpha pre-release and bump patch version."
   @spec alpha(Version.t(), Options.t()) :: Version.t()
   def alpha(version, options \\ %Options{})
+
+  def alpha(%Version{pre: [pre]} = version, _) when pre in ["beta", "rc"] do
+    Logger.error("Can not create alpha version from current #{pre} pre-release: #{version}.")
+    exit(:shutdown)
+  end
 
   def alpha(%Version{} = version, %Options{as_major: true}) do
     %{bump_major(version) | pre: [@alpha]}
@@ -112,9 +117,14 @@ defmodule Expublish.Semver do
     %{bump_patch(version) | pre: [@alpha]}
   end
 
-  @doc "Add beta pre-release suffix and bump patch version."
+  @doc "Add beta pre-release and bump patch version."
   @spec beta(Version.t(), Options.t()) :: Version.t()
   def beta(version, options \\ %Options{})
+
+  def beta(%Version{pre: [pre]} = version, _) when pre in ["rc"] do
+    Logger.error("Can not create beta version from current #{pre} pre-release: #{version}.")
+    exit(:shutdown)
+  end
 
   def beta(%Version{} = version, %Options{as_major: true}) do
     %{bump_major(version) | pre: [@beta]}
@@ -128,7 +138,7 @@ defmodule Expublish.Semver do
     %{bump_patch(version) | pre: [@beta]}
   end
 
-  @doc "Add release-candidate pre-release suffix and bump patch version."
+  @doc "Add release-candidate pre-release and bump patch version."
   @spec rc(Version.t(), Options.t()) :: Version.t()
   def rc(version, options \\ %Options{})
 

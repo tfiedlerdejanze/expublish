@@ -128,7 +128,7 @@ defmodule Expublish.Options do
       beta  - Publish beta pre-release of next patch version
       rc    - Publish patch pre-release of next patch version
 
-    Note: you can overwrite the level of pre-release versions by using --as-major or --as-minor.
+    Note: you can overwrite the level of pre-release versions by using --as-major or --as-minor options.
 
     options:
       -d, --dry-run           - Perform dry run (no writes, no commits)

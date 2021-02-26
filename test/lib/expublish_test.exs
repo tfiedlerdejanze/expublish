@@ -4,6 +4,7 @@ defmodule ExpublishTest do
 
   import ExUnit.CaptureLog
   alias Expublish.Options
+  alias Expublish.Semver
 
   setup do
     [options: Options.parse(["--dry-run"])]
@@ -28,10 +29,9 @@ defmodule ExpublishTest do
       end)
     end
 
-    new_version = Expublish.Semver.bump_major(Expublish.Semver.get_version!())
-
-    assert capture_log(fun) =~ "new package version"
-    assert capture_log(fun) =~ "#{new_version}"
+    Semver.get_version!()
+    |> Semver.bump_major()
+    |> assert_dry_run(fun)
   end
 
   test "minor/1 runs without errors", %{options: options} do
@@ -41,12 +41,9 @@ defmodule ExpublishTest do
       end)
     end
 
-    assert capture_log(fun) =~ "Skipping new entry in CHANGELOG.md"
-    assert capture_log(fun) =~ "Skipping version commit"
-    assert capture_log(fun) =~ "Skipping version tag"
-    assert capture_log(fun) =~ "Skipping \"git push origin master --tags\""
-    assert capture_log(fun) =~ "Skipping \"mix hex.publish --yes\""
-    assert capture_log(fun) =~ "Finished dry run for new package version"
+    Semver.get_version!()
+    |> Semver.bump_minor()
+    |> assert_dry_run(fun)
   end
 
   test "patch/1 runs without errors", %{options: options} do
@@ -56,7 +53,45 @@ defmodule ExpublishTest do
       end)
     end
 
-    assert capture_log(fun) =~ "new package version"
+    Semver.get_version!()
+    |> Semver.bump_patch()
+    |> assert_dry_run(fun)
+  end
+
+  test "alpha/1 runs without errors", %{options: options} do
+    fun = fn ->
+      test_publish(fn ->
+        Expublish.alpha(options)
+      end)
+    end
+
+    Semver.get_version!()
+    |> Semver.alpha(options)
+    |> assert_dry_run(fun)
+  end
+
+  test "beta/1 runs without errors", %{options: options} do
+    fun = fn ->
+      test_publish(fn ->
+        Expublish.beta(options)
+      end)
+    end
+
+    Semver.get_version!()
+    |> Semver.beta(options)
+    |> assert_dry_run(fun)
+  end
+
+  test "rc/1 runs without errors", %{options: options} do
+    fun = fn ->
+      test_publish(fn ->
+        Expublish.rc(options)
+      end)
+    end
+
+    Semver.get_version!()
+    |> Semver.rc(options)
+    |> assert_dry_run(fun)
   end
 
   def test_publish(fun) do
@@ -67,5 +102,15 @@ defmodule ExpublishTest do
       fun.()
       File.rm!("RELEASE.md")
     end
+  end
+
+  defp assert_dry_run(new_version, fun) do
+    assert capture_log(fun) =~ "Skipping new entry in CHANGELOG.md"
+    assert capture_log(fun) =~ "Skipping version commit"
+    assert capture_log(fun) =~ "Skipping version tag"
+    assert capture_log(fun) =~ "Skipping \"git push origin master --tags\""
+    assert capture_log(fun) =~ "Skipping \"mix hex.publish --yes\""
+    assert capture_log(fun) =~ "Finished dry run for new package version"
+    assert capture_log(fun) =~ "#{new_version}"
   end
 end

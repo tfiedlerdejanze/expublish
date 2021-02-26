@@ -105,9 +105,9 @@ defmodule Mix.Tasks.Expublish do
 
   defmodule Release do
     @moduledoc """
-    Removes pre-release suffix from version and publishes current project.
+    Removes pre-release from version and publishes current project.
     """
-    @shortdoc "Removes pre-release suffix from version and publishes current project."
+    @shortdoc "Removes pre-release from version and publishes current project."
     use Mix.Task
 
     @doc false

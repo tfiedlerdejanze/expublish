@@ -6,7 +6,7 @@ defmodule Expublish do
   def major do
     Tests.run!()
 
-    "major"
+    :major
     |> Semver.bump_version!()
     |> Changelog.write_entry!(DateTime.utc_now())
     |> Git.commit_and_tag()
@@ -67,7 +67,8 @@ defmodule Expublish do
   @spec release(Options.t()) :: :ok
   def release(options \\ %Options{}), do: run(:release, options)
 
-  @spec run(:major | :minor | :patch | :alpha | :beta | :rc | :release, Options.t()) :: :ok
+  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :release
+  @spec run(level, Options.t()) :: :ok
   defp run(level, options) do
     with :ok <- Git.validate(options),
          :ok <- Changelog.validate(options) do
