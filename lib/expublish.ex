@@ -7,7 +7,7 @@ defmodule Expublish do
     Tests.run!()
 
     "major"
-    |> Semver.update_version!()
+    |> Semver.bump_version!()
     |> Changelog.write_entry!(DateTime.utc_now())
     |> Git.commit_and_tag()
     |> Git.push()
@@ -43,14 +43,38 @@ defmodule Expublish do
   @spec patch(Options.t()) :: :ok
   def patch(options \\ %Options{}), do: run(:patch, options)
 
-  @spec run(:major | :minor | :patch, Options.t()) :: :ok
+  @doc """
+  Publish alpha version of current project.
+  """
+  @spec alpha(Options.t()) :: :ok
+  def alpha(options \\ %Options{}), do: run(:alpha, options)
+
+  @doc """
+  Publish beta version of current project.
+  """
+  @spec beta(Options.t()) :: :ok
+  def beta(options \\ %Options{}), do: run(:beta, options)
+
+  @doc """
+  Removes pre-release suffix from version of current project.
+  """
+  @spec rc(Options.t()) :: :ok
+  def rc(options \\ %Options{}), do: run(:rc, options)
+
+  @doc """
+  Clear pre-release and publish version of current project.
+  """
+  @spec release(Options.t()) :: :ok
+  def release(options \\ %Options{}), do: run(:release, options)
+
+  @spec run(:major | :minor | :patch | :alpha | :beta | :rc | :release, Options.t()) :: :ok
   defp run(level, options) do
     with :ok <- Git.validate(options),
          :ok <- Changelog.validate(options) do
       Tests.run(options)
 
       level
-      |> Semver.update_version!(options)
+      |> Semver.bump_version!(options)
       |> Changelog.write_entry!(DateTime.utc_now(), options)
       |> Git.commit_and_tag(options)
       |> Git.push(options)

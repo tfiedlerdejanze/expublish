@@ -26,7 +26,7 @@ defmodule Expublish.MixProject do
     ]
   end
 
-  defp description(), do: "Automate SemVer and best practices for elixir package releases."
+  defp description(), do: "Automates SemVer and best practices for elixir package releases."
 
   defp package() do
     [

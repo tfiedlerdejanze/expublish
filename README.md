@@ -85,11 +85,18 @@ mix expublish.[level] [options]
 
 ### Level
 
-| Level   | Description                                                 |
-| ------- | ----------------------------------------------------------- |
-| `major` | When making incompatible API changes.                       |
-| `minor` | When adding functionality in a backwards compatible manner. |
-| `patch` | When making backwards compatible bug fixes.                 |
+| Level     | Description                                                 |
+| --------- | ----------------------------------------------------------- |
+| `major`   | When making incompatible API changes.                       |
+| `minor`   | When adding functionality in a backwards compatible manner. |
+| `patch`   | When making backwards compatible bug fixes.                 |
+| `alpha`   | Pre-release for early test stage of the next patch version. |
+| `beta`    | Pre-release for later test stage of the next patch version. |
+| `rc`      | Pre-release for final test stage of the next patch version. |
+| `release` | Removes pre-release suffix for first stable release.        |
+
+Note on pre-releases: the version level can by changed by using the
+`--as-major` or `--as-minor` options.
 
 ### Options
 
@@ -98,6 +105,8 @@ mix expublish.[level] [options]
 | `-d, --dry-run`          | `false`             | Perform dry run release    |
 | `-h, --help`             | `false`             | Print help                 |
 | `--allow-untracked`      | `false`             | Allow untracked files      |
+| `--as-major`             | `false`             | Only for pre-release level |
+| `--as-minor`             | `false`             | Only for pre-release level |
 | `--disable-publish`      | `false`             | Disable hex publish        |
 | `--disable-push`         | `false`             | Disable git push           |
 | `--disable-test`         | `false`             | Disable test run           |

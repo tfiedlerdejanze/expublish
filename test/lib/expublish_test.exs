@@ -28,7 +28,10 @@ defmodule ExpublishTest do
       end)
     end
 
+    new_version = Expublish.Semver.bump_major(Expublish.Semver.get_version!())
+
     assert capture_log(fun) =~ "new package version"
+    assert capture_log(fun) =~ "#{new_version}"
   end
 
   test "minor/1 runs without errors", %{options: options} do

@@ -7,6 +7,8 @@ defmodule Expublish.Options do
 
   @defaults %{
     allow_untracked: false,
+    as_major: false,
+    as_minor: false,
     disable_publish: false,
     disable_push: false,
     disable_test: false,
@@ -119,13 +121,20 @@ defmodule Expublish.Options do
     Usage: mix expublish.[level] [options]
 
     level:
-      major - Publish major version
-      minor - Publish minor version
-      patch - Publish patch version
+      major - Publish next major version
+      minor - Publish next minor version
+      patch - Publish next patch version
+      alpha - Publish alpha pre-release of next patch version
+      beta  - Publish beta pre-release of next patch version
+      rc    - Publish patch pre-release of next patch version
+
+    Note: you can overwrite the level of pre-release versions by using --as-major or --as-minor.
 
     options:
       -d, --dry-run           - Perform dry run (no writes, no commits)
       --allow-untracked       - Allow untracked files during release
+      --as-major              - Only for pre-release level
+      --as-minor              - Only for pre-release level
       --disable-publish       - Disable hex publish
       --disable-push          - Disable git push
       --disable-test          - Disable test run

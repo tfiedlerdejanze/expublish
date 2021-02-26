@@ -2,6 +2,7 @@ defmodule SemverTest do
   use ExUnit.Case
   doctest Expublish
 
+  import ExUnit.CaptureLog
   alias Expublish.Options
   alias Expublish.Semver
 
@@ -34,5 +35,132 @@ defmodule SemverTest do
     expected = %Version{major: version.major, minor: version.minor, patch: version.patch + 1}
 
     assert Semver.bump_patch(version) == expected
+  end
+
+  ### alpha
+
+  test "alpha/1 increases major version and appends alpha pre-release suffix", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major + 1,
+      minor: 0,
+      patch: 0,
+      pre: ["alpha"]
+    }
+    options = Map.merge(options, %{as_major: true})
+
+    assert Semver.alpha(version, options) == expected
+  end
+
+  test "alpha/1 increases minor version and appends alpha pre-release suffix", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major,
+      minor: version.minor + 1,
+      patch: 0,
+      pre: ["alpha"]
+    }
+
+    options = Map.merge(options, %{as_minor: true})
+
+    assert Semver.alpha(version, options) == expected
+  end
+
+  test "alpha/1 increases patch version and adds alpha pre-release suffix", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major,
+      minor: version.minor,
+      patch: version.patch + 1,
+      pre: ["alpha"]
+    }
+
+    assert Semver.alpha(version, options) == expected
+  end
+
+  ### beta
+
+  test "beta/1 increases major version and appends beta pre-release suffix", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major + 1,
+      minor: 0,
+      patch: 0,
+      pre: ["beta"]
+    }
+    options = Map.merge(options, %{as_major: true})
+
+    assert Semver.beta(version, options) == expected
+  end
+
+  test "beta/1 increases minor version and appends beta pre-release suffix", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major,
+      minor: version.minor + 1,
+      patch: 0,
+      pre: ["rc"]
+    }
+
+    options = Map.merge(options, %{as_minor: true})
+
+    assert Semver.rc(version, options) == expected
+  end
+
+  test "rc/1 increases patch version and adds rc pre-release suffix", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major,
+      minor: version.minor,
+      patch: version.patch + 1,
+      pre: ["rc"]
+    }
+
+    assert Semver.rc(version, options) == expected
+  end
+
+  ## release
+
+  test "release!/1 removes the pre-release from given version" do
+    version = %Version{
+      major: 1,
+      minor: 0,
+      patch: 0,
+      pre: ["alpha"]
+    }
+
+    expected = %Version{
+      major: 1,
+      minor: 0,
+      patch: 0
+    }
+
+    assert Semver.release(version) == expected
+  end
+
+  test "release!/1 exits and logs an error when used with a not pre-released version" do
+    version = %Version{
+      major: 1,
+      minor: 0,
+      patch: 0
+    }
+
+    fun = fn ->
+      assert catch_exit(Semver.release(version)) == :shutdown
+    end
+
+    assert capture_log(fun) =~ "Can not release version"
   end
 end
