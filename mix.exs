@@ -13,7 +13,11 @@ defmodule Expublish.MixProject do
       deps: deps(),
       docs: [
         main: "readme",
-        extras: ["README.md"]
+        extras: [
+          "README.md",
+          "CHANGELOG.md",
+          "INSTALLATION.md": [filename: "installation", title: "Installation"]
+        ]
       ],
       dialyzer: [
         plt_core_path: "priv/plts",
@@ -29,7 +33,8 @@ defmodule Expublish.MixProject do
       licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => "https://github.com/ucwaldo/expublish",
-        "Changelog" => "https://github.com/ucwaldo/expublish/blob/master/CHANGELOG.md"
+        "Changelog" => "https://github.com/ucwaldo/expublish/blob/master/CHANGELOG.md",
+        "Installation" => "https://github.com/ucwaldo/expublish/blob/master/INSTALLATION.md"
       }
     ]
   end
