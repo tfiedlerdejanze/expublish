@@ -3,6 +3,10 @@ defmodule Expublish.Semver do
   Functions for manipulating [%Version{}](https://hexdocs.pm/elixir/Version.html) and updating project mix.exs.
   """
 
+  @alpha "alpha"
+  @beta "beta"
+  @rc "rc"
+
   alias Expublish.Options
 
   require Logger
@@ -42,24 +46,37 @@ defmodule Expublish.Semver do
   end
 
   @doc """
-  Update version in project mix.exs by given level.
+  Increase version in project mix.exs by given level.
 
   Reads the current version from mix.exs, increases it by given level
-  and writes it back to mix.exs.  Level must be one of: `"major", "minor", "patch"`
+  and writes it back to mix.exs.
   """
-  @spec update_version!(:major | :minor | :patch, Options.t()) :: Version.t()
-  def update_version!(level, options \\ %Options{})
+  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
+  @spec bump_version!(level, Options.t()) :: Version.t()
+  def bump_version!(level, options \\ %Options{})
 
-  def update_version!(:major, options),
+  def bump_version!(:major, options),
     do: get_version!() |> bump_major() |> set_version!(options)
 
-  def update_version!(:minor, options),
+  def bump_version!(:minor, options),
     do: get_version!() |> bump_minor() |> set_version!(options)
 
-  def update_version!(:patch, options),
+  def bump_version!(:patch, options),
     do: get_version!() |> bump_patch() |> set_version!(options)
 
-  def update_version!(level, _options), do: raise("Invalid version level: #{level}")
+  def bump_version!(:alpha, options),
+    do: get_version!() |> alpha(options) |> set_version!(options)
+
+  def bump_version!(:beta, options),
+    do: get_version!() |> beta(options) |> set_version!(options)
+
+  def bump_version!(:rc, options),
+    do: get_version!() |> rc(options) |> set_version!(options)
+
+  def bump_version!(:stable, options),
+    do: get_version!() |> stable() |> set_version!(options)
+
+  def bump_version!(level, _options), do: raise("Invalid version level: #{level}")
 
   @doc "Bump major version."
   @spec bump_major(Version.t()) :: Version.t()
@@ -77,6 +94,73 @@ defmodule Expublish.Semver do
   @spec bump_patch(Version.t()) :: Version.t()
   def bump_patch(%Version{} = version) do
     %{version | patch: version.patch + 1}
+  end
+
+  @doc "Add alpha pre-release and bump patch version."
+  @spec alpha(Version.t(), Options.t()) :: Version.t()
+  def alpha(version, options \\ %Options{})
+
+  def alpha(%Version{pre: [pre]} = version, _) when pre in ["beta", "rc"] do
+    Logger.error("Can not create alpha version from current #{pre} pre-release: #{version}.")
+    exit(:shutdown)
+  end
+
+  def alpha(%Version{} = version, %Options{as_major: true}) do
+    %{bump_major(version) | pre: [@alpha]}
+  end
+
+  def alpha(%Version{} = version, %Options{as_minor: true}) do
+    %{bump_minor(version) | pre: [@alpha]}
+  end
+
+  def alpha(%Version{} = version, _options) do
+    %{bump_patch(version) | pre: [@alpha]}
+  end
+
+  @doc "Add beta pre-release and bump patch version."
+  @spec beta(Version.t(), Options.t()) :: Version.t()
+  def beta(version, options \\ %Options{})
+
+  def beta(%Version{pre: [pre]} = version, _) when pre in ["rc"] do
+    Logger.error("Can not create beta version from current #{pre} pre-release: #{version}.")
+    exit(:shutdown)
+  end
+
+  def beta(%Version{} = version, %Options{as_major: true}) do
+    %{bump_major(version) | pre: [@beta]}
+  end
+
+  def beta(%Version{} = version, %Options{as_minor: true}) do
+    %{bump_minor(version) | pre: [@beta]}
+  end
+
+  def beta(%Version{} = version, _options) do
+    %{bump_patch(version) | pre: [@beta]}
+  end
+
+  @doc "Add release-candidate pre-release and bump patch version."
+  @spec rc(Version.t(), Options.t()) :: Version.t()
+  def rc(version, options \\ %Options{})
+
+  def rc(%Version{} = version, %Options{as_major: true}) do
+    %{bump_major(version) | pre: [@rc]}
+  end
+
+  def rc(%Version{} = version, %Options{as_minor: true}) do
+    %{bump_minor(version) | pre: [@rc]}
+  end
+
+  def rc(%Version{} = version, _options) do
+    %{bump_patch(version) | pre: [@rc]}
+  end
+
+  def stable(%Version{pre: []} = version) do
+    Logger.error("Can not create stable release from already stable version #{version}. Abort.")
+    exit(:shutdown)
+  end
+
+  def stable(%Version{} = version) do
+    %{version | pre: []}
   end
 
   defp version_pattern(version) do

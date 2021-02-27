@@ -6,8 +6,8 @@ defmodule Expublish do
   def major do
     Tests.run!()
 
-    "major"
-    |> Semver.update_version!()
+    :major
+    |> Semver.bump_version!()
     |> Changelog.write_entry!(DateTime.utc_now())
     |> Git.commit_and_tag()
     |> Git.push()
@@ -43,14 +43,40 @@ defmodule Expublish do
   @spec patch(Options.t()) :: :ok
   def patch(options \\ %Options{}), do: run(:patch, options)
 
-  @spec run(:major | :minor | :patch, Options.t()) :: :ok
+  @doc """
+  Publish alpha version of current project.
+  """
+  @spec alpha(Options.t()) :: :ok
+  def alpha(options \\ %Options{}), do: run(:alpha, options)
+
+  @doc """
+  Publish beta version of current project.
+  """
+  @spec beta(Options.t()) :: :ok
+  def beta(options \\ %Options{}), do: run(:beta, options)
+
+  @doc """
+  Publish release-candidate version of current project.
+  """
+  @spec rc(Options.t()) :: :ok
+  def rc(options \\ %Options{}), do: run(:rc, options)
+
+  @doc """
+  Removes pre-release and publish version of current project.
+  """
+  @spec stable(Options.t()) :: :ok
+  def stable(options \\ %Options{}), do: run(:stable, options)
+
+  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
+  @spec run(level, Options.t()) :: :ok
+
   defp run(level, options) do
     with :ok <- Git.validate(options),
+         :ok <- Options.validate(options, level),
          :ok <- Changelog.validate(options) do
-      Tests.run(options)
-
       level
-      |> Semver.update_version!(options)
+      |> Tests.run(options)
+      |> Semver.bump_version!(options)
       |> Changelog.write_entry!(DateTime.utc_now(), options)
       |> Git.commit_and_tag(options)
       |> Git.push(options)

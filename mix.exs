@@ -15,8 +15,11 @@ defmodule Expublish.MixProject do
         main: "readme",
         extras: [
           "README.md",
-          "CHANGELOG.md",
-          "INSTALLATION.md": [filename: "installation", title: "Installation"]
+          "INSTALLATION.md": [filename: "installation", title: "Installation"],
+          "CHANGELOG.md": [filename: "changelog", title: "Changelog"],
+          "CHEATSHEET.md": [filename: "cheatsheet", title: "Cheatsheet"],
+          "VERSION_LEVELS.md": [filename: "version_levels", title: "Version levels"],
+          "REFERENCE.md": [filename: "reference", title: "Reference"],
         ]
       ],
       dialyzer: [
@@ -26,7 +29,7 @@ defmodule Expublish.MixProject do
     ]
   end
 
-  defp description(), do: "Automate SemVer and best practices for elixir package releases."
+  defp description(), do: "Automates semantic release versioning and best practices for elixir packages."
 
   defp package() do
     [
@@ -34,7 +37,8 @@ defmodule Expublish.MixProject do
       links: %{
         "GitHub" => "https://github.com/ucwaldo/expublish",
         "Changelog" => "https://github.com/ucwaldo/expublish/blob/master/CHANGELOG.md",
-        "Installation" => "https://github.com/ucwaldo/expublish/blob/master/INSTALLATION.md"
+        "Installation" => "https://github.com/ucwaldo/expublish/blob/master/INSTALLATION.md",
+        "Reference" => "https://github.com/ucwaldo/expublish/blob/master/REFERENCE.md"
       }
     ]
   end

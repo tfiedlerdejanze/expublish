@@ -4,62 +4,48 @@
 
 # Expublish
 
-Automates [SemVer](https://semver.org) and best practices for elixir package releases.
+Automates semantic release versioning and best practices for elixir packages.
 
-Inspired by various release helpers from different languages and ecosystems, Expublish provides a mix task that
-guarantees a clean and functioning project state before it performs the steps required to
-release a new package version following [semantic versioning](https://semver.org/) conventions.
+Inspired by various release utilities that exist for different languages and ecosystems,
+Expublish provides a mix task that guarantees a clean and functioning project state
+before it performs the steps required to release a new package version following
+[semantic versioning](https://semver.org/) conventions.
 
 Using `mix expublish` guarantees:
 
 - A clean git working directory
 - Passing tests
 - Increased version in mix.exs
-- A new changelog entry
+- A new curated changelog entry
 - A new version git commit and tag
+- Pushed changes to remote git and hex repositories
 
-Expublish was created with a continuous release process in mind. It's straight forward to be used
-from any CI server but requires the following executables to be available at runtime: elixir, mix and git.
-Here is an example [github workflow](https://github.com/ucwaldo/expublish/blob/master/.github/workflows/release.yml#L31-L42).
+Explublish aims at keeping a clean and trackable version history of a project,
+while providing a consistent and easy release experience to its maintainers. It was created with a
+continuous release process in mind and can be used to fully automate the release
+of new package versions as long as git and mix are available executables.
 
-By default the mix task will publish and push the new package version to hex and git respectively.
-This and other behaviors can be changed using various [command-line options](#reference):
+By default the task will _publish_ and _push_ the new package version to hex and
+git respectively and when not executed from CI, it's recommended to
+always perform a `--dry-run` before rerunning it without said option.
 
-```bash
-# Perform all task steps without writing changes (no commit, no tag, no push, no publish):
-$ mix expublish.minor --dry-run
+`mix expublish` supports various command-line options, check out the [Cheatsheet](./CHEATSHEET.md) and [Reference](./REFERENCE.md) pages.
 
-# Do not push the new version commit and tag to git and do not publish the to hex:
-$ mix expublish.minor --disable-push --disable-publish
+<span id="getting-started"></span>
 
-# Do not run the tests:
-$ mix expublish.minor --disable-test
+## Getting started
 
-# Ignore untracked files while validating git working directory:
-$ mix expublish.minor --allow-untracked
+1\. Add expublish to your mix dependencies and follow the short [setup instructions](./INSTALLATION.md).
 
-# Push the git commit to a different branch and/or remote:
-$ mix expublish.minor --branch=release --remote=upstream
-
-# Use custom commit- and no tag-prefix:
-$ mix expublish.minor --tag-prefix="" --commit-prefix="Version bump"
-```
-
-## Installation
-
-Setting up Expublish is easy. Check the [installation page](./INSTALLATION.md).
-
-<span id="#usage"></span>
-
-## Usage
-
-1\. Create a new `RELEASE.md` containing the new changelog entry:
+2\. For every new release, create a`RELEASE.md` containing a new changelog entry:
 
 ```bash
 $ echo "- changelog entry one\n- changelog entry two" > RELEASE.md
 ```
 
-2\. Run one of `mix expublish.(major|minor|patch)`:
+This file is deleted after a successful release and should be inside your `.gitignore`.
+
+2\. Run `mix expublish`:
 
 ```bash
 $ mix expublish.minor
@@ -67,41 +53,59 @@ $ mix expublish.minor
 
 3\. That's it!
 
-### Note on hex authentication
+<span id="cheatsheet"></span>
 
-Regardless of publishing to [hex.pm](https://hex.pm/) or a self-hosted hex repository, the shell environment where
-`mix expublish` is being executed must authenticate for the publishing step to succeed.
+## Cheatsheet
 
-While publishing to hex.pm usually requires a valid `HEX_API_TOKEN` to be defined in the current environment, self-hosted repositories can use a range of various authentication methods.
-Check the hex documentation on [publishing](https://hex.pm/docs/publish) and [self-hosting](https://hex.pm/docs/self_hosting) to find out more.
+See the [Cheatsheet](./CHEATSHEET.md) page to get a quick overview on how to use the various options.
 
-## Reference
+<span id="version-levels"></span>
 
-The mix task is defined as:
+## Version levels
 
+See the [Version levels](./VERSION_LEVELS.md) page to learn how Expublish increases version levels.
+
+<span id="quick-reference"></span>
+
+## Quick Reference
+
+See the full [Reference](./REFERENCE.md) page for all valid `mix expublish` task levels, options and defaults.
+
+```bash
+Usage: mix expublish.[level] [options]
+
+level:
+  major   - Publish next major version
+  minor   - Publish next minor version
+  patch   - Publish next patch version
+  alpha   - Publish alpha pre-release of next patch version
+  beta    - Publish beta pre-release of next patch version
+  rc      - Publish release-candidate pre-release of next patch version
+  stable  - Publish current stable version from pre-release
+
+Note on pre-releases: their next version level can be changed by using
+one of the --as-major or --as-minor options.
+
+options:
+  -d, --dry-run           - Perform dry run (no writes, no commits)
+  --allow-untracked       - Allow untracked files during release
+  --as-major              - Only for pre-release level
+  --as-minor              - Only for pre-release level
+  --disable-publish       - Disable hex publish
+  --disable-push          - Disable git push
+  --disable-test          - Disable test run
+  --branch=string         - Remote branch to push to, default: "master"
+  --remote=string         - Remote name to push to, default: "origin"
+  --commit-prefix=string  - Custom commit prefix, default:  "Version release"
+  --tag-prefix=string     - Custom tag prefix, default: "v"
 ```
-mix expublish.[level] [options]
-```
 
-### Level
+<span id="links-and-resources"></span>
 
-| Level   | Description                                                 |
-| ------- | ----------------------------------------------------------- |
-| `major` | When making incompatible API changes.                       |
-| `minor` | When adding functionality in a backwards compatible manner. |
-| `patch` | When making backwards compatible bug fixes.                 |
+## Links and resources
 
-### Options
-
-| Option                   | Default             | Description                |
-| ------------------------ | ------------------- | -------------------------- |
-| `-d, --dry-run`          | `false`             | Perform dry run release    |
-| `-h, --help`             | `false`             | Print help                 |
-| `--allow-untracked`      | `false`             | Allow untracked files      |
-| `--disable-publish`      | `false`             | Disable hex publish        |
-| `--disable-push`         | `false`             | Disable git push           |
-| `--disable-test`         | `false`             | Disable test run           |
-| `--branch=string`        | `"master"`          | Remote branch for git push |
-| `--commit-prefix=string` | `"Version release"` | Prefix for commit message  |
-| `--remote=string`        | `"origin"`          | Remote name for git push   |
-| `--tag-prefix=string`    | `"v"`               | Prefix for release tag     |
+- [Hex.pm docs](https://hex.pm/docs/usage)
+- [Keep a changelog](https://keepachangelog.com/en/1.1.0/)
+- [SemVer specification](https://semver.org/)
+- [Blog post on private hex auth](https://medium.com/@brunoripa/elixir-application-deployment-using-a-ci-and-private-hex-pm-dependencies-23f45fe04973)
+- [Example github action](https://github.com/ucwaldo/expublish/blob/master/.github/workflows/release.yml#L31-L42)

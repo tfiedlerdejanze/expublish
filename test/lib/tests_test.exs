@@ -11,7 +11,7 @@ defmodule TestsTest do
   end
 
   test "run/0 runs without errors", %{options: options} do
-    fun = fn -> Tests.run(options) end
+    fun = fn -> Tests.run(:level, options) end
 
     assert capture_log(fun) =~ "Skipping test run"
   end
