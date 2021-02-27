@@ -7,7 +7,7 @@ defmodule Expublish do
     Tests.run!()
 
     :major
-    |> Semver.bump_version!()
+    |> Semver.update_mix_exs!()
     |> Changelog.write_entry!(DateTime.utc_now())
     |> Git.commit_and_tag()
     |> Git.push()
@@ -76,7 +76,7 @@ defmodule Expublish do
          :ok <- Changelog.validate(options) do
       level
       |> Tests.run(options)
-      |> Semver.bump_version!(options)
+      |> Semver.update_mix_exs!(options)
       |> Changelog.write_entry!(DateTime.utc_now(), options)
       |> Git.commit_and_tag(options)
       |> Git.push(options)

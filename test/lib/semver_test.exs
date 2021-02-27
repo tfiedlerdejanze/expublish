@@ -19,22 +19,22 @@ defmodule SemverTest do
     assert expected == version
   end
 
-  test "bump_major/1 increases major level of version", %{version: version} do
+  test "major/1 increases major level of version", %{version: version} do
     expected = %Version{major: version.major + 1, minor: 0, patch: 0}
 
-    assert Semver.bump_major(version) == expected
+    assert Semver.major(version) == expected
   end
 
-  test "bump_minor/1 increases minor level of version", %{version: version} do
+  test "minor/1 increases minor level of version", %{version: version} do
     expected = %Version{major: version.major, minor: version.minor + 1, patch: 0}
 
-    assert Semver.bump_minor(version) == expected
+    assert Semver.minor(version) == expected
   end
 
-  test "bump_patch/1 increases patch level of version", %{version: version} do
+  test "patch/1 increases patch level of version", %{version: version} do
     expected = %Version{major: version.major, minor: version.minor, patch: version.patch + 1}
 
-    assert Semver.bump_patch(version) == expected
+    assert Semver.patch(version) == expected
   end
 
   ### alpha

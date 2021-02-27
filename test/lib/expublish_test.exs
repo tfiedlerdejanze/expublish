@@ -30,7 +30,7 @@ defmodule ExpublishTest do
     end
 
     Semver.get_version!()
-    |> Semver.bump_major()
+    |> Semver.major()
     |> assert_dry_run(fun)
   end
 
@@ -42,7 +42,7 @@ defmodule ExpublishTest do
     end
 
     Semver.get_version!()
-    |> Semver.bump_minor()
+    |> Semver.minor()
     |> assert_dry_run(fun)
   end
 
@@ -54,7 +54,7 @@ defmodule ExpublishTest do
     end
 
     Semver.get_version!()
-    |> Semver.bump_patch()
+    |> Semver.patch()
     |> assert_dry_run(fun)
   end
 
