@@ -8,18 +8,18 @@ mix expublish.[level] [options]
 
 ## Levels
 
-| Level    | Description                                                                       |
-| -------- | --------------------------------------------------------------------------------- |
-| `major`  | When making incompatible API changes.                                             |
-| `minor`  | When adding functionality in a backwards compatible manner.                       |
-| `patch`  | When making backwards compatible bug fixes.                                       |
-| `alpha`  | Pre-release for early test stage of next patch version.                           |
-| `beta`   | Pre-release for later test stage of next patch version.                           |
-| `rc`     | Pre-release for final test stage of next patch version.                           |
-| `stable` | When declaring a current pre-release stable. Version level will not be increased. |
+| Level    | Description                                                               |
+| -------- | ------------------------------------------------------------------------- |
+| `major`  | When making incompatible API changes.                                     |
+| `minor`  | When adding functionality in a backwards compatible manner.               |
+| `patch`  | When making backwards compatible bug fixes.                               |
+| `stable` | When declaring a pre-release stable. Version level will not be increased. |
+| `rc`     | Pre-release for final test stage of next patch version.                   |
+| `beta`   | Pre-release for later test stage of next patch version.                   |
+| `alpha`  | Pre-release for early test stage of next patch version.                   |
 
-Note on pre-releases: their next version level can be changed by using
-one of the `--as-major` or `--as-minor` options.
+Pre-releases are always considered unstabled, however their next version level can be 
+changed by using one of the `--as-major` or `--as-minor` options.
 
 ## Options
 

@@ -5,7 +5,7 @@ Version level increases follow [semantic versioning](https://semver.org/) conven
 The `Expublish.Semver` type is defined as:
 
 ```
-@type level() :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
+@type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
 
 ```
 
@@ -25,15 +25,17 @@ expublish.major => "1.0.0"
 expublish.minor => "0.2.0"
 ```
 
-### Pre-releases patch the current version by default
+### First pre-release patches the current version by default
 
 ```bash
 # current version: "0.0.0"
 
 expublish.alpha  => "0.0.1-alpha"
-expublish.beta   => "0.0.2-beta"
-expublish.rc     => "0.0.3-rc"
+expublish.beta   => "0.0.1-beta"
+expublish.rc     => "0.0.1-rc"
 ```
+
+Note that using a higher pre-release level _does not_ increase the version number.
 
 ### Pre-releases can be declared stable
 
@@ -43,8 +45,7 @@ expublish.rc     => "0.0.3-rc"
 expublish.stable => "1.0.1"
 ```
 
-Note that using `expublish.stable` _does not_ increase the version,
-but only drops the pre-release suffix.
+Note that `expublish.stable` only drops the pre-release suffix but  _does not_ increase the version number.
 
 ### An already stable version can not be redeclared stable
 
@@ -72,8 +73,8 @@ expublish.rc     => "1.0.1-rc"
 expublish.patch => "0.1.5-beta"
 expublish.beta  => "0.1.6-beta"
 expublish.patch => "0.1.7-beta"
-expublish.rc    => "0.1.8-rc"
-expublish.patch => "0.1.9-rc"
+expublish.rc    => "0.1.7-rc"
+expublish.patch => "0.1.8-rc"
 ```
 
 ### Pre-releases can increase by different version levels
@@ -91,5 +92,5 @@ expublish.rc --as-major   => "1.0.0-rc"
 ```bash
 # current version: "1.0.1-alpha"
 
-expublish.rc => "1.0.2-rc"
+expublish.rc => "1.0.1-rc"
 ```

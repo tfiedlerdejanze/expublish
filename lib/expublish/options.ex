@@ -66,8 +66,8 @@ defmodule Expublish.Options do
 
   Returns :ok or error message.
   """
-  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
-  @spec validate(__MODULE__.t(), level) :: :ok | String.t()
+  @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
+  @spec validate(__MODULE__.t(), level()) :: :ok | String.t()
   def validate(%__MODULE__{as_major: true}, level) when level in [:major, :minor, :patch] do
     "Invalid task invokation. Can not use --as-major for #{level} version increase."
   end
@@ -140,13 +140,13 @@ defmodule Expublish.Options do
       major   - Publish next major version
       minor   - Publish next minor version
       patch   - Publish next patch version
-      alpha   - Publish alpha pre-release of next patch version
-      beta    - Publish beta pre-release of next patch version
-      rc      - Publish release-candidate pre-release of next patch version
       stable  - Publish current stable version from pre-release
+      rc      - Publish release-candidate pre-release of next patch version
+      beta    - Publish beta pre-release of next patch version
+      alpha   - Publish alpha pre-release of next patch version
 
-    Note on pre-releases: their next version level can be changed by using
-    one of the --as-major or --as-minor options.
+    Pre-releases are always considered unstabled, however their next version level can be 
+    changed by using one of the --as-major or --as-minor options.
 
     options:
       -d, --dry-run           - Perform dry run (no writes, no commits)

@@ -67,8 +67,8 @@ defmodule Expublish do
   @spec stable(Options.t()) :: :ok
   def stable(options \\ %Options{}), do: run(:stable, options)
 
-  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
-  @spec run(level, Options.t()) :: :ok
+  @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
+  @spec run(level(), Options.t()) :: :ok
 
   defp run(level, options) do
     with :ok <- Git.validate(options),
