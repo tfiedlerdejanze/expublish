@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.4.3 - 27. Feb 2021 16:25
+
+Fix typo in readme
+
+
 ## 2.4.2 - 27. Feb 2021 15:11
 
 Update hex.pm links and create docs folder
