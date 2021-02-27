@@ -2,6 +2,12 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.4.0 - 27. Feb 2021 13:41
+
+- Add support for pre-release levels: alpha, beta and rc
+- Restructured Documentation
+
+
 ## 2.3.4 - 25. Feb 2021 23:52
 
 Add typespecs and dialyzer check
