@@ -45,13 +45,11 @@ $ echo "- changelog entry one\n- changelog entry two" > RELEASE.md
 
 This file is deleted after a successful release and should be inside your `.gitignore`.
 
-2\. Run `mix expublish`:
+3\. Run `mix expublish`:
 
 ```bash
 $ mix expublish.minor
 ```
-
-3\. That's it!
 
 <span id="cheatsheet"></span>
 
