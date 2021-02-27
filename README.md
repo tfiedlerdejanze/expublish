@@ -29,13 +29,13 @@ By default the task will _publish_ and _push_ the new package version to hex and
 git respectively and when not executed from CI, it's recommended to
 always perform a `--dry-run` before rerunning it without said option.
 
-`mix expublish` supports various command-line options, check out the [Cheatsheet](./CHEATSHEET.md) and [Reference](./REFERENCE.md) pages.
+`mix expublish` supports various command-line options, check out the [Cheatsheet](./docs/CHEATSHEET.md) and [Reference](./docs/REFERENCE.md) pages.
 
 <span id="getting-started"></span>
 
 ## Getting started
 
-1\. Add expublish to your mix dependencies and follow the short [setup instructions](./INSTALLATION.md).
+1\. Add expublish to your mix dependencies and follow the short [setup instructions](./docs/INSTALLATION.md).
 
 2\. For every new release, create a`RELEASE.md` containing a new changelog entry:
 
@@ -57,19 +57,19 @@ $ mix expublish.minor
 
 ## Cheatsheet
 
-See the [Cheatsheet](./CHEATSHEET.md) page to get a quick overview on how to use the various options.
+See the [Cheatsheet](./docs/CHEATSHEET.md) page to get a quick overview on how to use the various options.
 
 <span id="version-levels"></span>
 
 ## Version levels
 
-See the [Version levels](./VERSION_LEVELS.md) page to learn how Expublish increases version levels.
+See the [Version levels](./docs/VERSION_LEVELS.md) page to learn how Expublish increases version levels.
 
 <span id="quick-reference"></span>
 
 ## Quick Reference
 
-See the full [Reference](./REFERENCE.md) page for all valid `mix expublish` task levels, options and defaults.
+See the full [Reference](./docs/REFERENCE.md) page for all valid `mix expublish` task levels, options and defaults.
 
 ```bash
 Usage: mix expublish.[level] [options]
