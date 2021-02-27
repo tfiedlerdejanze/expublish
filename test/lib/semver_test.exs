@@ -244,6 +244,6 @@ defmodule SemverTest do
       assert catch_exit(Semver.stable(version)) == :shutdown
     end
 
-    assert capture_log(fun) =~ "Can not release already stable version"
+    assert capture_log(fun) =~ "Can not create stable release from already stable version"
   end
 end

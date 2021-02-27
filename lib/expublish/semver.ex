@@ -155,7 +155,7 @@ defmodule Expublish.Semver do
   end
 
   def stable(%Version{pre: []} = version) do
-    Logger.error("Can not release already stable version #{version}. Missing pre-release.")
+    Logger.error("Can not create stable release from already stable version #{version}. Abort.")
     exit(:shutdown)
   end
 

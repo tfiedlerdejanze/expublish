@@ -69,12 +69,13 @@ defmodule Expublish do
 
   @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
   @spec run(level, Options.t()) :: :ok
+
   defp run(level, options) do
     with :ok <- Git.validate(options),
+         :ok <- Options.validate(options, level),
          :ok <- Changelog.validate(options) do
-      Tests.run(options)
-
       level
+      |> Tests.run(options)
       |> Semver.bump_version!(options)
       |> Changelog.write_entry!(DateTime.utc_now(), options)
       |> Git.commit_and_tag(options)

@@ -26,7 +26,6 @@ defmodule Expublish.Options do
   ]
 
   @typedoc "Options"
-  # @typedoc since: "3.4.0"
   @type t :: %__MODULE__{}
 
   defstruct Enum.into(@defaults, [])
@@ -61,6 +60,23 @@ defmodule Expublish.Options do
       )
     )
   end
+
+  @doc """
+  Validates options and level combinations.
+
+  Returns :ok or error message.
+  """
+  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
+  @spec validate(__MODULE__.t(), level) :: :ok | String.t()
+  def validate(%__MODULE__{as_major: true}, level) when level in [:major, :minor, :patch] do
+    "Invalid task invokation. Can not use --as-major for #{level} version increase."
+  end
+
+  def validate(%__MODULE__{as_minor: true}, level) when level in [:major, :minor, :patch] do
+    "Invalid task invokation. Can not use --as-minor for #{level} version increase."
+  end
+
+  def validate(_options, _level), do: :ok
 
   @doc """
   Print help to stdout.
@@ -126,10 +142,11 @@ defmodule Expublish.Options do
       patch   - Publish next patch version
       alpha   - Publish alpha pre-release of next patch version
       beta    - Publish beta pre-release of next patch version
-      rc      - Publish patch pre-release of next patch version
-      stable  - Removes pre-release for stable release of current version.
+      rc      - Publish release-candidate pre-release of next patch version
+      stable  - Publish current stable version from pre-release
 
-    Note: you can overwrite the level of pre-release versions by using --as-major or --as-minor options.
+    Note on pre-releases: their next version level can be changed by using
+    one of the --as-major or --as-minor options.
 
     options:
       -d, --dry-run           - Perform dry run (no writes, no commits)

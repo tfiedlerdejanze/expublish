@@ -10,16 +10,18 @@ defmodule Expublish.Tests do
   @doc """
   Run tests, stop task if they fail, skip if there are none.
   """
-  @spec run(Options.t()) :: :ok | :exit
-  def run(options)
+  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
+  @spec run(level, Options.t()) :: level
+  def run(level, options)
 
-  def run(%{disable_test: true}) do
-    Logger.warn("Skipping test run.")
-    :ok
+  def run(level, %{disable_test: true}) do
+    Logger.warn("Skipping test run for #{to_string(level)} release.")
+    level
   end
 
-  def run(_options) do
+  def run(level, _options) do
     if Mix.env() != :test do
+      Logger.info("Starting test run for #{to_string(level)} release.")
       error_code = Mix.Shell.IO.cmd("mix test")
 
       if error_code != 0 do
@@ -28,6 +30,6 @@ defmodule Expublish.Tests do
       end
     end
 
-    :ok
+    level
   end
 end

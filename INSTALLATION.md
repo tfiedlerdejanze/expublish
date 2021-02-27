@@ -19,3 +19,16 @@ RELEASE.md
 ```
 
 The file is deleted after every successful release.
+
+### Note on hex authentication
+
+Regardless of publishing to [hex.pm](https://hex.pm/) or a self-hosted hex repository,
+the shell environment where `mix expublish` is being executed must authenticate for
+the publishing step to succeed.
+
+While publishing to hex.pm usually requires a valid `HEX_API_TOKEN` to be defined
+in the current environment, self-hosted repositories can use a range of various authentication methods.
+
+Check the hex documentation on [publishing](https://hex.pm/docs/publish) and
+[self-hosting](https://hex.pm/docs/self_hosting) to find out more.
+
