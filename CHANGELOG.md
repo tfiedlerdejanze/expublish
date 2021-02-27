@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.4.1 - 27. Feb 2021 14:53
+
+Cleanup Expublish.Semver
+
+
 ## 2.4.0 - 27. Feb 2021 13:41
 
 - Add support for pre-release levels: alpha, beta and rc
