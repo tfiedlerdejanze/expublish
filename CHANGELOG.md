@@ -2,6 +2,13 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.4.4 - 28. Feb 2021 00:27
+
+- Do not patch higher pre-release level while on pre-release (#27)
+- Add missing match in option validation
+- Mark dependencies as optional
+
+
 ## 2.4.3 - 27. Feb 2021 16:25
 
 Fix typo in readme
