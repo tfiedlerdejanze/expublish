@@ -12,13 +12,6 @@ defmodule SemverTest do
     [options: Options.parse(["--dry-run"]), version: @version]
   end
 
-  test "get_version!/0 reads current project version from mix" do
-    version = Semver.get_version!()
-    expected = Mix.Project.config()[:version] |> Version.parse!()
-
-    assert expected == version
-  end
-
   test "major/1 increases major level of version", %{version: version} do
     expected = %Version{major: version.major + 1, minor: 0, patch: 0}
 

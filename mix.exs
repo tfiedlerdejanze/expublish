@@ -1,13 +1,19 @@
 defmodule Expublish.MixProject do
   use Mix.Project
 
+  @version "2.4.5"
+
+  @description "Automates semantic release versioning and best practices for elixir packages."
+  @source_url "https://github.com/ucwaldo/expublish"
+  @hexdocs_url "https://hexdocs.pm/expublish"
+
   def project do
     [
       app: :expublish,
-      version: "2.4.5",
+      version: @version,
       package: package(),
-      description: description(),
-      source_url: "https://github.com/ucwaldo/expublish",
+      description: @description,
+      source_url: @source_url,
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -29,17 +35,14 @@ defmodule Expublish.MixProject do
     ]
   end
 
-  defp description(),
-    do: "Automates semantic release versioning and best practices for elixir packages."
-
   defp package() do
     [
       licenses: ["Apache-2.0"],
       links: %{
-        "GitHub" => "https://github.com/ucwaldo/expublish",
-        "Changelog" => "https://hexdocs.pm/expublish/changelog.html",
-        "Installation" => "https://hexdocs.pm/expublish/installation.html",
-        "Reference" => "https://hexdocs.pm/expublish/reference.html"
+        "GitHub" => @source_url,
+        "Changelog" => @hexdocs_url <> "/changelog.html",
+        "Installation" => @hexdocs_url <> "/installation.html",
+        "Reference" => @hexdocs_url <> "/reference.html"
       }
     ]
   end
