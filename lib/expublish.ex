@@ -7,9 +7,9 @@ defmodule Expublish do
     Tests.run!()
 
     :major
-    |> Mixexs.get_version!()
+    |> VersionFile.get_version!()
     |> Semver.increase()
-    |> Mixexs.update!()
+    |> VersionFile.update!()
     |> Changelog.write_entry!(DateTime.utc_now())
     |> Git.commit_and_tag()
     |> Git.push()
@@ -21,7 +21,7 @@ defmodule Expublish do
   alias Expublish.Changelog
   alias Expublish.Git
   alias Expublish.Hex
-  alias Expublish.Mixexs
+  alias Expublish.VersionFile
   alias Expublish.Options
   alias Expublish.Semver
   alias Expublish.Tests
@@ -77,10 +77,10 @@ defmodule Expublish do
     with :ok <- Git.validate(options),
          :ok <- Options.validate(options, level),
          :ok <- Changelog.validate(options),
-         :ok <- Tests.validate(level, options) do
-      Mixexs.get_version!(options)
+         :ok <- Tests.validate(options, level) do
+      VersionFile.get_version!(options)
       |> Semver.increase(level, options)
-      |> Mixexs.update!(options)
+      |> VersionFile.update!(options)
       |> Changelog.write_entry!(DateTime.utc_now(), options)
       |> Git.commit_and_tag(options)
       |> Git.push(options)

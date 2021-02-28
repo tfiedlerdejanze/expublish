@@ -34,7 +34,12 @@ version: @version
 ```
 
 If the package version is maintained in a separate file, expublish can be made aware
-of that with the appropriate [option](./REFERENCE.md): `--version-file=VERSION.txt`.
+of that with the appropriate [option](./REFERENCE.md): `--version-file=VERSION.txt`
+where `VERSION.txt` is a file like:
+
+```
+1.0.0
+```
 
 ## Hex auth
 

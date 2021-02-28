@@ -22,7 +22,7 @@ Using `mix expublish` guarantees:
 
 - a clean git working directory.
 - passing tests.
-- an increased version in mix.exs.
+- an increased version in mix.exs or version file.
 - a new curated changelog entry.
 - a new version git commit and tag.
 - `git push` to given remote and branch.

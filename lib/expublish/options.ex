@@ -18,7 +18,7 @@ defmodule Expublish.Options do
     remote: "origin",
     tag_prefix: "v",
     commit_prefix: "Version release",
-    version_file: ""
+    version_file: "mix.exs"
   }
 
   @aliases [
@@ -171,7 +171,7 @@ defmodule Expublish.Options do
       --tag-prefix=string     - Custom tag prefix, default: #{
       inspect(Map.get(@defaults, :tag_prefix))
     }
-      --version-file=string   - If provided, expublish will try to write the new package version to this file.
+      --version-file=string   - If the package version is kept in a dedicated file
     """
   end
 end

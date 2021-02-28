@@ -1,4 +1,4 @@
-defmodule Expublish.Mixexs do
+defmodule Expublish.VersionFile do
   @moduledoc """
   Functions for reading and writing project mix.exs.
   """
@@ -30,7 +30,7 @@ defmodule Expublish.Mixexs do
   @spec update!(Version.t(), Options.t()) :: Version.t()
   def update!(new_version, options \\ %Options{})
 
-  def update!(new_version, %Options{version_file: ""} = options) do
+  def update!(new_version, %Options{version_file: "mix.exs"} = options) do
     contents = File.read!("mix.exs")
     version = get_version!()
 

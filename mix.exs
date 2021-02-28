@@ -1,8 +1,6 @@
 defmodule Expublish.MixProject do
   use Mix.Project
 
-  @version "2.4.5"
-
   @description "Automates semantic release versioning and best practices for elixir packages."
   @source_url "https://github.com/ucwaldo/expublish"
   @hexdocs_url "https://hexdocs.pm/expublish"
@@ -10,7 +8,7 @@ defmodule Expublish.MixProject do
   def project do
     [
       app: :expublish,
-      version: @version,
+      version: "2.4.5",
       package: package(),
       description: @description,
       source_url: @source_url,

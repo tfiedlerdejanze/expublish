@@ -37,4 +37,4 @@ still be changed by using one of the --as-major or --as-minor options.
 | `--commit-prefix=string` | `"Version release"` | Prefix for commit message                            |
 | `--remote=string`        | `"origin"`          | Remote name for git push                             |
 | `--tag-prefix=string`    | `"v"`               | Prefix for release tag                               |
-| `--version-file=string`  | `""`                | If the package version is kept in a separate file    |
+| `--version-file=string`  | `"mix.exs"`         | Will overwrite the complete file if not "mix.exs"    |
