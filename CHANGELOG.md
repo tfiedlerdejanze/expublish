@@ -2,6 +2,13 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.5.0 - 28. Feb 2021 22:29
+
+- Support updating project version in module attribute
+- Support --version-file option considered when updating project version
+- Update Documentation
+
+
 ## 2.4.5 - 28. Feb 2021 11:00
 
 Clarify push and publishing task behavior in docs
