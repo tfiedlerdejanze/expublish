@@ -4,7 +4,7 @@
 
 ## 2.4.4 - 28. Feb 2021 00:27
 
-- Do not patch higher pre-release level while on pre-release (#27)
+- Do not patch higher pre-release level while on pre-release
 - Add missing match in option validation
 - Mark dependencies as optional
 
