@@ -76,9 +76,8 @@ defmodule Expublish do
   defp run(level, options) do
     with :ok <- Git.validate(options),
          :ok <- Options.validate(options, level),
-         :ok <- Changelog.validate(options) do
-      Tests.run(level, options)
-
+         :ok <- Changelog.validate(options),
+         :ok <- Tests.validate(level, options) do
       Mixexs.get_version!(options)
       |> Semver.increase(level, options)
       |> Mixexs.update!(options)

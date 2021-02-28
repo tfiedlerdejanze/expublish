@@ -37,7 +37,7 @@ it's recommended to _always_ execute a `--dry-run` before rerunning the expublis
 
 ## Getting started
 
-1\. Follow the short [Installation](./docs/INSTALLATION.md) instructions.
+1\. Follow the [installation](./docs/INSTALLATION.md) instructions.
 
 2\. For every new release, create a`RELEASE.md` containing a new changelog entry:
 

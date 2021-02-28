@@ -25,10 +25,12 @@ defmodule Expublish.Mixexs do
   end
 
   @doc """
-  Writes version to project mix.exs.
+  Writes version to project mix.exs or given --version-file.
   """
   @spec update!(Version.t(), Options.t()) :: Version.t()
-  def update!(new_version, options) do
+  def update!(new_version, options \\ %Options{})
+
+  def update!(new_version, %Options{version_file: ""} = options) do
     contents = File.read!("mix.exs")
     version = get_version!()
 
@@ -46,7 +48,18 @@ defmodule Expublish.Mixexs do
       exit(:shutdown)
     end
 
-    maybe_write_mixexs(options, replaced)
+    maybe_write_new_version("mix.exs", options, replaced)
+
+    new_version
+  end
+
+  def update!(new_version, %Options{version_file: version_file} = options) do
+    if File.exists?(version_file) do
+      maybe_write_new_version(version_file, options, "#{new_version}")
+    else
+      Logger.error("Given --version-file does not exists: #{version_file}.")
+      exit(:shutdown)
+    end
 
     new_version
   end
@@ -59,14 +72,14 @@ defmodule Expublish.Mixexs do
     "@version \"#{version}\""
   end
 
-  defp maybe_write_mixexs(%Options{dry_run: true}, _contents) do
-    Logger.info("Skipping new version in mix.exs.")
+  defp maybe_write_new_version(file, %Options{dry_run: true}, _contents) do
+    Logger.info("Skipping new version in #{file}.")
   end
 
-  defp maybe_write_mixexs(_options, contents) do
-    Logger.info("Writing new version to mix.exs.")
+  defp maybe_write_new_version(file, _options, contents) do
+    Logger.info("Writing new version to #{file}.")
 
-    File.write!("mix.exs", contents)
+    File.write!(file, contents)
   end
 
   defp get_replace_mode(contents, version) do

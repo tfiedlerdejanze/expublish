@@ -13,6 +13,9 @@ $ mix expublish.minor --allow-untracked
 # Skip test run:
 $ mix expublish.minor --disable-test
 
+# If the package version is kept in a separate file:
+$ mix expublish.patch --version-file=VERSION.txt
+
 # Push the git commit to a different branch and/or remote:
 $ mix expublish.minor --branch=release --remote=upstream
 

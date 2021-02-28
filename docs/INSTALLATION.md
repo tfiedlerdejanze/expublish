@@ -18,13 +18,25 @@
 RELEASE.md
 ```
 
-The file is deleted after every successful release.
+Alternatively, you may check it in to version control and use it to publish a new package version
+from a remote job.
 
-## Prerequisites
+4\. (Optional) While writing the final package version, Expublish expects the version
+to be located where mix initially placed it.
 
-Expublish expects `git` and `mix` to be available at runtime but comes without any additional dependencies.
+As it is quite common to keep the package version in a module attribute inside `mix.exs`,
+Expublish will consider this as well.
 
-## Note on hex authentication
+```
+@version "1.0.0"
+# ...
+version: @version
+```
+
+If the package version is maintained in a separate file, expublish can be made aware
+of that with the appropriate [option](./REFERENCE.md): `--version-file=VERSION.txt`.
+
+## Hex auth
 
 Regardless of publishing to [hex.pm](https://hex.pm/) or a self-hosted hex repository,
 the shell environment where `mix expublish` is being executed must authenticate for
@@ -36,3 +48,6 @@ in the current environment, self-hosted repositories can use a range of various 
 Check the hex documentation on [publishing](https://hex.pm/docs/publish) and
 [self-hosting](https://hex.pm/docs/self_hosting) to find out more.
 
+## Prerequisites
+
+Expublish expects `git` and `mix` to be available at runtime but comes without any additional dependencies.
