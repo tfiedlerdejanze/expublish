@@ -25,6 +25,8 @@ defmodule Expublish.Options do
     d: :dry_run
   ]
 
+  @invalid_as_option_levels [:stable, :major, :minor, :patch]
+
   @typedoc "Options"
   @type t :: %__MODULE__{}
 
@@ -68,11 +70,11 @@ defmodule Expublish.Options do
   """
   @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
   @spec validate(__MODULE__.t(), level()) :: :ok | String.t()
-  def validate(%__MODULE__{as_major: true}, level) when level in [:major, :minor, :patch] do
+  def validate(%__MODULE__{as_major: true}, level) when level in @invalid_as_option_levels do
     "Invalid task invokation. Can not use --as-major for #{level} version increase."
   end
 
-  def validate(%__MODULE__{as_minor: true}, level) when level in [:major, :minor, :patch] do
+  def validate(%__MODULE__{as_minor: true}, level) when level in @invalid_as_option_levels do
     "Invalid task invokation. Can not use --as-minor for #{level} version increase."
   end
 
@@ -145,8 +147,8 @@ defmodule Expublish.Options do
       beta    - Publish beta pre-release of next patch version
       alpha   - Publish alpha pre-release of next patch version
 
-    Pre-releases are always considered unstabled, however their next version level can be 
-    changed by using one of the --as-major or --as-minor options.
+    Pre-releases are always considered unstable, however their next version level can 
+    still be changed by using one of the --as-major or --as-minor options.
 
     options:
       -d, --dry-run           - Perform dry run (no writes, no commits)

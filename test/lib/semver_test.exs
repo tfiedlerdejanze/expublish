@@ -51,7 +51,7 @@ defmodule SemverTest do
     version = Semver.alpha(version, options)
     assert version == expected
     version = Semver.beta(version, options)
-    assert  version == %{expected | pre: ["beta"]}
+    assert version == %{expected | pre: ["beta"]}
     version = Semver.rc(version, options)
     assert version == %{expected | pre: ["rc"]}
   end
@@ -66,14 +66,15 @@ defmodule SemverTest do
       patch: 0,
       pre: ["alpha"]
     }
+
     options = %{options | as_major: true}
 
     version = Semver.alpha(version, options)
     assert version == expected
     version = Semver.beta(version, options)
-    assert  version == %{expected | major: expected.major + 1, pre: ["beta"]}
+    assert version == %{expected | major: expected.major + 1, pre: ["beta"]}
     version = Semver.rc(version, options)
-    assert  version == %{expected | major: expected.major + 2, pre: ["rc"]}
+    assert version == %{expected | major: expected.major + 2, pre: ["rc"]}
   end
 
   test "pre-releases respect hierarchy and --as-minor option", %{
@@ -86,14 +87,15 @@ defmodule SemverTest do
       patch: 0,
       pre: ["alpha"]
     }
+
     options = %{options | as_minor: true}
 
     version = Semver.alpha(version, options)
     assert version == expected
     version = Semver.beta(version, options)
-    assert  version == %{expected | minor: expected.minor + 1, pre: ["beta"]}
+    assert version == %{expected | minor: expected.minor + 1, pre: ["beta"]}
     version = Semver.rc(version, options)
-    assert  version == %{expected | minor: expected.minor + 2, pre: ["rc"]}
+    assert version == %{expected | minor: expected.minor + 2, pre: ["rc"]}
   end
 
   ### alpha
