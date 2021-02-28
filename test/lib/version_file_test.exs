@@ -2,8 +2,8 @@ defmodule VersionFileTest do
   use ExUnit.Case
   doctest Expublish
 
-  alias Expublish.VersionFile
   alias Expublish.Options
+  alias Expublish.VersionFile
 
   setup do
     [options: Options.parse(["--dry-run"])]

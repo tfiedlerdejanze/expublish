@@ -21,10 +21,10 @@ defmodule Expublish do
   alias Expublish.Changelog
   alias Expublish.Git
   alias Expublish.Hex
-  alias Expublish.VersionFile
   alias Expublish.Options
   alias Expublish.Semver
   alias Expublish.Tests
+  alias Expublish.VersionFile
 
   require Logger
 
