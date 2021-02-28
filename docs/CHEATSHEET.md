@@ -7,7 +7,7 @@ $ mix expublish.minor --dry-run
 # Do not push the new version commit and tag to git and do not publish to hex:
 $ mix expublish.minor --disable-push --disable-publish
 
-# Allow untracked files while validating git working directory:
+# Allow untracked files while validating git working directory and add them in version commit:
 $ mix expublish.minor --allow-untracked
 
 # Skip test run:

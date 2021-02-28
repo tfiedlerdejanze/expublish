@@ -6,6 +6,13 @@
 
 Automates semantic release versioning and best practices for elixir packages.
 
+Explublish helps keeping a clean and trackable version history in a project,
+while providing a consistent and easy release experience to its maintainers.
+It was created with a continuous release process in mind and can be used to
+fully automate the release of new package versions.
+
+## What it does
+
 Inspired by various release utilities that exist for different languages and ecosystems,
 Expublish provides a mix task that guarantees a clean and functioning project state
 before it performs the steps required to release a new package version following
@@ -13,21 +20,16 @@ before it performs the steps required to release a new package version following
 
 Using `mix expublish` guarantees:
 
-- A clean git working directory
-- Passing tests
-- Increased version in mix.exs
-- A new curated changelog entry
-- A new version git commit and tag
-- Pushed changes to remote git and hex repositories
+- a clean git working directory.
+- passing tests.
+- an increased version in mix.exs.
+- a new curated changelog entry.
+- a new version git commit and tag.
+- `git push` to given remote and branch.
+- `mix hex.publish` to release the new package version and documentation to users.
 
-Explublish aims at keeping a clean and trackable version history of a project,
-while providing a consistent and easy release experience to its maintainers. It was created with a
-continuous release process in mind and can be used to fully automate the release
-of new package versions as long as git and mix are available executables.
-
-By default the task will **publish and push** the new package version to hex and
-git respectively and when not executed from CI, it's recommended to
-always perform a `--dry-run` before rerunning it without said option.
+Some of the steps can be opted out from and when not executed from CI,
+it's recommended to _always_ execute a `--dry-run` before rerunning the expublish task without said option.
 
 `mix expublish` supports various command-line options, check out the [Cheatsheet](./docs/CHEATSHEET.md) and [Reference](./docs/REFERENCE.md) pages.
 
@@ -35,7 +37,7 @@ always perform a `--dry-run` before rerunning it without said option.
 
 ## Getting started
 
-1\. Add `:expublish` to your mix dev dependencies and follow the short [Installation](./docs/INSTALLATION.md) instructions.
+1\. Follow the short [Installation](./docs/INSTALLATION.md) instructions.
 
 2\. For every new release, create a`RELEASE.md` containing a new changelog entry:
 
@@ -50,6 +52,12 @@ This file is deleted after a successful release and should be inside your `.giti
 ```bash
 $ mix expublish.minor
 ```
+
+## Installation
+
+See the [Installation](./docs/INSTALLATION.md) page to see how it easy it is to set up Expublish.
+
+<span id="version-levels"></span>
 
 <span id="cheatsheet"></span>
 

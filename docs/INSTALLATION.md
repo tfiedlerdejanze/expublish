@@ -1,18 +1,18 @@
 # Installation
 
-Add `:expublish` to your dev dependencies in `mix.exs`:
+1\. Add `:expublish` to your dev dependencies in `mix.exs`:
 
 ```elixir
 {:expublish, "~> 2.3", only: [:dev]}
 ```
 
-Create a `CHANGELOG.md` in the root folder of your project. It must contain a placeholder:
+2\. Create a `CHANGELOG.md` in the root folder of your project. It must contain a placeholder:
 
 ```text
 <!-- %% CHANGELOG_ENTRIES %% -->
 ```
 
-Do not keep track of the release file. Put the following line in your `.gitignore`:
+3\. Do not keep track of the release file. Put the following line in your `.gitignore`:
 
 ```text
 RELEASE.md
@@ -20,7 +20,11 @@ RELEASE.md
 
 The file is deleted after every successful release.
 
-### Note on hex authentication
+## Prerequisites
+
+Expublish expects `git` and `mix` to be available at runtime but comes without any additional dependencies.
+
+## Note on hex authentication
 
 Regardless of publishing to [hex.pm](https://hex.pm/) or a self-hosted hex repository,
 the shell environment where `mix expublish` is being executed must authenticate for
