@@ -16,7 +16,7 @@ $ mix expublish.minor --disable-test
 # Push the git commit to a different branch and/or remote:
 $ mix expublish.minor --branch=release --remote=upstream
 
-# Use custom tag-prefix so it results in "release-1.0.0" instead of "v1.0.0":
+# Use custom tag-prefix so it results in "release-0.0.1" instead of "v0.0.1":
 $ mix expublish.minor --tag-prefix="release-"
 
 # Use custom commit- and no tag-prefix:

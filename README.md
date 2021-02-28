@@ -25,7 +25,7 @@ while providing a consistent and easy release experience to its maintainers. It 
 continuous release process in mind and can be used to fully automate the release
 of new package versions as long as git and mix are available executables.
 
-By default the task will _publish_ and _push_ the new package version to hex and
+By default the task will **publish and push** the new package version to hex and
 git respectively and when not executed from CI, it's recommended to
 always perform a `--dry-run` before rerunning it without said option.
 
@@ -35,7 +35,7 @@ always perform a `--dry-run` before rerunning it without said option.
 
 ## Getting started
 
-1\. Add expublish to your mix dependencies and follow the short [setup instructions](./docs/INSTALLATION.md).
+1\. Add `:expublish` to your mix dev dependencies and follow the short [Installation](./docs/INSTALLATION.md) instructions.
 
 2\. For every new release, create a`RELEASE.md` containing a new changelog entry:
 
@@ -76,10 +76,10 @@ level:
   major   - Publish next major version
   minor   - Publish next minor version
   patch   - Publish next patch version
-  alpha   - Publish alpha pre-release of next patch version
-  beta    - Publish beta pre-release of next patch version
-  rc      - Publish release-candidate pre-release of next patch version
   stable  - Publish current stable version from pre-release
+  rc      - Publish release-candidate pre-release of next patch version
+  beta    - Publish beta pre-release of next patch version
+  alpha   - Publish alpha pre-release of next patch version
 
 Note on pre-releases: their next version level can be changed by using
 one of the --as-major or --as-minor options.

@@ -10,8 +10,8 @@ defmodule Expublish.Tests do
   @doc """
   Run tests, stop task if they fail, skip if there are none.
   """
-  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
-  @spec run(level, Options.t()) :: level
+  @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
+  @spec run(level(), Options.t()) :: level
   def run(level, options)
 
   def run(level, %{disable_test: true}) do

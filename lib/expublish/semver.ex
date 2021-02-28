@@ -26,8 +26,8 @@ defmodule Expublish.Semver do
   Reads the current version from mix.exs, increases it by given level
   and writes it back to mix.exs.
   """
-  @type level :: :major | :minor | :patch | :alpha | :beta | :rc | :stable
-  @spec update_mix_exs!(level, Options.t()) :: Version.t()
+  @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
+  @spec update_mix_exs!(level(), Options.t()) :: Version.t()
   def update_mix_exs!(level, options \\ %Options{})
 
   def update_mix_exs!(:major, options),
@@ -57,7 +57,7 @@ defmodule Expublish.Semver do
   @spec alpha(Version.t(), Options.t()) :: Version.t()
   def alpha(version, options \\ %Options{})
 
-  def alpha(%Version{pre: [pre]} = version, _) when pre in ["beta", "rc"] do
+  def alpha(%Version{pre: [pre]} = version, _) when pre in [@beta, @rc] do
     Logger.error("Can not create alpha version from current #{pre} pre-release: #{version}.")
     exit(:shutdown)
   end
@@ -78,7 +78,7 @@ defmodule Expublish.Semver do
   @spec beta(Version.t(), Options.t()) :: Version.t()
   def beta(version, options \\ %Options{})
 
-  def beta(%Version{pre: [pre]} = version, _) when pre in ["rc"] do
+  def beta(%Version{pre: [pre]} = version, _) when pre in [@rc] do
     Logger.error("Can not create beta version from current #{pre} pre-release: #{version}.")
     exit(:shutdown)
   end
@@ -89,6 +89,10 @@ defmodule Expublish.Semver do
 
   def beta(%Version{} = version, %Options{as_minor: true}) do
     %{minor(version) | pre: [@beta]}
+  end
+
+  def beta(%Version{pre: [@alpha]} = version, _) do
+    %{version | pre: [@beta]}
   end
 
   def beta(%Version{} = version, _options) do
@@ -123,6 +127,10 @@ defmodule Expublish.Semver do
 
   def rc(%Version{} = version, %Options{as_minor: true}) do
     %{minor(version) | pre: [@rc]}
+  end
+
+  def rc(%Version{pre: [pre]} = version, _options) when pre in [@alpha, @beta] do
+    %{version | pre: [@rc]}
   end
 
   def rc(%Version{} = version, _options) do

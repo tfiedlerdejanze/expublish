@@ -37,6 +37,67 @@ defmodule SemverTest do
     assert Semver.patch(version) == expected
   end
 
+  test "pre-releases respect hierarchy", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major,
+      minor: version.minor,
+      patch: version.patch + 1,
+      pre: ["alpha"]
+    }
+
+    version = Semver.alpha(version, options)
+    assert version == expected
+    version = Semver.beta(version, options)
+    assert version == %{expected | pre: ["beta"]}
+    version = Semver.rc(version, options)
+    assert version == %{expected | pre: ["rc"]}
+  end
+
+  test "pre-releases respect hierarchy and --as-major option", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major + 1,
+      minor: 0,
+      patch: 0,
+      pre: ["alpha"]
+    }
+
+    options = %{options | as_major: true}
+
+    version = Semver.alpha(version, options)
+    assert version == expected
+    version = Semver.beta(version, options)
+    assert version == %{expected | major: expected.major + 1, pre: ["beta"]}
+    version = Semver.rc(version, options)
+    assert version == %{expected | major: expected.major + 2, pre: ["rc"]}
+  end
+
+  test "pre-releases respect hierarchy and --as-minor option", %{
+    version: version,
+    options: options
+  } do
+    expected = %Version{
+      major: version.major,
+      minor: version.minor + 1,
+      patch: 0,
+      pre: ["alpha"]
+    }
+
+    options = %{options | as_minor: true}
+
+    version = Semver.alpha(version, options)
+    assert version == expected
+    version = Semver.beta(version, options)
+    assert version == %{expected | minor: expected.minor + 1, pre: ["beta"]}
+    version = Semver.rc(version, options)
+    assert version == %{expected | minor: expected.minor + 2, pre: ["rc"]}
+  end
+
   ### alpha
 
   test "alpha/1 increases patch version and adds alpha pre-release", %{
@@ -79,6 +140,7 @@ defmodule SemverTest do
       patch: 0,
       pre: ["alpha"]
     }
+
     options = Map.merge(options, %{as_major: true})
 
     assert Semver.alpha(version, options) == expected
@@ -149,6 +211,7 @@ defmodule SemverTest do
       patch: 0,
       pre: ["beta"]
     }
+
     options = Map.merge(options, %{as_major: true})
 
     assert Semver.beta(version, options) == expected
@@ -194,6 +257,7 @@ defmodule SemverTest do
       patch: 0,
       pre: ["rc"]
     }
+
     options = Map.merge(options, %{as_minor: true})
 
     assert Semver.rc(version, options) == expected
@@ -209,6 +273,7 @@ defmodule SemverTest do
       patch: 0,
       pre: ["rc"]
     }
+
     options = Map.merge(options, %{as_major: true})
 
     assert Semver.rc(version, options) == expected
