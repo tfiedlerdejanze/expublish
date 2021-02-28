@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.4.5 - 28. Feb 2021 11:00
+
+Clarify push and publishing task behavior in docs
+
+
 ## 2.4.4 - 28. Feb 2021 00:27
 
 - Do not patch higher pre-release level while on pre-release
