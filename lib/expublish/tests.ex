@@ -11,25 +11,24 @@ defmodule Expublish.Tests do
   Run tests, stop task if they fail, skip if there are none.
   """
   @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
-  @spec run(level(), Options.t()) :: level
-  def run(level, options)
+  @spec validate(Options.t(), level()) :: :ok
+  def validate(options, level)
 
-  def run(level, %{disable_test: true}) do
-    Logger.warn("Skipping test run for #{to_string(level)} release.")
-    level
+  def validate(%Options{disable_test: true}, level) do
+    Logger.warn("Skipping test validate for #{to_string(level)} release.")
+    :ok
   end
 
-  def run(level, _options) do
+  def validate(_options, level) do
     if Mix.env() != :test do
       Logger.info("Starting test run for #{to_string(level)} release.")
       error_code = Mix.Shell.IO.cmd("mix test")
 
-      if error_code != 0 do
-        Logger.error("Test run failed. Abort.")
-        exit(:shutdown)
-      end
+      if error_code != 0,
+        do: "Test run failed. Abort.",
+        else: :ok
+    else
+      :ok
     end
-
-    level
   end
 end

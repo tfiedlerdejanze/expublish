@@ -7,7 +7,9 @@ defmodule Expublish do
     Tests.run!()
 
     :major
-    |> Semver.update_mix_exs!()
+    |> VersionFile.get_version!()
+    |> Semver.increase()
+    |> VersionFile.update!()
     |> Changelog.write_entry!(DateTime.utc_now())
     |> Git.commit_and_tag()
     |> Git.push()
@@ -22,6 +24,7 @@ defmodule Expublish do
   alias Expublish.Options
   alias Expublish.Semver
   alias Expublish.Tests
+  alias Expublish.VersionFile
 
   require Logger
 
@@ -73,10 +76,11 @@ defmodule Expublish do
   defp run(level, options) do
     with :ok <- Git.validate(options),
          :ok <- Options.validate(options, level),
-         :ok <- Changelog.validate(options) do
-      level
-      |> Tests.run(options)
-      |> Semver.update_mix_exs!(options)
+         :ok <- Changelog.validate(options),
+         :ok <- Tests.validate(options, level) do
+      VersionFile.get_version!(options)
+      |> Semver.increase(level, options)
+      |> VersionFile.update!(options)
       |> Changelog.write_entry!(DateTime.utc_now(), options)
       |> Git.commit_and_tag(options)
       |> Git.push(options)

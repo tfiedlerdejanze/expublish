@@ -19,7 +19,7 @@ mix expublish.[level] [options]
 | `alpha`  | Pre-release for early test stage of next patch version.                   |
 
 Pre-releases are always considered unstable, however their next version level can
-still be changed by using one of the --as-major or --as-minor options.
+still be changed by using one of the `--as-major` or `--as-minor` options.
 
 ## Options
 
@@ -37,3 +37,4 @@ still be changed by using one of the --as-major or --as-minor options.
 | `--commit-prefix=string` | `"Version release"` | Prefix for commit message                            |
 | `--remote=string`        | `"origin"`          | Remote name for git push                             |
 | `--tag-prefix=string`    | `"v"`               | Prefix for release tag                               |
+| `--version-file=string`  | `"mix.exs"`         | Will overwrite the complete file if not "mix.exs"    |
