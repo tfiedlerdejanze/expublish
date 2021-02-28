@@ -37,4 +37,7 @@ still be changed by using one of the `--as-major` or `--as-minor` options.
 | `--commit-prefix=string` | `"Version release"` | Prefix for commit message                            |
 | `--remote=string`        | `"origin"`          | Remote name for git push                             |
 | `--tag-prefix=string`    | `"v"`               | Prefix for release tag                               |
-| `--version-file=string`  | `"mix.exs"`         | Will overwrite the complete file if not "mix.exs"    |
+| `--version-file=string`  | `"mix.exs"`         | When working with a separate version file \*         |
+
+\* Expublish expects given file to contain _nothing_ but the current version of a
+project and will write the new version to it.

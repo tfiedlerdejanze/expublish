@@ -105,6 +105,7 @@ options:
   --remote=string         - Remote name to push to, default: "origin"
   --commit-prefix=string  - Custom commit prefix, default:  "Version release"
   --tag-prefix=string     - Custom tag prefix, default: "v"
+  --version-file=string   - When working with a separate version file
 ```
 
 <span id="links-and-resources"></span>

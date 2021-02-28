@@ -171,7 +171,7 @@ defmodule Expublish.Options do
       --tag-prefix=string     - Custom tag prefix, default: #{
       inspect(Map.get(@defaults, :tag_prefix))
     }
-      --version-file=string   - If the package version is kept in a dedicated file
+      --version-file=string   - When working with a separate file version file
     """
   end
 end

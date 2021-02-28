@@ -54,11 +54,20 @@ defmodule Expublish.VersionFile do
   end
 
   def update!(new_version, %Options{version_file: version_file} = options) do
-    if File.exists?(version_file) do
+    with true <- File.exists?(version_file),
+         version <- File.read!(version_file),
+         version <- String.trim(version),
+         {:ok, version} <- Version.parse(version),
+         :gt <- Version.compare(new_version, version) do
       maybe_write_new_version(version_file, options, "#{new_version}")
     else
-      Logger.error("Given --version-file does not exists: #{version_file}.")
-      exit(:shutdown)
+      compare when compare in [:eq, :lt] ->
+        Logger.error("Version in --version-file is higher or equal than mix project version.")
+        exit(:shutdown)
+
+      _ ->
+        Logger.error("--version-file does not exist or contains invalid version.")
+        exit(:shutdown)
     end
 
     new_version
