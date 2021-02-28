@@ -19,7 +19,7 @@ mix expublish.[level] [options]
 | `alpha`  | Pre-release for early test stage of next patch version.                   |
 
 Pre-releases are always considered unstable, however their next version level can
-still be changed by using one of the --as-major or --as-minor options.
+still be changed by using one of the `--as-major` or `--as-minor` options.
 
 ## Options
 

@@ -45,7 +45,7 @@ it's recommended to _always_ execute a `--dry-run` before rerunning the expublis
 $ echo "- changelog entry one\n- changelog entry two" > RELEASE.md
 ```
 
-This file is deleted after a successful release and should be inside your `.gitignore`.
+_Note the `RELEASE.md` is deleted after every successful release._
 
 3\. Run `mix expublish`:
 
@@ -55,7 +55,7 @@ $ mix expublish.minor
 
 ## Installation
 
-See the [Installation](./docs/INSTALLATION.md) page to see how it easy it is to set up Expublish.
+See the [Installation](./docs/INSTALLATION.md) page to learn how to set up Expublish.
 
 <span id="version-levels"></span>
 
@@ -75,7 +75,8 @@ See the [Version levels](./docs/VERSION_LEVELS.md) page to learn how Expublish i
 
 ## Quick Reference
 
-See the full [Reference](./docs/REFERENCE.md) page for all valid `mix expublish` task levels, options and defaults.
+See the full [Reference](./docs/REFERENCE.md) page to learn about all valid `mix expublish`
+task levels, options and defaults.
 
 ```bash
 Usage: mix expublish.[level] [options]

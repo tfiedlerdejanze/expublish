@@ -12,14 +12,14 @@
 <!-- %% CHANGELOG_ENTRIES %% -->
 ```
 
-3\. Do not keep track of the release file. Put the following line in your `.gitignore`:
+3\. Put the following line in your `.gitignore`:
 
 ```text
 RELEASE.md
 ```
 
-Alternatively, you may check it in to version control and use it to publish a new package version
-from a remote job.
+Alternatively you may keep the `RELEASE.md` inside version control and use it
+when publishing from CI. The file is deleted after every succesful release.
 
 4\. (Optional) While writing the final package version, Expublish expects the version
 to be located where mix initially placed it.
