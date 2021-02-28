@@ -3,9 +3,9 @@ defmodule ExpublishTest do
   doctest Expublish
 
   import ExUnit.CaptureLog
+  alias Expublish.Mixexs
   alias Expublish.Options
   alias Expublish.Semver
-  alias Expublish.Mixexs
 
   setup do
     [options: Options.parse(["--dry-run"])]
