@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.5.1 - 28. Feb 2021 23:03
+
+Verify separate version file before writing to it
+
+
 ## 2.5.0 - 28. Feb 2021 22:29
 
 - Support updating project version in module attribute
