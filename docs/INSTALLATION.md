@@ -45,7 +45,7 @@ where `VERSION.txt` is a file containing nothing but the current project version
 
 Before publishing a package for the first time, do read the
 [hex documentation on publishing](https://hex.pm/docs/publish) and
-add the required configuration in mix.exs.
+add the required metadata in mix.exs.
 
 Regardless of publishing to [hex.pm](https://hex.pm/) or a self-hosted hex repository,
 the shell environment where `mix expublish` is being executed must authenticate for
