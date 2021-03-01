@@ -51,10 +51,9 @@ $ echo "- changelog entry one\n- changelog entry two" > RELEASE.md
 $ mix expublish.minor
 ```
 
-*Note that in case the push or publish step fail because of
-[missing authentication](./INSTALLATION.md#publishing-to-hex) or a failing network,
-the task must not be rerun. Instead run `mix hex.publish` or `git push` to
-finish releasing the new version.*
+_Note that in case the push or publish step fail because of missing authentication
+or a failing network, the task must not be rerun. Instead run `git push` or
+`mix hex.publish` to finish releasing the new version._
 
 ## Installation
 

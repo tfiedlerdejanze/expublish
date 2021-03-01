@@ -43,7 +43,7 @@ where `VERSION.txt` is a file containing nothing but the current project version
 
 ## Publishing to hex
 
-When publishing a package for the first time, do read the
+Before publishing a package for the first time, do read the
 [hex documentation on publishing](https://hex.pm/docs/publish) and
 add the required configuration in mix.exs.
 
