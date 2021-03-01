@@ -4,8 +4,8 @@ defmodule ExpublishTest do
 
   import ExUnit.CaptureLog
   alias Expublish.Options
+  alias Expublish.Project
   alias Expublish.Semver
-  alias Expublish.VersionFile
 
   setup do
     [options: Options.parse(["--dry-run"])]
@@ -30,7 +30,7 @@ defmodule ExpublishTest do
       end)
     end
 
-    VersionFile.get_version!()
+    Project.get_version!()
     |> Semver.major()
     |> assert_dry_run(fun)
   end
@@ -42,7 +42,7 @@ defmodule ExpublishTest do
       end)
     end
 
-    VersionFile.get_version!()
+    Project.get_version!()
     |> Semver.minor()
     |> assert_dry_run(fun)
   end
@@ -54,7 +54,7 @@ defmodule ExpublishTest do
       end)
     end
 
-    VersionFile.get_version!()
+    Project.get_version!()
     |> Semver.patch()
     |> assert_dry_run(fun)
   end
@@ -66,7 +66,7 @@ defmodule ExpublishTest do
       end)
     end
 
-    VersionFile.get_version!()
+    Project.get_version!()
     |> Semver.alpha(options)
     |> assert_dry_run(fun)
   end
@@ -78,7 +78,7 @@ defmodule ExpublishTest do
       end)
     end
 
-    VersionFile.get_version!()
+    Project.get_version!()
     |> Semver.beta(options)
     |> assert_dry_run(fun)
   end
@@ -90,7 +90,7 @@ defmodule ExpublishTest do
       end)
     end
 
-    VersionFile.get_version!()
+    Project.get_version!()
     |> Semver.rc(options)
     |> assert_dry_run(fun)
   end
