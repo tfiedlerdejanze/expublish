@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.5.3 - 01. Mar 2021 19:01
+
+Important note on push/publish failure
+
+
 ## 2.5.2 - 01. Mar 2021 18:27
 
 Improve installation docs
