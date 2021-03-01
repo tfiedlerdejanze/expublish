@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.5.2 - 01. Mar 2021 18:27
+
+Improve installation docs
+
+
 ## 2.5.1 - 28. Feb 2021 23:03
 
 Verify separate version file before writing to it
