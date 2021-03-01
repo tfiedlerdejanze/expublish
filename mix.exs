@@ -8,7 +8,7 @@ defmodule Expublish.MixProject do
   def project do
     [
       app: :expublish,
-      version: "2.5.3",
+      version: "2.5.4",
       package: package(),
       description: @description,
       source_url: @source_url,

@@ -2,6 +2,13 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.5.4 - 01. Mar 2021 23:09
+
+- Rename version_file.ex to more appropriate project.ex
+- More Documentation
+- License file
+
+
 ## 2.5.3 - 01. Mar 2021 19:01
 
 Important note on push/publish failure
