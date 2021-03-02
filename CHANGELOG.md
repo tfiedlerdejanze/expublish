@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.5.5 - 02. Mar 2021 19:21
+
+Cleanup module docs
+
+
 ## 2.5.4 - 01. Mar 2021 23:09
 
 - Rename version_file.ex to more appropriate project.ex
