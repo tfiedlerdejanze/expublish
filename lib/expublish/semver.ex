@@ -12,16 +12,17 @@ defmodule Expublish.Semver do
   require Logger
 
   @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
-  @spec increase(Version.t(), level(), Options.t()) :: Version.t()
-  def increase(version, level, options \\ %Options{})
+  @spec increase!(Version.t(), level(), Options.t()) :: Version.t()
+  @doc "Interfaces `Expublish.Semver` version increase functions."
+  def increase!(version, level, options \\ %Options{})
 
-  def increase(version, :major, _options), do: major(version)
-  def increase(version, :minor, _options), do: minor(version)
-  def increase(version, :patch, _options), do: patch(version)
-  def increase(version, :stable, _options), do: stable(version)
-  def increase(version, :rc, options), do: rc(version, options)
-  def increase(version, :beta, options), do: beta(version, options)
-  def increase(version, :alpha, options), do: alpha(version, options)
+  def increase!(version, :major, _options), do: major(version)
+  def increase!(version, :minor, _options), do: minor(version)
+  def increase!(version, :patch, _options), do: patch(version)
+  def increase!(version, :stable, _options), do: stable(version)
+  def increase!(version, :rc, options), do: rc(version, options)
+  def increase!(version, :beta, options), do: beta(version, options)
+  def increase!(version, :alpha, options), do: alpha(version, options)
 
   @doc "Bump major version."
   @spec major(Version.t()) :: Version.t()

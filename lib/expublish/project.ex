@@ -9,6 +9,8 @@ defmodule Expublish.Project do
 
   @doc """
   Return parsed %Version{} from current mix project.
+
+  Reads from `Mix.Project.config/0`
   """
   @spec get_version!(Options.t()) :: Version.t()
   def get_version!(_options \\ %Options{}) do

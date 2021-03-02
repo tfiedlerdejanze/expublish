@@ -8,7 +8,7 @@ defmodule Expublish do
 
     :major
     |> Project.get_version!()
-    |> Semver.increase()
+    |> Semver.increase!()
     |> Project.update_version!()
     |> Changelog.write_entry!(DateTime.utc_now())
     |> Git.commit_and_tag()
@@ -79,7 +79,7 @@ defmodule Expublish do
          :ok <- Changelog.validate(options),
          :ok <- Tests.validate(options, level) do
       Project.get_version!(options)
-      |> Semver.increase(level, options)
+      |> Semver.increase!(level, options)
       |> Project.update_version!(options)
       |> Changelog.write_entry!(DateTime.utc_now(), options)
       |> Git.commit_and_tag(options)
