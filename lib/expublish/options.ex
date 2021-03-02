@@ -28,7 +28,6 @@ defmodule Expublish.Options do
 
   @invalid_as_option_levels [:stable, :major, :minor, :patch]
 
-  @typedoc "Options"
   @type t :: %__MODULE__{}
 
   defstruct Enum.into(@defaults, [])
@@ -36,7 +35,6 @@ defmodule Expublish.Options do
   @doc """
   Default options used for every run.
 
-  Returns following map:
   ```
   %Expublish.Options{
   #{
@@ -47,7 +45,7 @@ defmodule Expublish.Options do
   }
   ```
   """
-  @spec defaults :: struct()
+  @spec defaults :: t()
   def defaults,
     do: struct(__MODULE__, @defaults)
 
@@ -126,7 +124,7 @@ defmodule Expublish.Options do
     |> String.trim()
   end
 
-  def typed_options_from_default do
+  defp typed_options_from_default do
     @defaults
     |> Enum.map(fn {k, v} -> {k, to_option_type(v)} end)
     |> Enum.into([])

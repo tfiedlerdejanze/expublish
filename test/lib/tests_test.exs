@@ -13,7 +13,7 @@ defmodule TestsTest do
   test "validate/0 validates without errors", %{options: options} do
     fun = fn -> Tests.validate(options, :major) end
 
-    assert capture_log(fun) =~ "Skipping test validate"
+    assert capture_log(fun) =~ "Skipping test run"
     assert capture_log(fun) =~ "major release"
   end
 end
