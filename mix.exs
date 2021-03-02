@@ -29,6 +29,13 @@ defmodule Expublish.MixProject do
       dialyzer: [
         plt_core_path: "priv/plts",
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+      ],
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
       ]
     ]
   end
@@ -55,7 +62,8 @@ defmodule Expublish.MixProject do
     [
       {:ex_doc, "~> 0.14", only: :dev, runtime: false, optional: true},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false, optional: true},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false, optional: true}
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false, optional: true},
+      {:excoveralls, "~> 0.10", only: :test, optional: true}
     ]
   end
 end
