@@ -12,7 +12,23 @@ defmodule GitTest do
     [options: Options.parse(["--dry-run", "--disable-push"]), version: @version]
   end
 
-  test "validate/1 runs without errors", %{options: options} do
+  test "validate/2 does expected system call" do
+    fun = fn ->
+      Git.validate(%Options{}, TestSystemCall)
+    end
+
+    assert capture_log(fun) =~ "git status --porcelain"
+  end
+
+  test "validate/2 does expected system call with --allow-untracked" do
+    fun = fn ->
+      Git.validate(Options.parse(["--allow-untracked"]), TestSystemCall)
+    end
+
+    assert capture_log(fun) =~ "git status --untracked-files=no --porcelain"
+  end
+
+  test "validate/2 runs without errors", %{options: options} do
     assert :ok == Git.validate(options)
   end
 
@@ -22,6 +38,25 @@ defmodule GitTest do
     assert Git.validate(options) =~ "Git working directory not clean"
 
     File.rm!("expublish_git_validate_test")
+  end
+
+  test "commit_and_tag/3 does expected system calls", %{version: version} do
+    options = %Options{}
+
+    fun = fn ->
+      Git.commit_and_tag(version, options, TestSystemCall)
+    end
+
+    git_tag = "#{options.tag_prefix}#{version}"
+    commit_message = "#{options.commit_prefix} #{version}"
+
+    assert capture_log(fun) =~ "Creating new version commit"
+    assert capture_log(fun) =~ "Creating new version tag"
+    assert capture_log(fun) =~ "#{version}"
+
+    assert capture_log(fun) =~ "git add ."
+    assert capture_log(fun) =~ "git commit -qm #{commit_message}"
+    assert capture_log(fun) =~ "git tag -a #{git_tag} -m #{commit_message}"
   end
 
   test "commit_and_tag/1 logs an info message", %{options: options, version: version} do
@@ -44,5 +79,16 @@ defmodule GitTest do
 
     assert capture_log(fun) =~ "Custom release commit #{version}"
     assert capture_log(fun) =~ "rc#{version}"
+  end
+
+  test "push/3 does expected system call", %{version: version} do
+    options = %Options{}
+
+    fun = fn ->
+      Git.push(version, options, TestSystemCall)
+    end
+
+    assert capture_log(fun) =~ "Pushing new package version"
+    assert capture_log(fun) =~ "git push #{options.remote} #{options.branch} --tags"
   end
 end

@@ -16,4 +16,12 @@ defmodule TestsTest do
     assert capture_log(fun) =~ "Skipping test run"
     assert capture_log(fun) =~ "major release"
   end
+
+  test "validate/0 does expected mix system call" do
+    fun = fn -> Tests.validate(%Options{}, :beta) end
+
+    assert capture_log(fun) =~ "Starting test run"
+    assert capture_log(fun) =~ "beta release"
+    assert capture_log(fun) =~ "mix test"
+  end
 end

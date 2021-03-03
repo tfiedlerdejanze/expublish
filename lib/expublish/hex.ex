@@ -10,12 +10,12 @@ defmodule Expublish.Hex do
   @doc """
   Run mix hex.publish --yes.
   """
-  @spec publish(Version.t(), Options.t()) :: Version.t()
-  def publish(version, options \\ %Options{})
+  @spec publish(Version.t(), Options.t(), module()) :: Version.t()
+  def publish(version, options \\ %Options{}, syscall_module \\ System)
 
-  def publish(version, %Options{dry_run: false, disable_publish: false}) do
+  def publish(version, %Options{dry_run: false, disable_publish: false}, syscall_module) do
     Logger.info("Publishing new package version with: \"mix hex.publish --yes\".\n")
-    {_, error_code} = System.cmd("mix", ["hex.publish", "--yes"])
+    {_, error_code} = syscall_module.cmd("mix", ["hex.publish", "--yes"])
 
     if error_code == 0,
       do: Logger.info("Successfully published new package version on hex."),
@@ -24,7 +24,7 @@ defmodule Expublish.Hex do
     version
   end
 
-  def publish(version, _options) do
+  def publish(version, _options, _syscall_module) do
     Logger.info("Skipping \"mix hex.publish --yes\".")
 
     version

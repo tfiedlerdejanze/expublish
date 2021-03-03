@@ -20,15 +20,15 @@ defmodule Expublish.Tests do
   end
 
   def validate(_options, level) do
-    if Mix.env() != :test do
-      Logger.info("Starting test run for #{to_string(level)} release.")
-      error_code = Mix.Shell.IO.cmd("mix test")
-
-      if error_code != 0,
-        do: "Test run failed. Abort.",
-        else: :ok
-    else
-      :ok
+    Logger.info("Starting test run for #{to_string(level)} release.")
+    syscall_module = if Mix.env == :test, do: TestSystemCall, else: Mix.Shell.IO
+    error_code = case syscall_module.cmd("mix test") do
+      {_, return_code} -> return_code
+      return_code -> return_code
     end
+
+    if error_code != 0,
+      do: "Test run failed. Abort.",
+      else: :ok
   end
 end

@@ -12,9 +12,19 @@ defmodule PublishTest do
     [options: Options.parse(["--dry-run"]), version: @version]
   end
 
-  test "run/2 runs without errors", %{options: options, version: version} do
+  test "publish/2 runs without errors", %{options: options, version: version} do
     fun = fn -> Hex.publish(version, options) end
 
     assert capture_log(fun) =~ "Skipping \"mix hex.publish --yes\""
+  end
+
+  test "publish/2 does expected system call", %{version: version} do
+    options = %Options{}
+
+    fun = fn ->
+      Hex.publish(version, options, TestSystemCall)
+    end
+
+    assert capture_log(fun) =~ "mix hex.publish --yes"
   end
 end
