@@ -19,13 +19,14 @@ RELEASE.md
 ```
 
 Alternatively, the `RELEASE.md` can be kept inside version control and used
-when publishing from CI. The file is deleted after every succesful release.
+when publishing from CI. The file is deleted after every successful release.
 
 4\. (Optional) While writing the final package version, Expublish expects the version
-to be located where mix initially placed it.
+to be located where `mix new [package]` initially placed it. If it wasn't changed skip
+the next couple paragraphs and read about [Publishing to hex](#publishing-to-hex).
 
-As it is quite common to keep the package version in a module attribute in `mix.exs`,
-Expublish will consider this as well.
+As it is common to keep the package version in a module attribute in `mix.exs`,
+Expublish supports following syntax as well.
 
 ```
 @version "1.0.0"
@@ -34,11 +35,22 @@ version: @version
 ```
 
 If the package version is maintained in a separate file, expublish can be made aware
-of that with the appropriate [option](./REFERENCE.md): `--version-file=VERSION.txt`
+of that with the appropriate [option](./REFERENCE.md):
+
+```bash
+$ mix expublish.patch --version-file=VERSION.txt`
+```
+
 where `VERSION.txt` is a file containing nothing but the current project version:
 
 ```
 1.0.0
+```
+
+with a mix.exs reading said file in `project/0`:
+
+```
+version: File.read("VERSION.txt") |> String.tim()
 ```
 
 ## Publishing to hex
