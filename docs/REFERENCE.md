@@ -34,8 +34,8 @@ still be changed by using one of the `--as-major` or `--as-minor` options.
 | `--disable-push`         | `false`             | Disable git push                                     |
 | `--disable-test`         | `false`             | Disable test run                                     |
 | `--branch=string`        | `"master"`          | Remote branch for git push                           |
-| `--commit-prefix=string` | `"Version release"` | Prefix for commit message                            |
 | `--remote=string`        | `"origin"`          | Remote name for git push                             |
+| `--commit-prefix=string` | `"Version release"` | Prefix for commit message                            |
 | `--tag-prefix=string`    | `"v"`               | Prefix for release tag                               |
 | `--version-file=string`  | `"mix.exs"`         | When working with a separate version file \*         |
 
