@@ -2,7 +2,7 @@
 
 Version level increases follow [semantic versioning](https://semver.org/) conventions.
 
-The `Expublish.Semver` type is defined as:
+`Expublish.Semver` defines the level type as:
 
 ```
 @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable

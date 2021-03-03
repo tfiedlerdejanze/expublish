@@ -1,6 +1,6 @@
 # Reference
 
-Expublish defines the mix task is defined as:
+Expublish defines the mix task as:
 
 ```
 mix expublish.[level] [options]
@@ -40,4 +40,4 @@ still be changed by using one of the `--as-major` or `--as-minor` options.
 | `--version-file=string`  | `"mix.exs"`         | When working with a separate version file \*         |
 
 \* Expublish expects given file to contain _nothing_ but the current version of a
-project and will write the new version to it.
+project and will overwrite the file with the new version while releasing.
