@@ -36,12 +36,9 @@ defmodule ChangelogTest do
   } do
     dt = DateTime.utc_now()
 
-    title = Changelog.build_title(version, options, dt)
+    date_format = to_iso_format([dt.year, dt.month, dt.day])
 
-    date_format =
-      [dt.year, dt.month, dt.day]
-      |> Enum.map(fn x -> String.pad_leading("#{x}", 2, "0") end)
-      |> Enum.join("-")
+    title = Changelog.build_title(version, options, dt)
 
     assert title == "## #{version} - #{date_format}"
   end
@@ -50,18 +47,18 @@ defmodule ChangelogTest do
     version: version
   } do
     dt = DateTime.utc_now()
+
+    date_format = to_iso_format([dt.year, dt.month, dt.day])
+    time_format = to_iso_format([dt.hour, dt.minute, dt.second], ":")
+
     title = Changelog.build_title(version, %Options{changelog_date_time: true}, dt)
 
-    date_format =
-      [dt.year, dt.month, dt.day]
-      |> Enum.map(fn x -> String.pad_leading("#{x}", 2, "0") end)
-      |> Enum.join("-")
-
-    time_format =
-      [dt.hour, dt.minute, dt.second]
-      |> Enum.map(fn x -> String.pad_leading("#{x}", 2, "0") end)
-      |> Enum.join(":")
-
     assert title == "## #{version} - #{date_format} #{time_format}"
+  end
+
+  defp to_iso_format(parts, separator \\ "-") do
+    parts
+    |> Enum.map(&(String.pad_leading("#{&1}", 2, "0")))
+    |> Enum.join(separator)
   end
 end
