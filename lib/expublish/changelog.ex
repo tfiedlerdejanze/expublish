@@ -39,14 +39,9 @@ defmodule Expublish.Changelog do
   @doc """
   Generate new changelog entry from RELEASE.md contents.
   """
-  @spec write_entry!(Version.t(), DateTime.t(), Options.t()) :: Version.t()
-  def write_entry!(%Version{} = version, %DateTime{} = date_time, options) do
-    date_time_string =
-      date_time
-      |> DateTime.truncate(:second)
-      |> Calendar.strftime("%d. %b %Y %H:%M")
-
-    title = "#{@changelog_header_prefix} #{version} - #{date_time_string}"
+  @spec write_entry!(Version.t(), Options.t()) :: Version.t()
+  def write_entry!(%Version{} = version, options \\ %Options{}) do
+    title = build_title(version, options)
     text = File.read!(@release_filename) |> String.trim()
 
     add_changelog_entry(title, text, options)
@@ -65,6 +60,34 @@ defmodule Expublish.Changelog do
   def remove_release_file!(%Version{} = version, _options) do
     File.rm!(@release_filename)
     version
+  end
+
+  @doc """
+  Generates changelog entry title.
+
+  Formats current or given `NaiveDateTime` to ISO 8601 date by default.
+  Can be changed to ISO 8601 date-time with the `--changelog-date-time` option.
+  """
+  @spec build_title(Version.t(), Options.t(), nil | NaiveDateTime.t()) :: String.t()
+  def build_title(version, options \\ %Options{}, date_time \\ nil)
+
+  def build_title(version, options, nil) do
+    build_title(version, options, NaiveDateTime.utc_now())
+  end
+
+  def build_title(version, %Options{changelog_date_time: true}, date_time) do
+    date_time
+    |> NaiveDateTime.truncate(:second)
+    |> NaiveDateTime.to_iso8601()
+    |> String.replace("T", " ")
+    |> format_title(version)
+  end
+
+  def build_title(version, _options, date_time) do
+    date_time
+    |> NaiveDateTime.to_date()
+    |> Date.to_iso8601()
+    |> format_title(version)
   end
 
   defp add_changelog_entry(title, text, %Options{dry_run: true} = options) do
@@ -93,6 +116,10 @@ defmodule Expublish.Changelog do
       ])
 
     File.write!(@changelog_filename, replaced)
+  end
+
+  defp format_title(date_string, version) do
+    "#{@changelog_header_prefix} #{version} - #{date_string}"
   end
 
   defp log_new_changelog_entry(title, text, %{dry_run: true}) do

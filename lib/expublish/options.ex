@@ -9,6 +9,7 @@ defmodule Expublish.Options do
     allow_untracked: false,
     as_major: false,
     as_minor: false,
+    changelog_date_time: false,
     disable_publish: false,
     disable_push: false,
     disable_test: false,
@@ -146,9 +147,6 @@ defmodule Expublish.Options do
       beta    - Publish beta pre-release of next patch version
       alpha   - Publish alpha pre-release of next patch version
 
-    Pre-releases are always considered unstable, however their next version level can 
-    still be changed by using one of the --as-major or --as-minor options.
-
     options:
       -d, --dry-run           - Perform dry run (no writes, no commits)
       --allow-untracked       - Allow untracked files during release
@@ -157,6 +155,7 @@ defmodule Expublish.Options do
       --disable-publish       - Disable hex publish
       --disable-push          - Disable git push
       --disable-test          - Disable test run
+      --changelog-date-time   - Use date-time instead of date in new changelog entry
       --branch=string         - Remote branch to push to, default: #{
       inspect(Map.get(@defaults, :branch))
     }
