@@ -85,7 +85,6 @@ defmodule Expublish.Changelog do
 
   def build_title(version, _options, date_time) do
     date_time
-    |> NaiveDateTime.to_date()
     |> Date.to_iso8601()
     |> format_title(version)
   end
