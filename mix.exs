@@ -13,6 +13,7 @@ defmodule Expublish.MixProject do
       description: @description,
       source_url: @source_url,
       elixir: "~> 1.11",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       docs: [
@@ -39,6 +40,9 @@ defmodule Expublish.MixProject do
       ]
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/fixtures/test_system_call.ex"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp package() do
     [

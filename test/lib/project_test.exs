@@ -24,7 +24,7 @@ defmodule ProjectTest do
     assert Project.get_version!() == expected
   end
 
-  test "update_version!/0 reads current project version from mix" do
+  test "update_version!/2 updates current project version in --version-file" do
     version = get_test_file_version()
     new_version = %{version | patch: version.patch + 1}
 
