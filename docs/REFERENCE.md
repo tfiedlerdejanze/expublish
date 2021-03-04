@@ -33,6 +33,7 @@ still be changed by using one of the `--as-major` or `--as-minor` options.
 | `--disable-publish`      | `false`             | Disable hex publish                                  |
 | `--disable-push`         | `false`             | Disable git push                                     |
 | `--disable-test`         | `false`             | Disable test run                                     |
+| `--changelog-date-time`  | `false`             | Use date-time instead of date in new changelog entry |
 | `--branch=string`        | `"master"`          | Remote branch for git push                           |
 | `--remote=string`        | `"origin"`          | Remote name for git push                             |
 | `--commit-prefix=string` | `"Version release"` | Prefix for commit message                            |

@@ -93,9 +93,6 @@ level:
   beta    - Publish beta pre-release of next patch version
   alpha   - Publish alpha pre-release of next patch version
 
-Note on pre-releases: their next version level can be changed by using
-one of the --as-major or --as-minor options.
-
 options:
   -d, --dry-run           - Perform dry run (no writes, no commits)
   --allow-untracked       - Allow untracked files during release
@@ -104,6 +101,7 @@ options:
   --disable-publish       - Disable hex publish
   --disable-push          - Disable git push
   --disable-test          - Disable test run
+  --changelog-date-time   - Use date-time instead of date in new changelog entry
   --branch=string         - Remote branch to push to, default: "master"
   --remote=string         - Remote name to push to, default: "origin"
   --commit-prefix=string  - Custom commit prefix, default:  "Version release"
