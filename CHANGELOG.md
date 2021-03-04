@@ -2,6 +2,13 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.6.0 - 2021-03-04
+
+- ISO 8601 formatted changelog entry date
+- Add excoveralls
+- Fix typos in documentation
+
+
 ## 2.5.5 - 2021-03-02
 
 Cleanup module docs
