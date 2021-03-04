@@ -26,6 +26,10 @@ defmodule ChangelogTest do
     assert capture_log(fun) =~ "Skipping new entry"
   end
 
+  test "build_title/3 runs without errors", %{version: version} do
+    assert Changelog.build_title(version) =~ ~r/#{version} - \d{4}-\d{2}-\d{2}/
+  end
+
   test "build_title/3 formats date-time to ISO 8601 date by default", %{
     options: options,
     version: version
