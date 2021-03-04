@@ -63,10 +63,10 @@ defmodule Expublish.Changelog do
   end
 
   @doc """
-  Generates changelog entry title.
+  Build changelog entry title with version and ISO 8601 date.
 
-  Formats current or given `NaiveDateTime` to ISO 8601 date by default.
-  Can be changed to ISO 8601 date-time with the `--changelog-date-time` option.
+  Formats current or given `NaiveDateTime` to ISO 8601 date string.
+  Can be changed to date-time representation with the `--changelog-date-time` option.
   """
   @spec build_title(Version.t(), Options.t(), nil | NaiveDateTime.t()) :: String.t()
   def build_title(version, options \\ %Options{}, date_time \\ nil)
