@@ -80,11 +80,10 @@ defmodule SemverTest do
 
   test "alpha/1 increases patch version and adds alpha pre-release", %{
     version: version,
-    options: options
   } do
     expected = %{version | patch: version.patch + 1, pre: ["alpha"]}
 
-    assert Semver.alpha(version, options) == expected
+    assert Semver.alpha(version) == expected
   end
 
   test "alpha/1 increases minor version and appends alpha pre-release", %{
@@ -134,11 +133,10 @@ defmodule SemverTest do
 
   test "beta/1 increases patch version and adds beta pre-release", %{
     version: version,
-    options: options
   } do
     expected = %{version | patch: version.patch + 1, pre: ["beta"]}
 
-    assert Semver.beta(version, options) == expected
+    assert Semver.beta(version) == expected
   end
 
   test "beta/1 increases minor version and appends beta pre-release", %{
@@ -181,11 +179,10 @@ defmodule SemverTest do
 
   test "rc/1 increases patch version and adds rc pre-release", %{
     version: version,
-    options: options
   } do
     expected = %{version | patch: version.patch + 1, pre: ["rc"]}
 
-    assert Semver.rc(version, options) == expected
+    assert Semver.rc(version) == expected
   end
 
   test "rc/1 increases minor version and appends rc pre-release", %{

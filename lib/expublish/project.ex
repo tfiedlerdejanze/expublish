@@ -29,12 +29,15 @@ defmodule Expublish.Project do
   @doc """
   Writes version to project mix.exs or given --version-file.
   """
-  @spec update_version!(Version.t(), Options.t()) :: Version.t()
-  def update_version!(new_version, options \\ %Options{})
+  @spec update_version!(Version.t(), Options.t(), nil | Version.t()) :: Version.t()
+  def update_version!(new_version, options \\ %Options{}, version \\ nil)
 
-  def update_version!(new_version, %Options{version_file: "mix.exs"} = options) do
+  def update_version!(new_version, %Options{version_file: "mix.exs"} = options, nil) do
+    update_version!(new_version, options, get_version!())
+  end
+
+  def update_version!(new_version, %Options{version_file: "mix.exs"} = options, version) do
     contents = File.read!("mix.exs")
-    version = get_version!()
 
     replace_mode = get_replace_mode(contents, version)
 
@@ -55,7 +58,7 @@ defmodule Expublish.Project do
     new_version
   end
 
-  def update_version!(new_version, %Options{version_file: version_file} = options) do
+  def update_version!(new_version, %Options{version_file: version_file} = options, _) do
     with true <- File.exists?(version_file),
          version <- File.read!(version_file),
          version <- String.trim(version),

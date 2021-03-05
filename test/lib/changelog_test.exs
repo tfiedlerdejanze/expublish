@@ -3,13 +3,29 @@ defmodule ChangelogTest do
   doctest Expublish
 
   import ExUnit.CaptureLog
+  import Expublish.TestHelper
   alias Expublish.Changelog
   alias Expublish.Options
 
   @version Version.parse!("1.0.1")
+  @relase_file "test/files/remove_release_file_test.md"
 
   setup do
     [options: Options.parse(["--dry-run"]), version: @version]
+  end
+
+  test "validate/1 validates the release file exists", %{options: options} do
+    with_release_md(fn ->
+      assert :ok == Changelog.validate(options)
+    end)
+  end
+
+  test "remove_release_file!/3 deletes the file", %{version: version} do
+    File.write!(@relase_file, "generated in test")
+
+    assert version == Changelog.remove_release_file!(version, %Options{}, @relase_file)
+
+    refute File.exists?(@relase_file)
   end
 
   test "write_entry!/1 logs info message", %{options: options, version: version} do
@@ -36,7 +52,7 @@ defmodule ChangelogTest do
   } do
     dt = DateTime.utc_now()
 
-    date_format = to_iso_format([dt.year, dt.month, dt.day])
+    date_format = parts_to_iso([dt.year, dt.month, dt.day])
 
     title = Changelog.build_title(version, options, dt)
 
@@ -48,17 +64,19 @@ defmodule ChangelogTest do
   } do
     dt = DateTime.utc_now()
 
-    date_format = to_iso_format([dt.year, dt.month, dt.day])
-    time_format = to_iso_format([dt.hour, dt.minute, dt.second], ":")
+    date_format = parts_to_iso([dt.year, dt.month, dt.day])
+    time_format = parts_to_iso([dt.hour, dt.minute, dt.second], ":")
 
     title = Changelog.build_title(version, %Options{changelog_date_time: true}, dt)
 
     assert title == "## #{version} - #{date_format} #{time_format}"
   end
 
-  defp to_iso_format(parts, separator \\ "-") do
-    parts
-    |> Enum.map(&(String.pad_leading("#{&1}", 2, "0")))
-    |> Enum.join(separator)
+  test "with_new_entry/1 adds a new changelog entry from RELEASE.md", %{version: version} do
+    with_release_md(fn ->
+      release_text = File.read!("RELEASE.md")
+      assert Changelog.with_new_entry("#{version}", release_text) =~ "#{version}"
+      assert Changelog.with_new_entry("#{version}", release_text) =~ release_text
+    end)
   end
 end

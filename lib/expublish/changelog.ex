@@ -7,10 +7,9 @@ defmodule Expublish.Changelog do
 
   require Logger
 
-  @release_filename "RELEASE.md"
+  @release_file "RELEASE.md"
 
-  @changelog_filename "CHANGELOG.md"
-  @changelog_header_prefix String.duplicate("#", 2)
+  @changelog_file "CHANGELOG.md"
   @changelog_entries_marker "<!-- %% CHANGELOG_ENTRIES %% -->"
 
   @doc """
@@ -26,7 +25,7 @@ defmodule Expublish.Changelog do
         "Missing file: CHANGELOG.md"
 
       !String.contains?(
-        File.read!(@changelog_filename),
+        File.read!(@changelog_file),
         @changelog_entries_marker
       ) ->
         "CHANGELOG.md is missing required placeholder."
@@ -42,7 +41,7 @@ defmodule Expublish.Changelog do
   @spec write_entry!(Version.t(), Options.t()) :: Version.t()
   def write_entry!(%Version{} = version, options \\ %Options{}) do
     title = build_title(version, options)
-    text = File.read!(@release_filename) |> String.trim()
+    text = File.read!(@release_file) |> String.trim()
 
     add_changelog_entry(title, text, options)
 
@@ -52,13 +51,15 @@ defmodule Expublish.Changelog do
   @doc """
   Removes RELEASE.md.
   """
-  @spec remove_release_file!(Version.t(), Options.t()) :: Version.t()
-  def remove_release_file!(%Version{} = version, %Options{dry_run: true}) do
+  @spec remove_release_file!(Version.t(), Options.t(), String.t()) :: Version.t()
+  def remove_release_file!(version, options \\ %Options{}, file_path \\ @release_file)
+
+  def remove_release_file!(%Version{} = version, %Options{dry_run: true}, _) do
     version
   end
 
-  def remove_release_file!(%Version{} = version, _options) do
-    File.rm!(@release_filename)
+  def remove_release_file!(%Version{} = version, _options, file_path) do
+    File.rm!(file_path)
     version
   end
 
@@ -89,36 +90,37 @@ defmodule Expublish.Changelog do
     |> format_title(version)
   end
 
+  @doc false
+  def with_new_entry(title, text) do
+    contents = File.read!(@changelog_file)
+    [first, last] = String.split(contents, @changelog_entries_marker)
+
+    Enum.join([
+      first,
+      """
+      #{@changelog_entries_marker}
+
+      """,
+      """
+      #{title}
+
+      #{text}
+      """,
+      last
+    ])
+  end
+
   defp add_changelog_entry(title, text, %Options{dry_run: true} = options) do
     log_new_changelog_entry(title, text, options)
   end
 
   defp add_changelog_entry(title, text, options) do
     log_new_changelog_entry(title, text, options)
-
-    contents = File.read!(@changelog_filename)
-    [first, last] = String.split(contents, @changelog_entries_marker)
-
-    replaced =
-      Enum.join([
-        first,
-        """
-        #{@changelog_entries_marker}
-
-        """,
-        """
-        #{title}
-
-        #{text}
-        """,
-        last
-      ])
-
-    File.write!(@changelog_filename, replaced)
+    File.write!(@changelog_file, with_new_entry(title, text))
   end
 
   defp format_title(date_string, version) do
-    "#{@changelog_header_prefix} #{version} - #{date_string}"
+    "## #{version} - #{date_string}"
   end
 
   defp log_new_changelog_entry(title, text, %{dry_run: true}) do
