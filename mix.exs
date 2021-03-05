@@ -65,8 +65,8 @@ defmodule Expublish.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.14", only: :dev, runtime: false, optional: true},
-      {:credo, "~> 1.5", only: [:dev, :test], runtime: false, optional: true},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false, optional: true},
+      {:credo, "~> 1.5", only: :dev, runtime: false, optional: true},
+      {:dialyxir, "~> 1.0", only: :dev, runtime: false, optional: true},
       {:excoveralls, "~> 0.10", only: [:dev, :test], optional: true}
     ]
   end

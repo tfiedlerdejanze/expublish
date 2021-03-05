@@ -44,7 +44,7 @@ defmodule Expublish.Semver do
 
   @doc "Remove current pre-release suffix and declare current version stable."
   @spec stable(Version.t()) :: Version.t()
-  def stable(%Version{pre: []} = version) do
+  def stable(%Version{pre: pre} = version) when pre in [nil, []] do
     Logger.error("Can not create stable release from already stable version #{version}. Abort.")
     exit(:shutdown)
   end
