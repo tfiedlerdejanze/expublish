@@ -1,4 +1,4 @@
-name: Elixir CI
+name: Elixir 1.8
 
 on:
   push:
@@ -10,6 +10,9 @@ jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest
+
+    env:
+      MIX_ENV: test
 
     strategy:
       matrix:

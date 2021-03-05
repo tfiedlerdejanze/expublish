@@ -1,4 +1,4 @@
-name: Elixir CI
+name: Elixir 1.11
 
 on:
   push:
@@ -10,6 +10,10 @@ jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MIX_ENV: test
 
     strategy:
       matrix:
@@ -59,6 +63,3 @@ jobs:
         run: mix credo --strict
       - name: Run tests
         run: mix coveralls.github
-        env:
-          MIX_ENV: test
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
