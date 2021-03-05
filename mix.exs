@@ -12,7 +12,7 @@ defmodule Expublish.MixProject do
       package: package(),
       description: @description,
       source_url: @source_url,
-      elixir: "~> 1.11",
+      elixir: "~> 1.10",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
