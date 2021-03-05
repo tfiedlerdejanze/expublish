@@ -40,7 +40,7 @@ it's recommended to _always_ execute a `--dry-run` before rerunning the expublis
 
 1\. Follow the [installation](./docs/INSTALLATION.md) instructions.
 
-2\. For every new release, create a`RELEASE.md` containing a new changelog entry:
+2\. For every new release, create a `RELEASE.md` containing a new changelog entry:
 
 ```bash
 $ echo "- changelog entry one\n- changelog entry two" > RELEASE.md
