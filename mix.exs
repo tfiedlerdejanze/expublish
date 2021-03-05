@@ -12,7 +12,7 @@ defmodule Expublish.MixProject do
       package: package(),
       description: @description,
       source_url: @source_url,
-      elixir: "~> 1.10",
+      elixir: "~> 1.8",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -65,8 +65,8 @@ defmodule Expublish.MixProject do
   defp deps do
     [
       {:ex_doc, "~> 0.14", only: :dev, runtime: false, optional: true},
-      {:credo, "~> 1.5", only: :dev, runtime: false, optional: true},
-      {:dialyxir, "~> 1.0", only: :dev, runtime: false, optional: true},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false, optional: true},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false, optional: true},
       {:excoveralls, "~> 0.10", only: [:dev, :test], optional: true}
     ]
   end
