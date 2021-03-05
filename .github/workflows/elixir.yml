@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MIX_ENV: test
 
     strategy:
@@ -61,46 +62,8 @@ jobs:
       - name: Run static code analysis (credo)
         run: mix credo --strict
       - name: Run tests
-        run: mix coveralls
-  coveralls:
-    name: Coveralls
-    runs-on: ubuntu-latest
-
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      MIX_ENV: test
-
-    strategy:
-      matrix:
-        elixir: [1.11.2]
-        otp: [23.2]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Elixir
-        uses: actions/setup-elixir@v1
-        with:
-          elixir-version: ${{ matrix.elixir }}
-          otp-version: ${{ matrix.otp }}
-      - name: Restore dependency cache
-        uses: actions/cache@v2
-        id: deps-cache
-        with:
-          path: deps
-          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-
-      - name: Restore build cache
-        uses: actions/cache@v2
-        with:
-          path: _build
-          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-build-${{ hashFiles('**/mix.lock') }}
-          restore-keys: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-build-
-      - name: Install dependencies
-        if: steps.deps-cache.outputs.cache-hit != 'true'
-        run: mix deps.get
-      - name: Compile application
-        run: mix compile
-      - name: Run static code analysis (credo)
-        run: mix credo --strict
-      - name: Run tests
+        if: matrix.elixir != '1.11.2' || matrix.otp != '23.2'
+        run: mix test
+      - name: Run tests and coverage
+        if: matrix.elixir == '1.11.2' && matrix.otp == '23.2'
         run: mix coveralls.github
