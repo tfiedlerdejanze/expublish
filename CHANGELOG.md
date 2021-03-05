@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.6.1 - 2021-03-05
+
+Fix typos in documentation
+
+
 ## 2.6.0 - 2021-03-04
 
 - ISO 8601 formatted changelog entry date
