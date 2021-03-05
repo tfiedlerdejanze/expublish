@@ -6,6 +6,7 @@
 erl_crash.dump
 *.ez
 expublish-*.tar
+.tool-versions
 /tmp
 
 /priv/plts/*.plt

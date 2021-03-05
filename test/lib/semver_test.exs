@@ -6,26 +6,26 @@ defmodule SemverTest do
   alias Expublish.Options
   alias Expublish.Semver
 
-  @version %Version{major: 1, minor: 0, patch: 1}
+  @version Version.parse!("1.0.0")
 
   setup do
     [options: Options.parse(["--dry-run"]), version: @version]
   end
 
   test "major/1 increases major level of version", %{version: version} do
-    expected = %Version{major: version.major + 1, minor: 0, patch: 0}
+    expected = %{version | major: version.major + 1, minor: 0, patch: 0}
 
     assert Semver.major(version) == expected
   end
 
   test "minor/1 increases minor level of version", %{version: version} do
-    expected = %Version{major: version.major, minor: version.minor + 1, patch: 0}
+    expected = %{version | minor: version.minor + 1, patch: 0}
 
     assert Semver.minor(version) == expected
   end
 
   test "patch/1 increases patch level of version", %{version: version} do
-    expected = %Version{major: version.major, minor: version.minor, patch: version.patch + 1}
+    expected = %{version | patch: version.patch + 1}
 
     assert Semver.patch(version) == expected
   end
@@ -34,12 +34,8 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major,
-      minor: version.minor,
-      patch: version.patch + 1,
-      pre: ["alpha"]
-    }
+    expected = %{version | patch: version.patch + 1}
+    expected = %{expected | pre: ["alpha"]}
 
     version = Semver.alpha(version, options)
     assert version == expected
@@ -53,12 +49,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major + 1,
-      minor: 0,
-      patch: 0,
-      pre: ["alpha"]
-    }
+    expected = %{version | major: version.major + 1, minor: 0, patch: 0, pre: ["alpha"]}
 
     options = %{options | as_major: true}
 
@@ -74,13 +65,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major,
-      minor: version.minor + 1,
-      patch: 0,
-      pre: ["alpha"]
-    }
-
+    expected = %{version | minor: version.minor + 1, patch: 0, pre: ["alpha"]}
     options = %{options | as_minor: true}
 
     version = Semver.alpha(version, options)
@@ -97,12 +82,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major,
-      minor: version.minor,
-      patch: version.patch + 1,
-      pre: ["alpha"]
-    }
+    expected = %{version | patch: version.patch + 1, pre: ["alpha"]}
 
     assert Semver.alpha(version, options) == expected
   end
@@ -111,13 +91,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major,
-      minor: version.minor + 1,
-      patch: 0,
-      pre: ["alpha"]
-    }
-
+    expected = %{version | minor: version.minor + 1, patch: 0, pre: ["alpha"]}
     options = Map.merge(options, %{as_minor: true})
 
     assert Semver.alpha(version, options) == expected
@@ -127,13 +101,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major + 1,
-      minor: 0,
-      patch: 0,
-      pre: ["alpha"]
-    }
-
+    expected = %{version | major: version.major + 1, minor: 0, patch: 0, pre: ["alpha"]}
     options = Map.merge(options, %{as_major: true})
 
     assert Semver.alpha(version, options) == expected
@@ -168,12 +136,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major,
-      minor: version.minor,
-      patch: version.patch + 1,
-      pre: ["beta"]
-    }
+    expected = %{version | patch: version.patch + 1, pre: ["beta"]}
 
     assert Semver.beta(version, options) == expected
   end
@@ -182,12 +145,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major,
-      minor: version.minor + 1,
-      patch: 0,
-      pre: ["beta"]
-    }
+    expected = %{version | minor: version.minor + 1, patch: 0, pre: ["beta"]}
 
     options = Map.merge(options, %{as_minor: true})
 
@@ -198,12 +156,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major + 1,
-      minor: 0,
-      patch: 0,
-      pre: ["beta"]
-    }
+    expected = %{version | major: version.major + 1, minor: 0, patch: 0, pre: ["beta"]}
 
     options = Map.merge(options, %{as_major: true})
 
@@ -230,12 +183,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major,
-      minor: version.minor,
-      patch: version.patch + 1,
-      pre: ["rc"]
-    }
+    expected = %{version | patch: version.patch + 1, pre: ["rc"]}
 
     assert Semver.rc(version, options) == expected
   end
@@ -244,13 +192,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major,
-      minor: version.minor + 1,
-      patch: 0,
-      pre: ["rc"]
-    }
-
+    expected = %{version | minor: version.minor + 1, patch: 0, pre: ["rc"]}
     options = Map.merge(options, %{as_minor: true})
 
     assert Semver.rc(version, options) == expected
@@ -260,13 +202,7 @@ defmodule SemverTest do
     version: version,
     options: options
   } do
-    expected = %Version{
-      major: version.major + 1,
-      minor: 0,
-      patch: 0,
-      pre: ["rc"]
-    }
-
+    expected = %{version | major: version.major + 1, minor: 0, patch: 0, pre: ["rc"]}
     options = Map.merge(options, %{as_major: true})
 
     assert Semver.rc(version, options) == expected
@@ -274,34 +210,20 @@ defmodule SemverTest do
 
   ## release
 
-  test "stable/1 removes the pre-release from given version" do
-    version = %Version{
-      major: 1,
-      minor: 0,
-      patch: 0,
-      pre: ["alpha"]
-    }
-
-    expected = %Version{
-      major: 1,
-      minor: 0,
-      patch: 0
-    }
-
-    assert Semver.stable(version) == expected
-  end
-
-  test "stable/1 exits and logs an error when used with a not pre-released version" do
-    version = %Version{
-      major: 1,
-      minor: 0,
-      patch: 0
-    }
-
+  test "stable/1 exits and logs an error when used with a not pre-released version", %{
+    version: version
+  } do
     fun = fn ->
       assert catch_exit(Semver.stable(version)) == :shutdown
     end
 
     assert capture_log(fun) =~ "Can not create stable release from already stable version"
+  end
+
+  test "stable/1 removes the pre-release from given version" do
+    version = Version.parse!("1.0.0-alpha")
+    expected = Version.parse!("1.0.0")
+
+    assert Semver.stable(version) == expected
   end
 end

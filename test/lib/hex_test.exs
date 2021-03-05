@@ -6,7 +6,7 @@ defmodule PublishTest do
   alias Expublish.Hex
   alias Expublish.Options
 
-  @version %Version{major: 1, minor: 0, patch: 1}
+  @version Version.parse!("1.0.1")
 
   setup do
     [options: Options.parse(["--dry-run"]), version: @version]

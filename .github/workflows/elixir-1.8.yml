@@ -1,4 +1,4 @@
-name: Elixir 1.11
+name: Elixir 1.8
 
 on:
   push:
@@ -12,13 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       MIX_ENV: test
 
     strategy:
       matrix:
-        elixir: [1.11.2]
-        otp: [23.2]
+        elixir: [1.8.0]
+        otp: [22.2]
 
     steps:
       - uses: actions/checkout@v2
@@ -62,4 +61,4 @@ jobs:
       - name: Run static code analysis (credo)
         run: mix credo --strict
       - name: Run tests
-        run: mix coveralls.github
+        run: mix test
