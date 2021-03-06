@@ -8,7 +8,6 @@ defmodule Expublish.Changelog do
   require Logger
 
   @release_file "RELEASE.md"
-
   @changelog_file "CHANGELOG.md"
   @changelog_entries_marker "<!-- %% CHANGELOG_ENTRIES %% -->"
 

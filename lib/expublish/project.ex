@@ -67,7 +67,7 @@ defmodule Expublish.Project do
       maybe_write_new_version(version_file, options, "#{new_version}")
     else
       compare when compare in [:eq, :lt] ->
-        Logger.error("Version in --version-file is higher or equal to mix project version.")
+        Logger.error("Version in --version-file is smaller or equal to mix project version.")
         exit(:shutdown)
 
       _ ->
