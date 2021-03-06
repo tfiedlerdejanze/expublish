@@ -17,10 +17,20 @@ defmodule OptionsTest do
   test "parse/1 parses multiple valid options" do
     arguments = ["--dry-run", "--allow-untracked", "--branch=release"]
 
-    expected =
-      Options.defaults() |> Map.merge(%{dry_run: true, allow_untracked: true, branch: "release"})
+    opts = %{dry_run: true, allow_untracked: true, branch: "release"}
+    expected = Options.defaults() |> Map.merge(opts)
 
     assert expected == Options.parse(arguments)
+  end
+
+  test "parse/1 exits and and prints help with --help" do
+    arguments = ["--help"]
+
+    fun = fn ->
+      assert catch_exit(Options.parse(arguments)) == :shutdown
+    end
+
+    assert capture_io(fun) =~ "Usage: mix expublish"
   end
 
   test "parse/1 exits and logs an error when options are invalid" do
