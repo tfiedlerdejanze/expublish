@@ -98,8 +98,8 @@ defmodule ExpublishTest do
 
   defp assert_dry_run(new_version, fun) do
     assert capture_log(fun) =~ "Skipping new entry in CHANGELOG.md"
-    assert capture_log(fun) =~ "Skipping version commit"
-    assert capture_log(fun) =~ "Skipping version tag"
+    assert capture_log(fun) =~ "Skipping new version commit"
+    assert capture_log(fun) =~ "Skipping new version tag"
     assert capture_log(fun) =~ "Skipping \"git push origin master --tags\""
     assert capture_log(fun) =~ "Skipping \"mix hex.publish --yes\""
     assert capture_log(fun) =~ "Finished dry run for new package version"

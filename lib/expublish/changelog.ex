@@ -109,12 +109,12 @@ defmodule Expublish.Changelog do
     ])
   end
 
-  defp add_changelog_entry(title, text, %Options{dry_run: true} = options) do
-    log_new_changelog_entry(title, text, options)
+  defp add_changelog_entry(title, text, %Options{dry_run: true}) do
+    Logger.info("Skipping new entry in CHANGELOG.md:#{format_entry(title, text)}")
   end
 
-  defp add_changelog_entry(title, text, options) do
-    log_new_changelog_entry(title, text, options)
+  defp add_changelog_entry(title, text, _options) do
+    Logger.info("Writing new entry in CHANGELOG.md:#{format_entry(title, text)}")
     File.write!(@changelog_file, with_new_entry(title, text))
   end
 
@@ -122,13 +122,7 @@ defmodule Expublish.Changelog do
     "## #{version} - #{date_string}"
   end
 
-  defp log_new_changelog_entry(title, text, %{dry_run: true}) do
-    entry = "\n\n#{title}\n\n#{text}"
-    Logger.info("Skipping new entry in CHANGELOG.md:#{entry}")
-  end
-
-  defp log_new_changelog_entry(title, text, _options) do
-    entry = "\n\n#{title}\n\n#{text}"
-    Logger.info("Writing new entry in CHANGELOG.md:#{entry}")
+  defp format_entry(title, text) do
+    "\n\n#{title}\n\n#{text}"
   end
 end
