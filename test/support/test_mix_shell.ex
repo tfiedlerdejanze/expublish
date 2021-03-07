@@ -1,4 +1,4 @@
-defmodule TestSystemCall do
+defmodule TestMixShell do
   @moduledoc false
 
   require Logger
@@ -10,6 +10,6 @@ defmodule TestSystemCall do
     |> String.trim()
     |> Logger.info()
 
-    {"", 0}
+    0
   end
 end
