@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.7.0 - 2021-03-07
+
+Loosen Elixir version constraint to 1.8
+
+
 ## 2.6.1 - 2021-03-05
 
 Fix typos in documentation
