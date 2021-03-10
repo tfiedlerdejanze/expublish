@@ -77,7 +77,7 @@ defmodule Expublish.Git do
   end
 
   defp commit([_, _, git_commit_message] = command, %Options{dry_run: true}, syscall_module) do
-    Logger.info(~s'Skipping new version commit: "git #{git_commit_message}".')
+    Logger.info(~s'Skipping new version commit: "#{git_commit_message}".')
     syscall_module.cmd("git", command ++ ["--dry-run"])
   end
 
