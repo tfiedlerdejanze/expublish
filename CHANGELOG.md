@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.7.1 - 2021-03-10
+
+Fix dry-run commit log output
+
+
 ## 2.7.0 - 2021-03-07
 
 Loosen Elixir version constraint to 1.8
