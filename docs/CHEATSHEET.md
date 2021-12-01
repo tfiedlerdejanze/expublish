@@ -12,7 +12,7 @@ $ mix expublish.minor --disable-push --disable-publish
 # Skip test run:
 $ mix expublish.minor --disable-test
 
-# Allow untracked files while validating git working directory and add them in next version commit:
+# Allow untracked files while validating git working directory:
 $ mix expublish.minor --allow-untracked
 
 # If the package version is kept in a separate file:
