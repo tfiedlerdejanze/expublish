@@ -2,6 +2,13 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.7.2 - 2021-12-18
+
+- Switch github actions to erlef/setup-beam
+- Never add untracked files with --allow-untracked
+- Fail mix task with appropriate exit code
+
+
 ## 2.7.1 - 2021-03-10
 
 Fix dry-run commit log output
