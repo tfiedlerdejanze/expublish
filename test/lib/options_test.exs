@@ -27,7 +27,7 @@ defmodule OptionsTest do
     arguments = ["--help"]
 
     fun = fn ->
-      assert catch_exit(Options.parse(arguments)) == {:shutdown, 1}
+      assert catch_exit(Options.parse(arguments)) == :shutdown
     end
 
     assert capture_io(fun) =~ "Usage: mix expublish"
