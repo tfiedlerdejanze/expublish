@@ -91,13 +91,13 @@ defmodule Expublish.Options do
   end
 
   @doc false
-  def print_help?(options), do: options.help
+  def print_help?(%{help: help}), do: help
 
   @doc false
-  def git_tag_prefix(options), do: options.tag_prefix |> sanitize()
+  def git_tag_prefix(%{tag_prefix: tag_prefix}), do: sanitize(tag_prefix)
 
   @doc false
-  def git_commit_prefix(options), do: options.commit_prefix |> sanitize()
+  def git_commit_prefix(%{commit_prefix: commit_prefix}), do: sanitize(commit_prefix)
 
   defp process_options({options, _, []}) do
     options = Map.merge(defaults(), Enum.into(options, %{}))

@@ -36,7 +36,7 @@ defmodule Expublish.Git do
     git_commit_message = "#{commit_prefix} #{version}"
     git_tag = "#{tag_prefix}#{version}"
 
-    add(["add", "."], options, syscall_module)
+    add(["add", "-u"], options, syscall_module)
     commit(["commit", "-qm", git_commit_message], options, syscall_module)
     tag(["tag", "-a", git_tag, "-m", git_commit_message], options, syscall_module)
 

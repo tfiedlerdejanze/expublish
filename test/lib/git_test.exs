@@ -50,7 +50,7 @@ defmodule GitTest do
     assert capture_log(fun) =~ "Creating new version tag"
     assert capture_log(fun) =~ "#{version}"
 
-    assert capture_log(fun) =~ "git add ."
+    assert capture_log(fun) =~ "git add -u"
     assert capture_log(fun) =~ "git commit -qm #{commit_message}"
     assert capture_log(fun) =~ "git tag -a #{git_tag} -m #{commit_message}"
   end
