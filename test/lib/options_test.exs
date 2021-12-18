@@ -37,7 +37,7 @@ defmodule OptionsTest do
     arguments = ["--dry-run=yes"]
 
     fun = fn ->
-      assert catch_exit(Options.parse(arguments)) == :shutdown
+      assert catch_exit(Options.parse(arguments)) == {:shutdown, 1}
     end
 
     assert capture_log(fun) =~ "error"

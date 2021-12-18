@@ -22,7 +22,7 @@ defmodule Expublish.Project do
 
       _ ->
         Logger.error("Could not read current package version.")
-        exit(:shutdown)
+        exit({:shutdown, 1})
     end
   end
 
@@ -50,7 +50,7 @@ defmodule Expublish.Project do
 
     if contents == replaced do
       Logger.error("Could not update version in mix.exs.")
-      exit(:shutdown)
+      exit({:shutdown, 1})
     end
 
     maybe_write_new_version("mix.exs", options, replaced)
@@ -68,11 +68,11 @@ defmodule Expublish.Project do
     else
       compare when compare in [:eq, :lt] ->
         Logger.error("Version in --version-file is smaller or equal to mix project version.")
-        exit(:shutdown)
+        exit({:shutdown, 1})
 
       _ ->
         Logger.error("--version-file does not exist or contains invalid version.")
-        exit(:shutdown)
+        exit({:shutdown, 1})
     end
 
     new_version

@@ -46,7 +46,7 @@ defmodule Expublish.Semver do
   @spec stable(Version.t()) :: Version.t()
   def stable(%Version{pre: []} = version) do
     Logger.error("Can not create stable release from already stable version #{version}. Abort.")
-    exit(:shutdown)
+    exit({:shutdown, 1})
   end
 
   def stable(%Version{} = version) do
@@ -79,7 +79,7 @@ defmodule Expublish.Semver do
 
   def beta(%Version{pre: [pre]} = version, _) when pre in [@rc] do
     Logger.error("Can not create beta version from current #{pre} pre-release: #{version}.")
-    exit(:shutdown)
+    exit({:shutdown, 1})
   end
 
   def beta(%Version{} = version, %Options{as_major: true}) do
@@ -104,7 +104,7 @@ defmodule Expublish.Semver do
 
   def alpha(%Version{pre: [pre]} = version, _) when pre in [@beta, @rc] do
     Logger.error("Can not create alpha version from current #{pre} pre-release: #{version}.")
-    exit(:shutdown)
+    exit({:shutdown, 1})
   end
 
   def alpha(%Version{} = version, %Options{as_major: true}) do

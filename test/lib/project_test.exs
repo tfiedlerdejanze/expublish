@@ -54,7 +54,7 @@ defmodule ProjectTest do
     options = %Options{version_file: @version_file_path}
 
     fun = fn ->
-      assert catch_exit(Project.update_version!(new_version, options)) == :shutdown
+      assert catch_exit(Project.update_version!(new_version, options)) == {:shutdown, 1}
     end
 
     assert capture_log(fun) =~ "smaller or equal to mix project version"
@@ -64,7 +64,7 @@ defmodule ProjectTest do
     options = %Options{version_file: "i-do-not-exist.txt"}
 
     fun = fn ->
-      assert catch_exit(Project.update_version!(version, options)) == :shutdown
+      assert catch_exit(Project.update_version!(version, options)) == {:shutdown, 1}
     end
 
     assert capture_log(fun) =~ "--version-file does not exist"
@@ -88,7 +88,7 @@ defmodule ProjectTest do
 
   test "update_version!/2 exits task if it fails to write the new version", %{version: version} do
     fun = fn ->
-      assert catch_exit(Project.update_version!(version, %Options{}, version)) == :shutdown
+      assert catch_exit(Project.update_version!(version, %Options{}, version)) == {:shutdown, 1}
     end
 
     assert capture_log(fun) =~ "Could not update version in mix.exs."

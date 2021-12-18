@@ -92,7 +92,7 @@ defmodule Expublish do
     else
       error ->
         Logger.error(error)
-        exit(:shutdown)
+        exit({:shutdown, 1})
     end
   end
 
