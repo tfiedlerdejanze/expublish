@@ -27,7 +27,7 @@ still be changed by using one of the `--as-major` or `--as-minor` options.
 | ------------------------ | ------------------- | ---------------------------------------------------- |
 | `-d, --dry-run`          | `false`             | Perform dry run release                              |
 | `-h, --help`             | `false`             | Print help                                           |
-| `--allow-untracked`      | `false`             | Allow untracked files and add them in version commit |
+| `--allow-untracked`      | `false`             | Allow untracked files                                |
 | `--as-major`             | `false`             | Only for pre-release level                           |
 | `--as-minor`             | `false`             | Only for pre-release level                           |
 | `--disable-publish`      | `false`             | Disable hex publish                                  |
