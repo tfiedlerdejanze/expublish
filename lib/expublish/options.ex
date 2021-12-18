@@ -115,7 +115,7 @@ defmodule Expublish.Options do
     invalid_options = errors |> Enum.map(fn {option, _} -> option end) |> Enum.join(", ")
 
     Logger.error("Invalid #{option}: #{invalid_options}. Abort.")
-    exit(:shutdown)
+    exit({:shutdown, 1})
   end
 
   defp sanitize(string) do

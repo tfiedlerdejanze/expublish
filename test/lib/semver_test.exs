@@ -113,13 +113,13 @@ defmodule SemverTest do
     v1 = %{version | pre: ["beta"]}
 
     fun1 = fn ->
-      assert catch_exit(Semver.alpha(v1, options)) == :shutdown
+      assert catch_exit(Semver.alpha(v1, options)) == {:shutdown, 1}
     end
 
     v2 = %{version | pre: ["rc"]}
 
     fun2 = fn ->
-      assert catch_exit(Semver.alpha(v2, options)) == :shutdown
+      assert catch_exit(Semver.alpha(v2, options)) == {:shutdown, 1}
     end
 
     assert capture_log(fun1) =~ "Can not create alpha"
@@ -168,7 +168,7 @@ defmodule SemverTest do
     version = %{version | pre: ["rc"]}
 
     fun = fn ->
-      assert catch_exit(Semver.beta(version, options)) == :shutdown
+      assert catch_exit(Semver.beta(version, options)) == {:shutdown, 1}
     end
 
     assert capture_log(fun) =~ "Can not create beta"
@@ -211,7 +211,7 @@ defmodule SemverTest do
     version: version
   } do
     fun = fn ->
-      assert catch_exit(Semver.stable(version)) == :shutdown
+      assert catch_exit(Semver.stable(version)) == {:shutdown, 1}
     end
 
     assert capture_log(fun) =~ "Can not create stable release from already stable version"
