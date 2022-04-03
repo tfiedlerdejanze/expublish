@@ -38,11 +38,7 @@ defmodule Expublish.Options do
 
   ```
   %Expublish.Options{
-  #{
-    @defaults
-    |> Enum.map(fn {k, v} -> "  #{k}: #{inspect(v)}" end)
-    |> Enum.join(",\n")
-  }
+  #{Enum.map_join(@defaults, ",\n", fn {k, v} -> "  #{k}: #{inspect(v)}" end)}
   }
   ```
   """
@@ -112,7 +108,7 @@ defmodule Expublish.Options do
 
   defp process_options({_, _, errors}) do
     option = if length(errors) == 1, do: "option", else: "options"
-    invalid_options = errors |> Enum.map(fn {option, _} -> option end) |> Enum.join(", ")
+    invalid_options = Enum.map_join(errors, ", ", fn {option, _} -> option end)
 
     Logger.error("Invalid #{option}: #{invalid_options}. Abort.")
     exit({:shutdown, 1})

@@ -12,8 +12,6 @@ defmodule Expublish.TestHelper do
   end
 
   def parts_to_iso(parts, separator \\ "-") do
-    parts
-    |> Enum.map(&String.pad_leading("#{&1}", 2, "0"))
-    |> Enum.join(separator)
+    Enum.map_join(parts, separator, &String.pad_leading("#{&1}", 2, "0"))
   end
 end
