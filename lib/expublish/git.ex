@@ -46,7 +46,7 @@ defmodule Expublish.Git do
   @doc """
   Git push to remote.
   """
-  @spec push(Version.t(), %Options{}) :: Version.t()
+  @spec push(Version.t(), Options.t()) :: Version.t()
   def push(version, options \\ %Options{})
 
   def push(%Version{} = version, %Options{dry_run: false, disable_push: false} = options) do
