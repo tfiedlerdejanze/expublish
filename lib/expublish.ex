@@ -1,21 +1,6 @@
 defmodule Expublish do
   @moduledoc """
-  Main module putting everything together:
-
-  ```
-  def major do
-    Tests.run!()
-
-    :major
-    |> Project.get_version!()
-    |> Semver.increase!()
-    |> Project.update_version!()
-    |> Changelog.write_entry!()
-    |> Git.commit_and_tag()
-    |> Git.push()
-    |> Hex.publish()
-  end
-  ```
+  Main module combining all release stages.
   """
 
   alias Expublish.Changelog
@@ -78,7 +63,8 @@ defmodule Expublish do
          :ok <- Options.validate(options, level),
          :ok <- Changelog.validate(options),
          :ok <- Tests.validate(options, level) do
-      Project.get_version!(options)
+      options
+      |> Project.get_version!()
       |> Semver.increase!(level, options)
       |> Project.update_version!(options)
       |> Changelog.write_entry!(options)
