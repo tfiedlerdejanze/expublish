@@ -2,6 +2,12 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.7.3 - 2022-05-03
+
+- update dev dependencies
+- fix outdated docs about `--allow-untracked`
+
+
 ## 2.7.2 - 2021-12-18
 
 - Switch github actions to erlef/setup-beam
