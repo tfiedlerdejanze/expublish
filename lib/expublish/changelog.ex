@@ -17,11 +17,11 @@ defmodule Expublish.Changelog do
   @spec validate(Options.t()) :: :ok | String.t()
   def validate(_options) do
     cond do
-      !File.exists?("RELEASE.md") ->
-        "Missing file: RELEASE.md"
+      !File.exists?(@release_file) ->
+        "Missing file: #{@release_file}"
 
-      !File.exists?("CHANGELOG.md") ->
-        "Missing file: CHANGELOG.md"
+      !File.exists?(@changelog_file) ->
+        "Missing file: #{@changelog_file}"
 
       !String.contains?(
         File.read!(@changelog_file),
