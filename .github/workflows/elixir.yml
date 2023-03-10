@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -17,8 +17,13 @@ jobs:
 
     strategy:
       matrix:
-        otp: ['22.3', '24.3']
-        elixir: ['1.8.2', '1.13.4']
+        include:
+          - elixir: '1.8'
+            otp: '22.3'
+          - elixir: '1.13'
+            otp: '24.3'
+          - elixir: '1.14'
+            otp: '25.2'
 
     steps:
       - uses: actions/checkout@v3
