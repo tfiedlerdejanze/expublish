@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     name: Build and test
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -17,11 +17,13 @@ jobs:
 
     strategy:
       matrix:
-        elixir: [1.8.2, 1.13.3]
-        otp: [22.2, 24.3]
-        exclude:
-          - elixir: 1.8.2
-            otp: 24.3
+        include:
+          - elixir: '1.8'
+            otp: '22.3'
+          - elixir: '1.13'
+            otp: '24.3'
+          - elixir: '1.14'
+            otp: '25.2'
 
     steps:
       - uses: actions/checkout@v3
@@ -65,8 +67,7 @@ jobs:
       - name: Run static code analysis (credo)
         run: mix credo --strict
       - name: Run tests
-        if: matrix.elixir != '1.11.2' || matrix.otp != '23.2'
         run: mix test
       - name: Run tests and coverage
-        if: matrix.elixir == '1.11.2' && matrix.otp == '23.2'
+        if: matrix.elixir == '1.14' && matrix.otp == '25.2'
         run: mix coveralls.github
