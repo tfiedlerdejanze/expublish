@@ -69,5 +69,5 @@ jobs:
       - name: Run tests
         run: mix test
       - name: Run tests and coverage
-        if: matrix.elixir == '1.13.4' && matrix.otp == '24.3'
+        if: matrix.elixir == '1.14' && matrix.otp == '25.2'
         run: mix coveralls.github
