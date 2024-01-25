@@ -1,4 +1,4 @@
-name: Release
+came: Release
 
 on:
   workflow_dispatch:
@@ -30,8 +30,8 @@ jobs:
           restore-keys: ${{ runner.os }}-mix-
       - name: Setup git user
         run: |
-          git config --global user.name 'ucwaldo'
-          git config --global user.email 'ucwaldo@users.noreply.github.com'
+          git config --global user.name 'tfiedlerdejanze'
+          git config --global user.email 'tfiedlerdejanze@users.noreply.github.com'
       - name: Write release notes
         run: echo ${{ github.event.inputs.entry }} > RELEASE.md
       - name: Install dependencies
