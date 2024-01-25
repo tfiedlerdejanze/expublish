@@ -2,6 +2,15 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.7.4 - 2024-01-25
+
+housekeeping release
+
+- update dev dependencies
+- add styler dev dependency
+- update release gh action
+
+
 ## 2.7.3 - 2022-05-03
 
 - update dev dependencies
