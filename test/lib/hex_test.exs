@@ -1,10 +1,12 @@
 defmodule PublishTest do
   use ExUnit.Case
-  doctest Expublish
 
   import ExUnit.CaptureLog
+
   alias Expublish.Hex
   alias Expublish.Options
+
+  doctest Expublish
 
   @version Version.parse!("1.0.1")
 

@@ -1,10 +1,12 @@
 defmodule OptionsTest do
   use ExUnit.Case
-  doctest Expublish
 
-  import ExUnit.CaptureLog
   import ExUnit.CaptureIO
+  import ExUnit.CaptureLog
+
   alias Expublish.Options
+
+  doctest Expublish
 
   test "defaults/0 returns default options" do
     assert Options.defaults() == %Options{branch: "master"}
@@ -18,7 +20,7 @@ defmodule OptionsTest do
     arguments = ["--dry-run", "--allow-untracked", "--branch=release"]
 
     opts = %{dry_run: true, allow_untracked: true, branch: "release"}
-    expected = Options.defaults() |> Map.merge(opts)
+    expected = Map.merge(Options.defaults(), opts)
 
     assert expected == Options.parse(arguments)
   end

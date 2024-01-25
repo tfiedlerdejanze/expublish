@@ -3,9 +3,9 @@ defmodule Expublish.Git do
   Shell commands for git.
   """
 
-  require Logger
-
   alias Expublish.Options
+
+  require Logger
 
   @doc """
   Validate state of git working directory.

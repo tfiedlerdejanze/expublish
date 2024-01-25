@@ -3,13 +3,13 @@ defmodule Expublish.Semver do
   Functions for manipulating [%Version{}](https://hexdocs.pm/elixir/Version.html).
   """
 
-  @alpha "alpha"
-  @beta "beta"
-  @rc "rc"
-
   alias Expublish.Options
 
   require Logger
+
+  @alpha "alpha"
+  @beta "beta"
+  @rc "rc"
 
   @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
   @spec increase!(Version.t(), level(), Options.t()) :: Version.t()
