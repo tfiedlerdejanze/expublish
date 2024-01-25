@@ -56,7 +56,7 @@ jobs:
         if: steps.deps-cache.outputs.cache-hit != 'true'
         run: mix deps.get
       - name: Compile application
-        run: mix compile
+        run: mix compile --warnings-as-errors
       - name: Create plts
         if: steps.plt-cache.outputs.cache-hit != 'true'
         run: |
