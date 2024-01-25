@@ -1,14 +1,14 @@
 defmodule Mix.Tasks.Expublish do
+  @shortdoc "Print help for expublish."
   @moduledoc """
   Mix tasks for releasing and publishing new project versions.
 
   OptionParser interface defined in `Expublish.Options.`
   """
 
-  alias Expublish.Options
-
-  @shortdoc "Print help for expublish."
   use Mix.Task
+
+  alias Expublish.Options
 
   @doc false
   def run(_args) do
@@ -16,12 +16,12 @@ defmodule Mix.Tasks.Expublish do
   end
 
   defmodule Major do
+    @shortdoc "Publish a major version of current project."
     @moduledoc """
     Release and publish next major version of current project.
 
     OptionParser interface defined in `Expublish.Options.`
     """
-    @shortdoc "Publish a major version of current project."
     use Mix.Task
 
     @doc false
@@ -33,12 +33,12 @@ defmodule Mix.Tasks.Expublish do
   end
 
   defmodule Minor do
+    @shortdoc "Publish a minor version of current project."
     @moduledoc """
     Release and publish next minor version of current project.
 
     OptionParser interface defined in `Expublish.Options.`
     """
-    @shortdoc "Publish a minor version of current project."
     use Mix.Task
 
     @doc false
@@ -50,12 +50,12 @@ defmodule Mix.Tasks.Expublish do
   end
 
   defmodule Patch do
+    @shortdoc "Publish a patch version of current project."
     @moduledoc """
     Release and publish next patch version of current project.
 
     OptionParser interface defined in `Expublish.Options.`
     """
-    @shortdoc "Publish a patch version of current project."
     use Mix.Task
 
     @doc false
@@ -67,12 +67,12 @@ defmodule Mix.Tasks.Expublish do
   end
 
   defmodule Alpha do
+    @shortdoc "Publish alpha pre-release for next major version of current project."
     @moduledoc """
     Release and publish alpha pre-release for next major version of current project.
 
     Next version level controlled via mix task arguments defined as `Expublish.Options`.
     """
-    @shortdoc "Publish alpha pre-release for next major version of current project."
     use Mix.Task
 
     @doc false
@@ -84,12 +84,12 @@ defmodule Mix.Tasks.Expublish do
   end
 
   defmodule Beta do
+    @shortdoc "Publish beta pre-release for next major version of current project."
     @moduledoc """
     Release and publish beta pre-release for next major version of current project.
 
     Next version level controlled via mix task arguments defined as `Expublish.Options`.
     """
-    @shortdoc "Publish beta pre-release for next major version of current project."
     use Mix.Task
 
     @doc false
@@ -101,12 +101,12 @@ defmodule Mix.Tasks.Expublish do
   end
 
   defmodule Rc do
+    @shortdoc "Publish release-candidate pre-release for next major version of current project."
     @moduledoc """
     Release and publish alpha pre-release for next major version of current project.
 
     Next version level controlled via mix task arguments defined as `Expublish.Options`.
     """
-    @shortdoc "Publish release-candidate pre-release for next major version of current project."
     use Mix.Task
 
     @doc false
@@ -118,12 +118,12 @@ defmodule Mix.Tasks.Expublish do
   end
 
   defmodule Stable do
+    @shortdoc "Removes pre-release from version and publishes current project."
     @moduledoc """
     Removes pre-release from version and publishes current project.
 
     OptionParser interface defined in `Expublish.Options.`
     """
-    @shortdoc "Removes pre-release from version and publishes current project."
     use Mix.Task
 
     @doc false

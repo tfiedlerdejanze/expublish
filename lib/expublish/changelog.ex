@@ -40,7 +40,7 @@ defmodule Expublish.Changelog do
   @spec write_entry!(Version.t(), Options.t()) :: Version.t()
   def write_entry!(%Version{} = version, options \\ %Options{}) do
     title = build_title(version, options)
-    text = File.read!(@release_file) |> String.trim()
+    text = @release_file |> File.read!() |> String.trim()
 
     add_changelog_entry(title, text, options)
 

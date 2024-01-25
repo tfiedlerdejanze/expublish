@@ -60,8 +60,8 @@ defmodule Expublish.Project do
 
   def update_version!(new_version, %Options{version_file: version_file} = options, _) do
     with true <- File.exists?(version_file),
-         version <- File.read!(version_file),
-         version <- String.trim(version),
+         version = File.read!(version_file),
+         version = String.trim(version),
          {:ok, version} <- Version.parse(version),
          :gt <- Version.compare(new_version, version) do
       maybe_write_new_version(version_file, options, "#{new_version}")

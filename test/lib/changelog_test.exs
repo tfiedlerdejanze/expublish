@@ -1,11 +1,13 @@
 defmodule ChangelogTest do
   use ExUnit.Case
-  doctest Expublish
 
-  import ExUnit.CaptureLog
   import Expublish.TestHelper
+  import ExUnit.CaptureLog
+
   alias Expublish.Changelog
   alias Expublish.Options
+
+  doctest Expublish
 
   @version Version.parse!("1.0.1")
   @rm_release_file "test/files/remove_release_file_test.md"

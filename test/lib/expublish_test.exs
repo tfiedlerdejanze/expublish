@@ -1,12 +1,14 @@
 defmodule ExpublishTest do
   use ExUnit.Case
-  doctest Expublish
 
-  import ExUnit.CaptureLog
   import Expublish.TestHelper
+  import ExUnit.CaptureLog
+
   alias Expublish.Options
   alias Expublish.Project
   alias Expublish.Semver
+
+  doctest Expublish
 
   setup do
     [options: Options.parse(["--dry-run"])]

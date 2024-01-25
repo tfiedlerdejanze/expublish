@@ -1,27 +1,30 @@
 defmodule ProjectTest do
   use ExUnit.Case
+
+  import Expublish.TestHelper
+  import ExUnit.CaptureLog
+
+  alias Expublish.Options
+  alias Expublish.Project
+
   doctest Expublish
 
   @version Version.parse!("1.0.0")
   @version_file_path "test/files/VERSION.txt"
-
-  import ExUnit.CaptureLog
-  import Expublish.TestHelper
-  alias Expublish.Options
-  alias Expublish.Project
 
   setup do
     [options: Options.parse(["--dry-run"]), version: @version]
   end
 
   defp get_test_file_version(file_path) do
-    File.read!(file_path)
+    file_path
+    |> File.read!()
     |> String.trim()
     |> Version.parse!()
   end
 
   test "get_version!/0 reads current project version from mix" do
-    expected = Mix.Project.config()[:version] |> Version.parse!()
+    expected = Version.parse!(Mix.Project.config()[:version])
 
     assert Project.get_version!() == expected
   end

@@ -1,10 +1,12 @@
 defmodule TestsTest do
   use ExUnit.Case
-  doctest Expublish
 
   import ExUnit.CaptureLog
+
   alias Expublish.Options
   alias Expublish.Tests
+
+  doctest Expublish
 
   setup do
     [options: Options.parse(["--dry-run", "--disable-test"])]

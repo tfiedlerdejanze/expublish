@@ -15,7 +15,7 @@ defmodule Expublish.Tests do
   def validate(options, level)
 
   def validate(%Options{disable_test: true}, level) do
-    Logger.warn("Skipping test run for #{to_string(level)} release.")
+    Logger.info("Skipping test run for #{to_string(level)} release.")
     :ok
   end
 

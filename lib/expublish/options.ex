@@ -43,8 +43,7 @@ defmodule Expublish.Options do
   ```
   """
   @spec defaults :: t()
-  def defaults,
-    do: struct(__MODULE__, @defaults)
+  def defaults, do: struct(__MODULE__, @defaults)
 
   @doc """
   Parse mix task arguments and merge with default options.
@@ -96,7 +95,7 @@ defmodule Expublish.Options do
   def git_commit_prefix(%{commit_prefix: commit_prefix}), do: sanitize(commit_prefix)
 
   defp process_options({options, _, []}) do
-    options = Map.merge(defaults(), Enum.into(options, %{}))
+    options = Map.merge(defaults(), Map.new(options))
 
     if print_help?(options) do
       print_help()
@@ -122,9 +121,7 @@ defmodule Expublish.Options do
   end
 
   defp typed_options_from_default do
-    @defaults
-    |> Enum.map(fn {k, v} -> {k, to_option_type(v)} end)
-    |> Enum.into([])
+    Enum.into(@defaults, [], fn {k, v} -> {k, to_option_type(v)} end)
   end
 
   defp to_option_type(default) when is_boolean(default), do: :boolean
@@ -152,18 +149,10 @@ defmodule Expublish.Options do
       --disable-push          - Disable git push
       --disable-test          - Disable test run
       --changelog-date-time   - Use date-time instead of date in new changelog entry
-      --branch=string         - Remote branch to push to, default: #{
-      inspect(Map.get(@defaults, :branch))
-    }
-      --remote=string         - Remote name to push to, default: #{
-      inspect(Map.get(@defaults, :remote))
-    }
-      --commit-prefix=string  - Custom commit prefix, default:  #{
-      inspect(Map.get(@defaults, :commit_prefix))
-    }
-      --tag-prefix=string     - Custom tag prefix, default: #{
-      inspect(Map.get(@defaults, :tag_prefix))
-    }
+      --branch=string         - Remote branch to push to, default: #{inspect(Map.get(@defaults, :branch))}
+      --remote=string         - Remote name to push to, default: #{inspect(Map.get(@defaults, :remote))}
+      --commit-prefix=string  - Custom commit prefix, default:  #{inspect(Map.get(@defaults, :commit_prefix))}
+      --tag-prefix=string     - Custom tag prefix, default: #{inspect(Map.get(@defaults, :tag_prefix))}
       --version-file=string   - When working with a separate file version file
     """
   end
