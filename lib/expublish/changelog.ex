@@ -23,10 +23,7 @@ defmodule Expublish.Changelog do
       !File.exists?(@changelog_file) ->
         "Missing file: #{@changelog_file}"
 
-      !String.contains?(
-        File.read!(@changelog_file),
-        @changelog_entries_marker
-      ) ->
+      !String.contains?(File.read!(@changelog_file), @changelog_entries_marker) ->
         "CHANGELOG.md is missing required placeholder."
 
       true ->

@@ -12,8 +12,6 @@ defmodule Expublish.Tests do
   """
   @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
   @spec validate(Options.t(), level()) :: :ok
-  def validate(options, level)
-
   def validate(%Options{disable_test: true}, level) do
     Logger.info("Skipping test run for #{to_string(level)} release.")
     :ok

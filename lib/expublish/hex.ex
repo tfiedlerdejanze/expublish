@@ -16,11 +16,14 @@ defmodule Expublish.Hex do
   def publish(version, %Options{dry_run: false, disable_publish: false}) do
     syscall_module = if Mix.env() == :test, do: TestSystem, else: System
     Logger.info("Publishing new package version with: \"mix hex.publish --yes\".\n")
-    {_, error_code} = syscall_module.cmd("mix", ["hex.publish", "--yes"])
 
-    if error_code == 0,
-      do: Logger.info("Successfully published new package version on hex."),
-      else: Logger.error("Failed to publish new package version on hex.")
+    case syscall_module.cmd("mix", ["hex.publish", "--yes"]) do
+      {_, 0} ->
+        Logger.info("Successfully published new package version on hex.")
+
+      _error ->
+        Logger.error("Failed to publish new package version on hex.")
+    end
 
     version
   end
