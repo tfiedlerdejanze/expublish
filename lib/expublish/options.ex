@@ -50,12 +50,9 @@ defmodule Expublish.Options do
   """
   @spec parse(list(String.t())) :: struct()
   def parse(args) do
-    process_options(
-      OptionParser.parse(args,
-        aliases: @aliases,
-        strict: typed_options_from_default()
-      )
-    )
+    args
+    |> OptionParser.parse(aliases: @aliases, strict: typed_options())
+    |> process_options()
   end
 
   @doc """
@@ -120,7 +117,7 @@ defmodule Expublish.Options do
     |> String.trim()
   end
 
-  defp typed_options_from_default do
+  defp typed_options do
     Enum.into(@defaults, [], fn {k, v} -> {k, to_option_type(v)} end)
   end
 

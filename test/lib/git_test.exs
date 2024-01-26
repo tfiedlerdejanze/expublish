@@ -68,8 +68,7 @@ defmodule GitTest do
   end
 
   test "commit_and_tag/1 respects tag- and commit-prefix options", %{version: version} do
-    options =
-      Options.parse(["--dry-run", "--tag-prefix=rc", "--commit-prefix='Custom release commit'"])
+    options = Options.parse(["--dry-run", "--tag-prefix=rc", "--commit-prefix='Custom release commit'"])
 
     fun = fn ->
       Git.commit_and_tag(version, options)

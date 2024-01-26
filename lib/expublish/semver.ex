@@ -12,10 +12,10 @@ defmodule Expublish.Semver do
   @rc "rc"
 
   @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
-  @spec increase!(Version.t(), level(), Options.t()) :: Version.t()
-  @doc "Interfaces `Expublish.Semver` version increase functions."
-  def increase!(version, level, options \\ %Options{})
 
+  @doc "Interfaces `Expublish.Semver` version increase functions."
+  @spec increase!(Version.t(), level(), Options.t()) :: Version.t()
+  def increase!(version, level, options \\ %Options{})
   def increase!(version, :major, _options), do: major(version)
   def increase!(version, :minor, _options), do: minor(version)
   def increase!(version, :patch, _options), do: patch(version)

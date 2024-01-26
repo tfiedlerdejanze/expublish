@@ -14,9 +14,9 @@ defmodule Expublish.Project do
   """
   @spec get_version!(Options.t()) :: Version.t()
   def get_version!(_options \\ %Options{}) do
-    Mix.Project.config()[:version]
-    |> Version.parse()
-    |> case do
+    project_version = Mix.Project.config()[:version]
+
+    case Version.parse(project_version) do
       {:ok, version} ->
         version
 

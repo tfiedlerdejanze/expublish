@@ -44,10 +44,7 @@ defmodule ChangelogTest do
     assert Changelog.build_title(version) =~ ~r/#{version} - \d{4}-\d{2}-\d{2}/
   end
 
-  test "build_title/3 formats date-time to ISO 8601 date by default", %{
-    options: options,
-    version: version
-  } do
+  test "build_title/3 formats date-time to ISO 8601 date by default", %{options: options, version: version} do
     dt = DateTime.utc_now()
 
     date_format = parts_to_iso([dt.year, dt.month, dt.day])
@@ -57,9 +54,7 @@ defmodule ChangelogTest do
     assert title == "## #{version} - #{date_format}"
   end
 
-  test "build_title/3 may format date-time to ISO 8601 date-time", %{
-    version: version
-  } do
+  test "build_title/3 may format date-time to ISO 8601 date-time", %{version: version} do
     dt = DateTime.utc_now()
 
     date_format = parts_to_iso([dt.year, dt.month, dt.day])
