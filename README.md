@@ -1,7 +1,7 @@
 [![Hex.pm](https://img.shields.io/hexpm/v/expublish)](https://hex.pm/packages/expublish)
 [![Hexdocs.pm](https://img.shields.io/badge/docs-hexdocs.pm-purple)](https://hexdocs.pm/expublish)
-[![Github.com](https://github.com/ucwaldo/expublish/actions/workflows/elixir.yml/badge.svg)](https://github.com/ucwaldo/expublish/actions)
-[![Coverage Status](https://coveralls.io/repos/github/ucwaldo/expublish/badge.svg?branch=master)](https://coveralls.io/github/ucwaldo/expublish?branch=master)
+[![Github.com](https://github.com/tfiedlerdejanze/expublish/actions/workflows/elixir.yml/badge.svg)](https://github.com/tfiedlerdejanze/expublish/actions)
+[![Coverage Status](https://coveralls.io/repos/github/tfiedlerdejanze/expublish/badge.svg?branch=master)](https://coveralls.io/github/tfiedlerdejanze/expublish?branch=master)
 
 # Expublish
 
@@ -117,4 +117,4 @@ options:
 - [Keep a changelog](https://keepachangelog.com/en/1.1.0/)
 - [SemVer specification](https://semver.org/)
 - [Blog post on private hex auth](https://medium.com/@brunoripa/elixir-application-deployment-using-a-ci-and-private-hex-pm-dependencies-23f45fe04973)
-- [Example github action](https://github.com/ucwaldo/expublish/blob/master/.github/workflows/release.yml#L31-L42)
+- [Example github action](https://github.com/tfiedlerdejanze/expublish/blob/master/.github/workflows/release.yml#L31-L42)
