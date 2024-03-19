@@ -23,7 +23,7 @@ defmodule ExpublishTest do
 
     assert capture_log(fun) =~ "working directory not clean"
 
-    File.rm!("expublish_major_test")
+    on_exit(fn -> File.rm!("expublish_major_test") end)
   end
 
   test "major/1 runs without errors", %{options: options} do

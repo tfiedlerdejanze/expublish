@@ -44,23 +44,21 @@ defmodule ChangelogTest do
     assert Changelog.build_title(version) =~ ~r/#{version} - \d{4}-\d{2}-\d{2}/
   end
 
-  test "build_title/3 formats date-time to ISO 8601 date by default", %{options: options, version: version} do
-    dt = DateTime.utc_now()
+  test "build_title/3 formats datetime to ISO 8601 date by default", %{options: options, version: version} do
+    naive_datetime = NaiveDateTime.utc_now()
 
-    date_format = parts_to_iso([dt.year, dt.month, dt.day])
+    title = Changelog.build_title(version, options, naive_datetime)
 
-    title = Changelog.build_title(version, options, dt)
-
-    assert title == "## #{version} - #{date_format}"
+    assert title == "## #{version} - #{NaiveDateTime.to_date(naive_datetime)}"
   end
 
-  test "build_title/3 may format date-time to ISO 8601 date-time", %{version: version} do
-    dt = DateTime.utc_now()
+  test "build_title/3 may format datetime to ISO 8601 date-time", %{version: version} do
+    naive_datetime =  NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
 
-    date_format = parts_to_iso([dt.year, dt.month, dt.day])
-    time_format = parts_to_iso([dt.hour, dt.minute, dt.second], ":")
+    date_format = NaiveDateTime.to_date(naive_datetime)
+    time_format = NaiveDateTime.to_time(naive_datetime)
 
-    title = Changelog.build_title(version, %Options{changelog_date_time: true}, dt)
+    title = Changelog.build_title(version, %Options{changelog_date_time: true}, naive_datetime)
 
     assert title == "## #{version} - #{date_format} #{time_format}"
   end
