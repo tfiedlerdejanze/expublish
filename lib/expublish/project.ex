@@ -53,7 +53,7 @@ defmodule Expublish.Project do
       exit({:shutdown, 1})
     end
 
-    maybe_write_new_version("mix.exs", options, replaced)
+    write_new_version!("mix.exs", options, replaced)
 
     new_version
   end
@@ -64,7 +64,7 @@ defmodule Expublish.Project do
          version = String.trim(version),
          {:ok, version} <- Version.parse(version),
          :gt <- Version.compare(new_version, version) do
-      maybe_write_new_version(version_file, options, "#{new_version}")
+      write_new_version!(version_file, options, "#{new_version}")
     else
       compare when compare in [:eq, :lt] ->
         Logger.error("Version in --version-file is smaller or equal to mix project version.")
@@ -86,11 +86,11 @@ defmodule Expublish.Project do
     "@version \"#{version}\""
   end
 
-  defp maybe_write_new_version(file, %Options{dry_run: true}, _contents) do
+  defp write_new_version!(file, %Options{dry_run: true}, _contents) do
     Logger.info("Skipping new version in #{file}.")
   end
 
-  defp maybe_write_new_version(file, _options, contents) do
+  defp write_new_version!(file, _options, contents) do
     Logger.info("Writing new version to #{file}.")
 
     File.write!(file, contents)

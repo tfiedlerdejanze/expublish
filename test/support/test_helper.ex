@@ -10,8 +10,4 @@ defmodule Expublish.TestHelper do
       File.rm!("RELEASE.md")
     end
   end
-
-  def parts_to_iso(parts, separator \\ "-") do
-    Enum.map_join(parts, separator, &String.pad_leading("#{&1}", 2, "0"))
-  end
 end
