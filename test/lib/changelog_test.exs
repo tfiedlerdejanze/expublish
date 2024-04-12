@@ -53,7 +53,7 @@ defmodule ChangelogTest do
   end
 
   test "build_title/3 may format datetime to ISO 8601 date-time", %{version: version} do
-    naive_datetime =  NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
+    naive_datetime = NaiveDateTime.truncate(NaiveDateTime.utc_now(), :second)
 
     date_format = NaiveDateTime.to_date(naive_datetime)
     time_format = NaiveDateTime.to_time(naive_datetime)
