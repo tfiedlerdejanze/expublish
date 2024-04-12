@@ -55,6 +55,8 @@ jobs:
         run: mix deps.get
       - name: Compile application
         run: mix compile --warnings-as-errors
+      - name: Run formatter
+        run: mix format --check-formatted
       - name: Create plts
         if: steps.plt-cache.outputs.cache-hit != 'true'
         run: |
