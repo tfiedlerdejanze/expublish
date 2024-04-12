@@ -17,6 +17,7 @@ defmodule Expublish.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       docs: [
+        source_ref: "master",
         main: "readme",
         extras: [
           "README.md",
