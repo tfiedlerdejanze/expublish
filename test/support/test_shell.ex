@@ -1,15 +1,15 @@
-defmodule Expublish.TestSystem do
+defmodule Expublish.TestShell do
   @moduledoc false
 
   require Logger
 
-  def cmd(command, args, _options \\ []) do
+  def cmd(command, args \\ []) do
     args_string = Enum.join(args, " ")
 
     "#{command} #{args_string}"
     |> String.trim()
     |> Logger.info()
 
-    {"", 0}
+    0
   end
 end
