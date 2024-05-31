@@ -14,10 +14,9 @@ defmodule Expublish.Hex do
   def publish(version, options \\ %Options{})
 
   def publish(version, %Options{dry_run: false, disable_publish: false}) do
-    syscall_module = if Mix.env() == :test, do: TestSystem, else: System
     Logger.info("Publishing new package version with: \"mix hex.publish --yes\".\n")
 
-    case syscall_module.cmd("mix", ["hex.publish", "--yes"]) do
+    case Expublish.System.cmd("mix", ["hex.publish", "--yes"]) do
       {_, 0} ->
         Logger.info("Successfully published new package version on hex.")
 
