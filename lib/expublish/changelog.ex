@@ -15,6 +15,19 @@ defmodule Expublish.Changelog do
   Validate changelog setup. Returns :ok or error message.
   """
   @spec validate(Options.t()) :: :ok | String.t()
+  def validate(%Options{commitizen: true}) do
+    cond do
+      !File.exists?(@changelog_file) ->
+        "Missing file: #{@changelog_file}"
+
+      !String.contains?(File.read!(@changelog_file), @changelog_entries_marker) ->
+        "CHANGELOG.md is missing required placeholder."
+
+      true ->
+        :ok
+    end
+  end
+
   def validate(_options) do
     cond do
       !File.exists?(@release_file) ->
@@ -35,7 +48,24 @@ defmodule Expublish.Changelog do
   Generate new changelog entry from RELEASE.md contents.
   """
   @spec write_entry!(Version.t(), Options.t()) :: Version.t()
-  def write_entry!(%Version{} = version, options \\ %Options{}) do
+  def write_entry!(version, options \\ %Options{})
+
+  def write_entry!(%Version{} = version, %Options{commitizen: true} = options) do
+    title = build_title(version, options)
+
+    text =
+      options
+      |> Expublish.Git.releasable_commits()
+      |> Expublish.Commitizen.run()
+      |> Map.get(:all)
+      |> Enum.map_join("\n", &"- #{&1}")
+
+    add_changelog_entry(title, text, options)
+
+    version
+  end
+
+  def write_entry!(%Version{} = version, options) do
     title = build_title(version, options)
     text = @release_file |> File.read!() |> String.trim()
 
@@ -51,6 +81,10 @@ defmodule Expublish.Changelog do
   def remove_release_file!(version, options \\ %Options{}, file_path \\ @release_file)
 
   def remove_release_file!(%Version{} = version, %Options{dry_run: true}, _) do
+    version
+  end
+
+  def remove_release_file!(%Version{} = version, %Options{commitizen: true}, _) do
     version
   end
 

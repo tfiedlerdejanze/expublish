@@ -52,8 +52,12 @@ defmodule Expublish.Git do
     Logger.info("Pushing new package version with: \"git push #{remote} #{branch} --tags\".\n")
 
     case Expublish.System.cmd("git", ["push", remote, branch, "--tags"]) do
-      {_, 0} -> :noop
-      _ -> Logger.error("Failed to push new version commit to git.")
+      {_, 0} ->
+        :noop
+
+      _ ->
+        Logger.error("Failed to push new version commit to git.")
+        exit({:shutdown, 1})
     end
 
     version
@@ -62,6 +66,43 @@ defmodule Expublish.Git do
   def push(%Version{} = version, %Options{branch: branch, remote: remote}) do
     Logger.info("Skipping \"git push #{remote} #{branch} --tags\".")
     version
+  end
+
+  def releasable_commits(_options) do
+    case Elixir.System.cmd("git", ["describe", "--tags", "--abbrev=0"], stderr_to_stdout: true) do
+      {tag, 0} ->
+        case Expublish.System.cmd("git", ["log", "#{String.trim(tag)}..HEAD", "--oneline"]) do
+          {"", 0} ->
+            Logger.error("No commits to release since last tag: #{String.trim(tag)}. Abort.")
+            exit({:shutdown, 1})
+
+          {commits, 0} ->
+            prepare(commits)
+        end
+
+      {_, _} ->
+        case Expublish.System.cmd("git", ["log", "--oneline"]) do
+          {"", 0} ->
+            Logger.error("No commits to release. Abort.")
+            exit({:shutdown, 1})
+
+          {commits, 0} ->
+            prepare(commits)
+        end
+    end
+  end
+
+  defp prepare(commits_string) do
+    commits_string
+    |> String.split("\n")
+    |> Enum.map(fn commit ->
+      commit
+      |> String.trim()
+      |> String.split(" ")
+      |> List.delete_at(0)
+      |> Enum.join(" ")
+    end)
+    |> Enum.reject(&(is_nil(&1) or &1 == ""))
   end
 
   defp add(command, %Options{dry_run: true}) do

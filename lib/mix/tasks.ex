@@ -15,6 +15,26 @@ defmodule Mix.Tasks.Expublish do
     Options.print_help()
   end
 
+  defmodule Release do
+    @shortdoc "Publish a new version of current project."
+    @moduledoc """
+    Release and publish new version of current project.
+
+    The changelog entry and next version will be inferred
+    from commits following the commitizen specification.
+
+    OptionParser interface defined in `Expublish.Options.`
+    """
+    use Mix.Task
+
+    @doc false
+    def run(args) do
+      args
+      |> Options.parse()
+      |> Expublish.release()
+    end
+  end
+
   defmodule Major do
     @shortdoc "Publish a major version of current project."
     @moduledoc """
