@@ -22,7 +22,7 @@ defmodule Expublish.TestSystem do
     |> String.trim()
     |> Logger.info()
 
-    {"123 some commit\n456 another commit", 0}
+    {"123 feat: some commit\n456 fix: another commit", 0}
   end
 
   def cmd(command, args, _options) do
