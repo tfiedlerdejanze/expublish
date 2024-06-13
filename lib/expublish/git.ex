@@ -69,7 +69,7 @@ defmodule Expublish.Git do
   end
 
   def releasable_commits(_options) do
-    case Elixir.System.cmd("git", ["describe", "--tags", "--abbrev=0"], stderr_to_stdout: true) do
+    case Expublish.System.cmd("git", ["describe", "--tags", "--abbrev=0"], stderr_to_stdout: true) do
       {tag, 0} ->
         case Expublish.System.cmd("git", ["log", "#{String.trim(tag)}..HEAD", "--oneline"]) do
           {"", 0} ->
