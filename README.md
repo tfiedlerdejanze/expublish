@@ -56,6 +56,15 @@ _Note that in case the push or publish step fail because of missing authenticati
 or a failing network, the task must not be rerun. Instead run `git push` or
 `mix hex.publish` to finish releasing the new version._
 
+#### Fully automate releases
+
+Expublish can fully automate the release process, inferring the version bump and generating the changelog entry
+from commits implementing the [commitizen](#commitezen) specification.
+
+```
+mix expublish.release
+```
+
 ## Installation
 
 See the [Installation](./docs/INSTALLATION.md) page to learn how to set up Expublish.
@@ -74,6 +83,14 @@ See the [Cheatsheet](./docs/CHEATSHEET.md) page to get a quick overview on how t
 
 See the [Version levels](./docs/VERSION_LEVELS.md) page to learn how Expublish increases version levels.
 
+<span id="commitizen"></span>
+
+## Commitizen
+
+Expublish can automatically generate changelog entries from commits implementing the [commitizen]() specification.
+All commits _prefixed_ by one of the following keywords will be included in the generated changelog entry, while all others
+will be ommited: `fix`, `feat`, `BREAKING CHANGE`.
+
 <span id="quick-reference"></span>
 
 ## Quick Reference
@@ -81,7 +98,7 @@ See the [Version levels](./docs/VERSION_LEVELS.md) page to learn how Expublish i
 See the full [Reference](./docs/REFERENCE.md) page to learn about all valid `mix expublish`
 task levels, options and defaults.
 
-```bash
+```
 Usage: mix expublish.[level] [options]
 
 level:
@@ -92,6 +109,7 @@ level:
   rc      - Publish release-candidate pre-release of next patch version
   beta    - Publish beta pre-release of next patch version
   alpha   - Publish alpha pre-release of next patch version
+  release - Publish a new version inferred by commits following the commitizen specification
 
 options:
   -d, --dry-run           - Perform dry run (no writes, no commits)
@@ -101,6 +119,7 @@ options:
   --disable-publish       - Disable hex publish
   --disable-push          - Disable git push
   --disable-test          - Disable test run
+  --commitizen            - Generate changelog from commits following the commitizen specification
   --changelog-date-time   - Use date-time instead of date in new changelog entry
   --branch=string         - Remote branch to push to, default: "master"
   --remote=string         - Remote name to push to, default: "origin"

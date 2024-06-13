@@ -26,6 +26,18 @@ defmodule ExpublishTest do
     on_exit(fn -> File.rm!("expublish_major_test") end)
   end
 
+  test "release/1 runs without errors", %{options: options} do
+    fun = fn ->
+      Expublish.release(options)
+    end
+
+    capture_log(fn ->
+      Project.get_version!()
+      |> Semver.increase!(:release, options)
+      |> assert_dry_run(fun)
+    end)
+  end
+
   test "major/1 runs without errors", %{options: options} do
     fun = fn ->
       with_release_md(fn ->

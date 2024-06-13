@@ -174,7 +174,7 @@ defmodule SemverTest do
     assert Semver.rc(version, options) == expected
   end
 
-  ## release
+  ## stable
 
   test "stable/1 exits and logs an error when used with a not pre-released version", %{version: version} do
     fun = fn ->
@@ -189,5 +189,27 @@ defmodule SemverTest do
     expected = Version.parse!("1.0.0")
 
     assert Semver.stable(version) == expected
+  end
+
+  ## stable
+
+  test "increase!/1 for release exits when version is a pre-release", %{options: options} do
+    version = Version.parse!("1.0.0-alpha")
+
+    fun = fn ->
+      assert catch_exit(Semver.increase!(version, :release, options)) == {:shutdown, 1}
+    end
+
+    assert capture_log(fun) =~ "Can not automatically release from pre-release version 1.0.0-alpha. Abort."
+  end
+
+  test "increase!/1 bumps based on commitizen releasable commits", %{options: options, version: version} do
+    expected = Version.parse!("1.1.0")
+
+    fun = fn ->
+      assert Semver.increase!(version, :release, options) == expected
+    end
+
+    capture_log(fun)
   end
 end

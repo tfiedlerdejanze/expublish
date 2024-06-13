@@ -10,10 +10,11 @@ defmodule Expublish.Tests do
   @doc """
   Run tests, stop task if they fail, skip if there are none.
   """
-  @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
-  @spec validate(Options.t(), level()) :: :ok
+  @type level() :: :release | :major | :minor | :patch | :rc | :beta | :alpha | :stable
+  @spec validate(Options.t(), level()) :: :ok | String.t()
   def validate(%Options{disable_test: true}, level) do
     Logger.info("Skipping test run for #{to_string(level)} release.")
+
     :ok
   end
 

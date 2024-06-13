@@ -38,7 +38,7 @@ defmodule GitTest do
     File.rm!("expublish_git_validate_test")
   end
 
-  test "commit_and_tag/3 does expected system calls", %{version: version} do
+  test "commit_and_tag/2 does expected system calls", %{version: version} do
     options = %Options{}
 
     fun = fn ->
@@ -57,7 +57,7 @@ defmodule GitTest do
     assert capture_log(fun) =~ "git tag -a #{git_tag} -m #{commit_message}"
   end
 
-  test "commit_and_tag/1 logs an info message", %{options: options, version: version} do
+  test "commit_and_tag/2 logs an info message", %{options: options, version: version} do
     fun = fn ->
       Git.commit_and_tag(version, options)
     end
@@ -67,7 +67,7 @@ defmodule GitTest do
     assert capture_log(fun) =~ "#{version}"
   end
 
-  test "commit_and_tag/1 respects tag- and commit-prefix options", %{version: version} do
+  test "commit_and_tag/2 respects tag- and commit-prefix options", %{version: version} do
     options = Options.parse(["--dry-run", "--tag-prefix=rc", "--commit-prefix='Custom release commit'"])
 
     fun = fn ->
@@ -96,5 +96,17 @@ defmodule GitTest do
 
     assert capture_log(fun) =~ "Pushing new package version"
     assert capture_log(fun) =~ "git push #{options.remote} #{options.branch} --tags"
+  end
+
+  test "releasable_commits/1 does expected system call" do
+    options = %Options{}
+
+    fun = fn ->
+      Git.releasable_commits(options)
+    end
+
+    assert capture_log(fun) =~ "git describe --tags --abbrev=0"
+    assert capture_log(fun) =~ "git log"
+    assert capture_log(fun) =~ "--oneline"
   end
 end

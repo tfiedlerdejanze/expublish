@@ -22,6 +22,10 @@ defmodule ChangelogTest do
     end)
   end
 
+  test "validate/1 with commitizen: true", %{options: options} do
+    assert :ok == Changelog.validate(%{options | commitizen: true})
+  end
+
   test "remove_release_file!/3 deletes the file", %{version: version} do
     File.write!(@rm_release_file, "generated in test")
 
@@ -35,6 +39,14 @@ defmodule ChangelogTest do
       with_release_md(fn ->
         Changelog.write_entry!(version, options)
       end)
+    end
+
+    assert capture_log(fun) =~ "Skipping new entry"
+  end
+
+  test "write_entry!/1 with commitizen", %{options: options, version: version} do
+    fun = fn ->
+      Changelog.write_entry!(version, %{options | commitizen: true})
     end
 
     assert capture_log(fun) =~ "Skipping new entry"

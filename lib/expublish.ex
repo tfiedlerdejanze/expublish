@@ -14,6 +14,12 @@ defmodule Expublish do
   require Logger
 
   @doc """
+  Automatically release new version of current project.
+  """
+  @spec release(Options.t()) :: :ok
+  def release(options \\ %Options{}), do: run(:release, %{options | commitizen: true})
+
+  @doc """
   Publish major version of current project.
   """
   @spec major(Options.t()) :: :ok
@@ -55,7 +61,7 @@ defmodule Expublish do
   @spec stable(Options.t()) :: :ok
   def stable(options \\ %Options{}), do: run(:stable, options)
 
-  @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
+  @type level() :: :release | :major | :minor | :patch | :rc | :beta | :alpha | :stable
   @spec run(level(), Options.t()) :: :ok
 
   defp run(level, options) do

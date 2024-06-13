@@ -10,6 +10,7 @@ defmodule Expublish.Options do
     as_major: false,
     as_minor: false,
     changelog_date_time: false,
+    commitizen: false,
     disable_publish: false,
     disable_push: false,
     disable_test: false,
@@ -60,7 +61,7 @@ defmodule Expublish.Options do
 
   Returns :ok or error message.
   """
-  @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
+  @type level() :: :release | :major | :minor | :patch | :rc | :beta | :alpha | :stable
   @spec validate(__MODULE__.t(), level()) :: :ok | String.t()
   def validate(%__MODULE__{as_major: true}, level) when level in @invalid_as_option_levels do
     "Invalid task invokation. Can not use --as-major for #{level} version increase."

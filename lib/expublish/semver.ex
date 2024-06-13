@@ -11,7 +11,7 @@ defmodule Expublish.Semver do
   @beta "beta"
   @rc "rc"
 
-  @type level() :: :major | :minor | :patch | :rc | :beta | :alpha | :stable
+  @type level() :: :release | :major | :minor | :patch | :rc | :beta | :alpha | :stable
 
   @doc "Interfaces `Expublish.Semver` version increase functions."
   @spec increase!(Version.t(), level(), Options.t()) :: Version.t()
@@ -23,6 +23,31 @@ defmodule Expublish.Semver do
   def increase!(version, :rc, options), do: rc(version, options)
   def increase!(version, :beta, options), do: beta(version, options)
   def increase!(version, :alpha, options), do: alpha(version, options)
+
+  def increase!(%Version{pre: []} = version, :release, options) do
+    options
+    |> Expublish.Git.releasable_commits()
+    |> Expublish.Commitizen.run()
+    |> case do
+      %{all: []} ->
+        Logger.error("Can not automatically release without commitizen commits. Abort.")
+        exit({:shutdown, 1})
+
+      %{breaking: [_ | _]} ->
+        major(version)
+
+      %{feature: [_ | _]} ->
+        minor(version)
+
+      _commitizen ->
+        patch(version)
+    end
+  end
+
+  def increase!(version, :release, _options) do
+    Logger.error("Can not automatically release from pre-release version #{version}. Abort.")
+    exit({:shutdown, 1})
+  end
 
   @doc "Bump major version."
   @spec major(Version.t()) :: Version.t()
