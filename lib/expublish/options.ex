@@ -31,7 +31,7 @@ defmodule Expublish.Options do
 
   @type t :: %__MODULE__{}
 
-  defstruct Enum.into(@defaults, [])
+  defstruct Enum.to_list(@defaults)
 
   @doc """
   Default options used for every run.
@@ -118,7 +118,7 @@ defmodule Expublish.Options do
   end
 
   defp typed_options do
-    Enum.into(@defaults, [], fn {k, v} -> {k, to_option_type(v)} end)
+    Enum.map(@defaults, fn {k, v} -> {k, to_option_type(v)} end)
   end
 
   defp to_option_type(default) when is_boolean(default), do: :boolean
