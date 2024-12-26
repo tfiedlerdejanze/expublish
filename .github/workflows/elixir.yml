@@ -56,7 +56,7 @@ jobs:
       - name: Compile application
         run: mix compile --warnings-as-errors
       - name: Run formatter
-        if: matrix.elixir == '1.16' && matrix.otp == '26.2'
+        if: matrix.elixir == '1.18' && matrix.otp == '27.2'
         run: mix format --check-formatted
       - name: Create plts
         if: steps.plt-cache.outputs.cache-hit != 'true'
@@ -70,5 +70,5 @@ jobs:
       - name: Run tests
         run: mix test
       - name: Run tests and coverage
-        if: matrix.elixir == '1.16' && matrix.otp == '26.2'
+        if: matrix.elixir == '1.18' && matrix.otp == '27.2'
         run: mix coveralls.github
