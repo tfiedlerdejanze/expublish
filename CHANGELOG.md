@@ -2,6 +2,11 @@
 
 <!-- %% CHANGELOG_ENTRIES %% -->
 
+## 2.7.6 - 2024-12-26
+
+- Update dev dependencies
+
+
 ## 2.7.5 - 2024-04-12
 
 - Update dev dependencies
